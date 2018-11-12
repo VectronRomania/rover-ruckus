@@ -32,13 +32,6 @@ public class Robot {
         lift_motor_2 = hw.get(DcMotor.class, "lift_motor_2");
     }
 
-    public void initDrivetrain() {
-        left_front.setDirection(DcMotor.Direction.FORWARD);
-        right_front.setDirection(DcMotor.Direction.FORWARD);
-        left_back.setDirection(DcMotor.Direction.FORWARD);
-        right_back.setDirection(DcMotor.Direction.FORWARD);
-    }
-
     public void initLift(){
         lift_motor_1.setDirection(DcMotor.Direction.FORWARD);
         lift_motor_2.setDirection(DcMotor.Direction.FORWARD);
