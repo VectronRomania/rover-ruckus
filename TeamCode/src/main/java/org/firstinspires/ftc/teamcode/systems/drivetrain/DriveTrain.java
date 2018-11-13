@@ -113,3 +113,44 @@ public class DriveTrain extends Robot {
     }
 
 }
+
+//// FATA
+// left_front.setDirection(DcMotor.Direction.FORWARD);
+// right_front.setDirection(DcMotor.Direction.REVERSE);
+// left_back.setDirection(DcMotor.Direction.FORWARD);
+// right_back.setDirection(DcMotor.Direction.REVERSE);
+//// SPATE
+// left_front.setDirection(DcMotor.Direction.REVERSE);
+// right_front.setDirection(DcMotor.Direction.FORWARD);
+// left_back.setDirection(DcMotor.Direction.REVERSE);
+// right_back.setDirection(DcMotor.Direction.FORWARD);
+//// DIAGONALA DREAPTA
+// left_front = null;
+// right_front.setDirection(DcMotor.Direction.REVERSE)
+// left_back.setDirection(DcMotor.Direction.FORWARD);
+// right_back = null;
+//// DIAGONALA STANGA
+// left_front.setDirection(DcMotor.Direction.FORWARD);
+// right_front = null;
+// left_back = null;
+// right_back.setDirection(DcMotor.Direction.REVERSE);
+//// ROTIRE DREAPTA
+// left_front.setDirection(DcMotor.Direction.FORWARD);
+// right_front.setDirection(DcMotor.Direction.FORWARD);
+// left_back.setDirection(DcMotor.Direction.FORWARD);
+// right_back.setDirection(DcMotor.Direction.FORWARD);
+//// ROTIRE STINGA
+// left_front.setDirection(DcMotor.Direction.REVERSE);
+// right_front.setDirection(DcMotor.Direction.REVERSE);
+// left_back.setDirection(DcMotor.Direction.REVERSE);
+// right_back.setDirection(DcMotor.Direction.REVERSE);
+//// DREAPTA
+// left_front.setDirection(DcMotor.Direction.FORWARD);
+// right_front.setDirection(DcMotor.Direction.FORWARD);
+// left_back.setDirection(DcMotor.Direction.REVERSE);
+// right_back.setDirection(DcMotor.Direction.REVERSE);
+//// STINGA
+// left_front.setDirection(DcMotor.Direction.REVERSE);
+// right_front.setDirection(DcMotor.Direction.REVERSE);
+// left_back.setDirection(DcMotor.Direction.FORWARD);
+// right_back.setDirection(DcMotor.Direction.FORWARD);
