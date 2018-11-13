@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -20,7 +21,7 @@ public class Robot {
     public Servo phone_servo;
 
     // sensors
-    // TODO: 11/1/2018 add sensors
+    public DistanceSensor distanceSensor;
 
     public void init(HardwareMap hw) {
         // TODO: 10/9/2018 add hardware
@@ -30,6 +31,7 @@ public class Robot {
         left_back = hw.get(DcMotor.class, "left_back");
         lift_motor_1 = hw.get(DcMotor.class, "lift_motor_1");
         lift_motor_2 = hw.get(DcMotor.class, "lift_motor_2");
+        distanceSensor = hw.get(DistanceSensor.class, "distanceSensor");
     }
 
     public void initLift(){

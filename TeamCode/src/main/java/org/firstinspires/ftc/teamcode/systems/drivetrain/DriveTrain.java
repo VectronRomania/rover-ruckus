@@ -19,7 +19,7 @@ public class DriveTrain extends Robot {
     }
 
     public interface DrivePowerSet {
-        void drive(Gamepad gamepad);
+        void drive(Gamepad gamepad1);
         void init();
     }
 
@@ -28,11 +28,14 @@ public class DriveTrain extends Robot {
     private DcMotor left_front = null;
     private DcMotor left_back = null;
 
+    //useful variables
+    private float powerMultiplier = 1f;
+
     private Type type;
 
     private DrivePowerSet driver;
 
-    public DriveTrain(HardwareMap hwMap, Type t, Gamepad gamepad) {
+    public DriveTrain(HardwareMap hwMap, Type t, Gamepad gamepad1) {
 
         super();
         super.init(hwMap);
@@ -48,7 +51,42 @@ public class DriveTrain extends Robot {
             case OMNI:
                 driver = new DrivePowerSet() {
                     @Override
-                    public void drive(Gamepad gamepad) {
+                    public void drive(Gamepad gamepad1) {
+                        if (gamepad1.x == true) {
+                            powerMultiplier = 1f;
+                        }
+                        if (gamepad1.y == true) {
+                            powerMultiplier = 0.75f;
+                        }
+                        if (gamepad1.b == true) {
+                            powerMultiplier = 0.5f;
+                        }
+                        if (gamepad1.a == true) {
+                            powerMultiplier = 0.35f;
+                        }
+                        if (gamepad1.right_stick_x != 0){
+                            left_back.setPower(-gamepad1.right_stick_x*powerMultiplier);
+                            left_front.setPower(-gamepad1.right_stick_x*powerMultiplier);
+                            right_back.setPower(-gamepad1.right_stick_x*powerMultiplier);
+                            right_front.setPower(-gamepad1.right_stick_x*powerMultiplier);
+                            return;
+                        }
+
+                        if (gamepad1.left_stick_x != 0 || gamepad1.left_stick_y != 0) {
+                            float x = gamepad1.left_stick_x * powerMultiplier;
+                            float y = -gamepad1.left_stick_y * powerMultiplier;
+                            left_front.setPower(-y-x);
+                            right_front.setPower(y-x);
+                            right_back.setPower(y+x);
+                            left_back.setPower(-y+x);
+                            return;
+                        }
+
+                        left_front.setPower(0);
+                        right_front.setPower(0);
+                        right_back.setPower(0);
+                        left_back.setPower(0);
+                        return;
 
                     }
                     @Override
@@ -63,11 +101,11 @@ public class DriveTrain extends Robot {
             case TANK:
                 driver = new DrivePowerSet() {
                     @Override
-                    public void drive(Gamepad gamepad) {
-                        left_front.setPower(-gamepad.left_stick_y);
-                        right_front.setPower(-gamepad.right_stick_y);
-                        left_back.setPower(-gamepad.left_stick_y);
-                        right_back.setPower(-gamepad.right_stick_y);
+                    public void drive(Gamepad gamepad1) {
+                        left_front.setPower(-gamepad1.left_stick_y);
+                        right_front.setPower(-gamepad1.right_stick_y);
+                        left_back.setPower(-gamepad1.left_stick_y);
+                        right_back.setPower(-gamepad1.right_stick_y);
 
                     }
 
@@ -83,13 +121,51 @@ public class DriveTrain extends Robot {
             case MECANUM:
                 driver = new DrivePowerSet() {
                     @Override
-                    public void drive(Gamepad gamepad) {
-                        
+                    public void drive(Gamepad gamepad1) {
+                        if (gamepad1.x == true) {
+                            powerMultiplier = 1f;
+                        }
+                        if (gamepad1.y == true) {
+                            powerMultiplier = 0.75f;
+                        }
+                        if (gamepad1.b == true) {
+                            powerMultiplier = 0.5f;
+                        }
+                        if (gamepad1.a == true) {
+                            powerMultiplier = 0.35f;
+                        }
+                        if (gamepad1.right_stick_x != 0){
+                            left_back.setPower(-gamepad1.right_stick_x*powerMultiplier);
+                            left_front.setPower(-gamepad1.right_stick_x*powerMultiplier);
+                            right_back.setPower(-gamepad1.right_stick_x*powerMultiplier);
+                            right_front.setPower(-gamepad1.right_stick_x*powerMultiplier);
+                            return;
+                        }
+
+                        if (gamepad1.left_stick_x != 0 || gamepad1.left_stick_y != 0) {
+                            float x = gamepad1.left_stick_x * powerMultiplier;
+                            float y = -gamepad1.left_stick_y * powerMultiplier;
+                            left_front.setPower(-y-x);
+                            right_front.setPower(y-x);
+                            right_back.setPower(y+x);
+                            left_back.setPower(-y+x);
+                            return;
+                        }
+
+                        left_front.setPower(0);
+                        right_front.setPower(0);
+                        right_back.setPower(0);
+                        left_back.setPower(0);
+                        return;
+
                     }
 
                     @Override
                     public void init() {
-
+                        left_front.setDirection(DcMotor.Direction.FORWARD);
+                        right_front.setDirection(DcMotor.Direction.FORWARD);
+                        left_back.setDirection(DcMotor.Direction.FORWARD);
+                        right_back.setDirection(DcMotor.Direction.FORWARD);
                     }
                 };
                 break;
