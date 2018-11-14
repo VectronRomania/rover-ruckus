@@ -23,7 +23,7 @@ public class Robot {
     // sensors
     public DistanceSensor distanceSensor;
 
-    public void init(HardwareMap hw) {
+    public Robot(HardwareMap hw) {
         // TODO: 10/9/2018 add hardware
         right_front = hw.get(DcMotor.class, "right_front");
         right_back = hw.get(DcMotor.class, "right_back");

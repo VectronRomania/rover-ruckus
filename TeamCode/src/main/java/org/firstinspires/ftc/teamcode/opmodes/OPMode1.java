@@ -4,14 +4,10 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
-import org.firstinspires.ftc.teamcode.systems.drivetrain.DriveTrain;
-import org.firstinspires.ftc.teamcode.systems.drivetrain.Type;
+import org.firstinspires.ftc.teamcode.systems.drivetrain.Drivetrain;
 
 @TeleOp(name="Basic: Linear OpMode", group="Linear Opmode")
 @Disabled
@@ -22,7 +18,7 @@ public class OPMode1 extends LinearOpMode {
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
 
-    private DriveTrain driveTrain;
+    private Drivetrain driveTrain;
     private Robot robot;
 
     @Override
@@ -30,7 +26,7 @@ public class OPMode1 extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        driveTrain = new DriveTrain(hardwareMap, Type.MECANUM, gamepad1);
+        driveTrain = new Drivetrain(hardwareMap, Type.MECANUM, gamepad1);
         robot = new Robot();
 
         robot.init(hardwareMap);
