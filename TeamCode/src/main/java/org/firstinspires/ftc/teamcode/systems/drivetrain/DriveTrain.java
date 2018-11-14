@@ -12,21 +12,10 @@ public class DriveTrain extends Robot {
 
 //    void init();
 
-    public enum Type {
-        TANK,
-        OMNI,
-        MECANUM
-    }
-
     public interface DrivePowerSet {
         void drive(Gamepad gamepad1);
         void init();
     }
-
-    private DcMotor right_front = null;
-    private DcMotor right_back = null;
-    private DcMotor left_front = null;
-    private DcMotor left_back = null;
 
     //useful variables
     private float powerMultiplier = 1f;
@@ -39,11 +28,6 @@ public class DriveTrain extends Robot {
 
         super();
         super.init(hwMap);
-
-        left_front = super.left_front;
-        left_back = super.left_back;
-        right_back = super.right_back;
-        right_front = super.right_front;
 
         this.type = t;
 

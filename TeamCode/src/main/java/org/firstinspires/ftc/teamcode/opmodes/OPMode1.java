@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.DriveTrain;
+import org.firstinspires.ftc.teamcode.systems.drivetrain.Type;
 
 @TeleOp(name="Basic: Linear OpMode", group="Linear Opmode")
 @Disabled
@@ -29,7 +30,7 @@ public class OPMode1 extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        driveTrain = new DriveTrain(hardwareMap, DriveTrain.Type.MECANUM, gamepad1);
+        driveTrain = new DriveTrain(hardwareMap, Type.MECANUM, gamepad1);
         robot = new Robot();
 
         robot.init(hardwareMap);
