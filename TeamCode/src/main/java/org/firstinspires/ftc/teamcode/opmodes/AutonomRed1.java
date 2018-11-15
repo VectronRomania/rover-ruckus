@@ -3,36 +3,33 @@ package org.firstinspires.ftc.teamcode.opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.systems.AutoDrivetrain;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
-import org.firstinspires.ftc.teamcode.systems.DriveTrain;
 import org.firstinspires.ftc.teamcode.systems.Type;
 
-@TeleOp(name="Basic: Linear OpMode", group="Linear Opmode")
+@TeleOp(name="Red1", group="Auto")
 @Disabled
-public class OPMode1 extends LinearOpMode {
+public class AutonomRed1 extends LinearOpMode {
+
+    private Robot robot;
+    private AutoDrivetrain autoDrivetrain;
+
+    // private float value = 1440;
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor leftDrive = null;
-    private DcMotor rightDrive = null;
-
-    private DriveTrain driveTrain;
-    private Robot robot;
 
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        driveTrain = new DriveTrain(hardwareMap, Type.MECANUM, gamepad1);
-
         robot = new Robot();
-
         robot.init(hardwareMap);
 
+        autoDrivetrain = new AutoDrivetrain(hardwareMap, Type.MECANUM);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -41,12 +38,21 @@ public class OPMode1 extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            driveTrain.drive(gamepad1);
-//           distance = robot.distanceSensor.getDistance(DistanceUnit.CM);
+//            coboara lift
+//            detecteaza minerale
+//            inlatura minerale
 
-            // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-//            telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
+            autoDrivetrain.rotateLeft(160);
+            autoDrivetrain.moveForward(200);
+            autoDrivetrain.rotateLeft(50);
+            autoDrivetrain.moveForward(500);
+
+//            drop team marker
+            autoDrivetrain.rotateRight(300);
+            autoDrivetrain.moveForward(1140);
+
+
+            telemetry.addData("Status", "Finished");
             telemetry.update();
         }
     }

@@ -87,6 +87,12 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
         initVuforia();
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+
+        parameters.vuforiaLicenseKey = VUFORIA_KEY;
+        parameters.cameraDirection = CameraDirection.BACK;
+
+        vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
             initTfod();

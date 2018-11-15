@@ -1,7 +1,6 @@
-package org.firstinspires.ftc.teamcode.systems.drivetrain;
+package org.firstinspires.ftc.teamcode.systems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -174,42 +173,42 @@ public class DriveTrain extends Robot {
 
 }
 
-//// FATA
+//// FORWARD
 // left_front.setDirection(DcMotor.Direction.FORWARD);
 // right_front.setDirection(DcMotor.Direction.REVERSE);
 // left_back.setDirection(DcMotor.Direction.FORWARD);
 // right_back.setDirection(DcMotor.Direction.REVERSE);
-//// SPATE
+//// BACKWARD
 // left_front.setDirection(DcMotor.Direction.REVERSE);
 // right_front.setDirection(DcMotor.Direction.FORWARD);
 // left_back.setDirection(DcMotor.Direction.REVERSE);
 // right_back.setDirection(DcMotor.Direction.FORWARD);
-//// DIAGONALA DREAPTA
+//// RIGHT DIAGONAL
 // left_front = null;
 // right_front.setDirection(DcMotor.Direction.REVERSE)
 // left_back.setDirection(DcMotor.Direction.FORWARD);
 // right_back = null;
-//// DIAGONALA STANGA
+//// LEFT DIAGONAL
 // left_front.setDirection(DcMotor.Direction.FORWARD);
 // right_front = null;
 // left_back = null;
 // right_back.setDirection(DcMotor.Direction.REVERSE);
-//// ROTIRE DREAPTA
+//// RIGHT ROTATION
 // left_front.setDirection(DcMotor.Direction.FORWARD);
 // right_front.setDirection(DcMotor.Direction.FORWARD);
 // left_back.setDirection(DcMotor.Direction.FORWARD);
 // right_back.setDirection(DcMotor.Direction.FORWARD);
-//// ROTIRE STINGA
+//// LEFT ROTATION
 // left_front.setDirection(DcMotor.Direction.REVERSE);
 // right_front.setDirection(DcMotor.Direction.REVERSE);
 // left_back.setDirection(DcMotor.Direction.REVERSE);
 // right_back.setDirection(DcMotor.Direction.REVERSE);
-//// DREAPTA
+//// RIGHT
 // left_front.setDirection(DcMotor.Direction.FORWARD);
 // right_front.setDirection(DcMotor.Direction.FORWARD);
 // left_back.setDirection(DcMotor.Direction.REVERSE);
 // right_back.setDirection(DcMotor.Direction.REVERSE);
-//// STINGA
+//// LEFT
 // left_front.setDirection(DcMotor.Direction.REVERSE);
 // right_front.setDirection(DcMotor.Direction.REVERSE);
 // left_back.setDirection(DcMotor.Direction.FORWARD);
