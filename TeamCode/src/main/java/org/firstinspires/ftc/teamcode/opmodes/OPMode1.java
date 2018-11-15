@@ -26,10 +26,10 @@ public class OPMode1 extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        driveTrain = new Drivetrain(hardwareMap, Type.MECANUM, gamepad1);
-        robot = new Robot();
-
-        robot.init(hardwareMap);
+//        driveTrain = new Drivetrain(hardwareMap, Type.MECANUM, gamepad1);
+//        robot = new Robot();
+//
+//        robot.init(hardwareMap);
 
 
         // Wait for the game to start (driver presses PLAY)
@@ -39,13 +39,13 @@ public class OPMode1 extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            driveTrain.drive(gamepad1);
-//           distance = robot.distanceSensor.getDistance(DistanceUnit.CM);
-
-            // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-//            telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
-            telemetry.update();
+//            driveTrain.drive(gamepad1);
+////           distance = robot.distanceSensor.getDistance(DistanceUnit.CM);
+//
+//            // Show the elapsed game time and wheel power.
+//            telemetry.addData("Status", "Run Time: " + runtime.toString());
+////            telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
+//            telemetry.update();
         }
     }
 }

@@ -9,4 +9,9 @@ public class OmniController extends Robot implements AutonomousController {
     public OmniController(HardwareMap hw) {
         super(hw);
     }
+
+    @Override
+    public void init() {
+
+    }
 }

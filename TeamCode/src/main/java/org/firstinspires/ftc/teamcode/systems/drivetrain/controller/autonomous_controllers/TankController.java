@@ -10,4 +10,9 @@ public class TankController extends Robot implements AutonomousController {
     public TankController(HardwareMap hw) {
         super(hw);
     }
+
+    @Override
+    public void init() {
+        
+    }
 }

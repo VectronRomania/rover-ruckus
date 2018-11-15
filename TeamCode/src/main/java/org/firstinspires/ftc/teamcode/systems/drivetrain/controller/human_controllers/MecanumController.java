@@ -7,6 +7,11 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.HumanController;
 
+/**
+ * This MecanumController is capable of driving a mecanum wheel base by taking input from
+ * a driver
+ */
+
 public class MecanumController extends Robot implements HumanController {
 
     public MecanumController(HardwareMap hw) {

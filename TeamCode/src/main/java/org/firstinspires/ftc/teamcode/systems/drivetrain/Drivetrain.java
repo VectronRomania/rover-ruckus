@@ -6,6 +6,10 @@ import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.configs.ControlType;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.configs.WheelBase;
 
+/**
+ * A Drivetrain is an object that controls the robot's wheels, in order to move
+ */
+
 public class Drivetrain extends Robot {
 
     private WheelBase wheelBase;

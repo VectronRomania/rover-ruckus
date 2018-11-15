@@ -10,6 +10,10 @@ import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.autonomous_c
 import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.autonomous_controllers.OmniController;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.autonomous_controllers.TankController;
 
+/**
+ * An AutonomousDrivetrain is a drivetrain that is controlled autonomously, through the use of special methods
+ */
+
 public class AutonomousDrivetrain extends Drivetrain {
 
     private AutonomousController controller;
