@@ -128,10 +128,10 @@ public class DriveTrain extends Robot {
                         if (gamepad1.left_stick_x != 0 || gamepad1.left_stick_y != 0) {
                             float x = gamepad1.left_stick_x * powerMultiplier;
                             float y = -gamepad1.left_stick_y * powerMultiplier;
-                            left_front.setPower(-y-x);
-                            right_front.setPower(y-x);
-                            right_back.setPower(y+x);
-                            left_back.setPower(-y+x);
+                            left_front.setPower(y-x);
+                            right_front.setPower(y+x);
+                            right_back.setPower(-y+x);
+                            left_back.setPower(-y-x);
                             return;
                         }
 

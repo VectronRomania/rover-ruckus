@@ -11,7 +11,6 @@ import org.firstinspires.ftc.teamcode.systems.DriveTrain;
 import org.firstinspires.ftc.teamcode.systems.Type;
 
 @TeleOp(name="Basic: Linear OpMode", group="Linear Opmode")
-@Disabled
 public class OPMode1 extends LinearOpMode {
 
     // Declare OpMode members.
@@ -32,6 +31,8 @@ public class OPMode1 extends LinearOpMode {
         robot = new Robot();
 
         robot.init(hardwareMap);
+
+        driveTrain.init(hardwareMap);
 
 
         // Wait for the game to start (driver presses PLAY)

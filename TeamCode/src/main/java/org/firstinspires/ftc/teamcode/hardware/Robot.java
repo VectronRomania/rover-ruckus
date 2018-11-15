@@ -29,15 +29,15 @@ public class Robot {
         right_back = hw.get(DcMotor.class, "right_back");
         left_front = hw.get(DcMotor.class, "left_front");
         left_back = hw.get(DcMotor.class, "left_back");
-        lift_motor_1 = hw.get(DcMotor.class, "lift_motor_1");
-        lift_motor_2 = hw.get(DcMotor.class, "lift_motor_2");
-        distanceSensor = hw.get(DistanceSensor.class, "distanceSensor");
+//        lift_motor_1 = hw.get(DcMotor.class, "lift_motor_1");
+//        lift_motor_2 = hw.get(DcMotor.class, "lift_motor_2");
+//        distanceSensor = hw.get(DistanceSensor.class, "distanceSensor");
     }
 
-    public void initLift(){
-        lift_motor_1.setDirection(DcMotor.Direction.FORWARD);
-        lift_motor_2.setDirection(DcMotor.Direction.FORWARD);
-    }
+//    public void initLift(){
+//        lift_motor_1.setDirection(DcMotor.Direction.FORWARD);
+//        lift_motor_2.setDirection(DcMotor.Direction.FORWARD);
+//    }
 
 
 }

@@ -74,8 +74,8 @@ public class TestPotra extends LinearOpMode {
 
         robot.init(hardwareMap);
 
-        robot.initDrivetrain();
-        robot.initLift();
+
+//        robot.initLift();
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
