@@ -29,15 +29,14 @@
 
 package org.firstinspires.ftc.teamcode.opmodes;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.hardware.Robot;
+import org.firstinspires.ftc.teamcode.systems.AutoDrivetrain;
+import org.firstinspires.ftc.teamcode.systems.Type;
 
 
 /**
@@ -54,19 +53,18 @@ import org.firstinspires.ftc.teamcode.hardware.Robot;
  */
 
 @TeleOp(name="Test Potra", group="Tests")
-@Disabled
-public class TestPotra extends LinearOpMode {
 
-//    VARIABILE
+public class TestPotra extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
 
     private Robot robot = new Robot();
+    private AutoDrivetrain autoDrivetrain;
 
 //-----------------------------
 
-//    PLAY
+    //    PLAY
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
@@ -74,8 +72,9 @@ public class TestPotra extends LinearOpMode {
 
         robot.init(hardwareMap);
 
+        autoDrivetrain = new AutoDrivetrain(hardwareMap, Type.MECANUM);
 
-//        robot.initLift();
+        autoDrivetrain.init(hardwareMap);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -84,16 +83,12 @@ public class TestPotra extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            double power_left = -gamepad1.left_stick_y;
-            double power_right = -gamepad1.right_stick_y;
-
-            robot.left_front.setPower(power_left);
-            robot.left_back.setPower(power_left);
-            robot.right_front.setPower(power_right);
-            robot.right_back.setPower(power_right);
-
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
+            telemetry.addData("LF", robot.left_front.getCurrentPosition());
+            telemetry.addData("LB", robot.right_front.getCurrentPosition());
+            telemetry.addData("RF", robot.right_back.getCurrentPosition());
+            telemetry.addData("RB", robot.left_back.getCurrentPosition());
             telemetry.update();
         }
     }

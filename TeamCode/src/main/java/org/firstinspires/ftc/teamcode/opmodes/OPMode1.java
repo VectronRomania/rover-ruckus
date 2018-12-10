@@ -32,7 +32,7 @@ public class OPMode1 extends LinearOpMode {
 
         robot.init(hardwareMap);
 
-        driveTrain.init(hardwareMap);
+        driveTrain.init();
 
 
         // Wait for the game to start (driver presses PLAY)

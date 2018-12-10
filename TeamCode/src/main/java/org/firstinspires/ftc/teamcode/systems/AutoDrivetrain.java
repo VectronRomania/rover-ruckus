@@ -14,6 +14,11 @@ public class AutoDrivetrain extends Robot {
         super();
         super.init(hw);
 
+        left_back.setDirection(DcMotor.Direction.FORWARD);
+        left_front.setDirection(DcMotor.Direction.FORWARD);
+        right_back.setDirection(DcMotor.Direction.FORWARD);
+        right_front.setDirection(DcMotor.Direction.FORWARD);
+
         left_back.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         left_front.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         right_back.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -31,10 +36,10 @@ public class AutoDrivetrain extends Robot {
         right_back.setPower(0.5f);
         right_front.setPower(0.5f);
 
-        left_back.setTargetPosition(left_back.getCurrentPosition() + ticks);
-        left_front.setTargetPosition(left_front.getCurrentPosition() + ticks);
-        right_back.setTargetPosition(right_back.getCurrentPosition() - ticks);
-        right_front.setTargetPosition(right_front.getCurrentPosition() - ticks);
+        left_back.setTargetPosition(left_back.getCurrentPosition() - ticks);
+        left_front.setTargetPosition(left_front.getCurrentPosition() - ticks);
+        right_back.setTargetPosition(right_back.getCurrentPosition() + ticks);
+        right_front.setTargetPosition(right_front.getCurrentPosition() + ticks);
     }
 
     public void moveBackward (int ticks){
@@ -43,10 +48,10 @@ public class AutoDrivetrain extends Robot {
         right_back.setPower(0.5f);
         right_front.setPower(0.5f);
 
-        left_back.setTargetPosition(left_back.getCurrentPosition() - ticks);
-        left_front.setTargetPosition(left_front.getCurrentPosition() - ticks);
-        right_back.setTargetPosition(right_back.getCurrentPosition() + ticks);
-        right_front.setTargetPosition(right_front.getCurrentPosition() + ticks);
+        left_back.setTargetPosition(left_back.getCurrentPosition() + ticks);
+        left_front.setTargetPosition(left_front.getCurrentPosition() + ticks);
+        right_back.setTargetPosition(right_back.getCurrentPosition() - ticks);
+        right_front.setTargetPosition(right_front.getCurrentPosition() - ticks);
     }
 
     public void diagonallyRight (int ticks){
@@ -120,4 +125,22 @@ public class AutoDrivetrain extends Robot {
         right_back.setTargetPosition(right_back.getCurrentPosition() + ticks);
         right_front.setTargetPosition(right_front.getCurrentPosition() - ticks);
     }
+    public void waitToFinish() {
+        while ( left_front.isBusy() && right_front.isBusy() && left_back.isBusy() && right_back.isBusy() ) {
+
+        }
+    }
+
+    public void stop(){
+        left_back.setPower(0f);
+        left_front.setPower(0f);
+        right_back.setPower(0f);
+        right_front.setPower(0f);
+    }
+
+    public void moveLift() {
+        lift_motor_1.setPower(0.5f);
+        lift_motor_2.setPower(-0.5f);
+    }
+
 }

@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.systems.Type;
 
 @TeleOp(name="Red2", group="Auto")
-@Disabled
+
 public class AutonomRed2 extends LinearOpMode {
 
     private Robot robot;
@@ -48,7 +48,7 @@ public class AutonomRed2 extends LinearOpMode {
 
 
 
-//            drop team marker
+//            drops team marker
             autoDrivetrain.rotateLeft(800);
             autoDrivetrain.moveForward(1140);
 

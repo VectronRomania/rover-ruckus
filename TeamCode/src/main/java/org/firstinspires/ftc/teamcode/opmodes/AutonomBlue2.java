@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.systems.Type;
 
 @TeleOp(name="Blue2", group="Auto")
-@Disabled
+
 public class AutonomBlue2 extends LinearOpMode {
 
     private Robot robot;
