@@ -81,20 +81,21 @@ public class Smth2 extends LinearOpMode {
                 case "Right":
                     removeGoldRight();
                     break;
-
+                default :
+                    telemetry.addData("Status", "not done");
             }
 
-             autoDrivetrain.rotateLeft(209);
-             autoDrivetrain.moveForward(1284);
-             autoDrivetrain.rotateRight(70);
-             autoDrivetrain.moveForward(1842);
+//             autoDrivetrain.rotateLeft(209);
+//             autoDrivetrain.moveForward(1284);
+//             autoDrivetrain.rotateRight(70);
+//             autoDrivetrain.moveForward(1842);
 
             // drop team marker
 
 //                dropMarker();
 
-            autoDrivetrain.rotateLeft(76);
-            autoDrivetrain.moveForward(1140);
+//            autoDrivetrain.rotateLeft(76);
+//            autoDrivetrain.moveForward(1140);
 
             telemetry.addData("Status", "Finished");
             telemetry.update();
@@ -107,12 +108,12 @@ public class Smth2 extends LinearOpMode {
             tensorFlow.tfod.activate();
         }
 
-        while (tensorFlow.tfod != null) {
+        while (tensorFlow.tfod != null && opModeIsActive()) {
 
             List<Recognition> updatedRecognitions = tensorFlow.tfod.getUpdatedRecognitions();
             if (updatedRecognitions != null) {
                 telemetry.addData("# Object Detected", updatedRecognitions.size());
-                if (updatedRecognitions.size() == 3) {
+                if (updatedRecognitions.size() <= 3) {
 
                     for (Recognition r : updatedRecognitions) {
                         if (r.getLabel().equals(LABEL_GOLD_MINERAL)) {
@@ -127,15 +128,19 @@ public class Smth2 extends LinearOpMode {
                     if (goldMineral < silverMineral_1 || goldMineral < silverMineral_2) {
                         goldPosition = "Left";
                         telemetry.addData("Object detected", goldPosition);
+                        telemetry.update();
+                        break;
                     } else if (goldMineral > silverMineral_1 || goldMineral > silverMineral_2) {
                         goldPosition = "Right";
                         telemetry.addData("Object detected", goldPosition);
+                        telemetry.update();
+                        break;
                     } else {
                         goldPosition = "Center";
                         telemetry.addData("Object detected", goldPosition);
+                        telemetry.update();
+                        break;
                     }
-
-                    telemetry.update();
                 }
             }
         }
@@ -143,7 +148,6 @@ public class Smth2 extends LinearOpMode {
         if (tensorFlow.tfod != null) {
             tensorFlow.tfod.shutdown();
         }
-
     }
 
     public void removeGoldLeft() {

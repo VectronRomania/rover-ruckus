@@ -1,13 +1,13 @@
-package org.firstinspires.ftc.teamcode.opmodes;
+package org.firstinspires.ftc.teamcode.opmodes.tests;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-@TeleOp(name="test", group="Linear Opmode")
+@TeleOp(name="Single motor encoder test", group="Tests")
 
 
-public class EncoderTest extends LinearOpMode {
+public class SingleMotorEncoderTest extends LinearOpMode {
 
     public DcMotor motor;
 

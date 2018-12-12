@@ -89,17 +89,17 @@ public class Smth1 extends LinearOpMode {
 
              }
 
-             autoDrivetrain.rotateLeft(209);
-             autoDrivetrain.moveForward(1284);
-             autoDrivetrain.rotateRight(70);
-             autoDrivetrain.moveForward(1842);
+//             autoDrivetrain.rotateLeft(209);
+//             autoDrivetrain.moveForward(1284);
+//             autoDrivetrain.rotateRight(70);
+//             autoDrivetrain.moveForward(1842);
 
             // drop team marker
 
 //                dropMarker();
-
-            autoDrivetrain.rotateLeft(76);
-            autoDrivetrain.moveForward(1140);
+//
+//            autoDrivetrain.rotateLeft(76);
+//            autoDrivetrain.moveForward(1140);
 
             telemetry.addData("Status", "Finished");
             telemetry.update();
@@ -112,7 +112,7 @@ public class Smth1 extends LinearOpMode {
             tensorFlow.tfod.activate();
         }
 
-        while (tensorFlow.tfod != null) {
+        while (tensorFlow.tfod != null && opModeIsActive()) {
 
             List<Recognition> updatedRecognitions = tensorFlow.tfod.getUpdatedRecognitions();
             if (updatedRecognitions != null) {
@@ -147,9 +147,6 @@ public class Smth1 extends LinearOpMode {
                     }
                 }
             }
-//            if (tensorFlow.tfod != null) {
-//                tensorFlow.tfod.shutdown();
-//            }
         }
 
         if (tensorFlow.tfod != null) {
