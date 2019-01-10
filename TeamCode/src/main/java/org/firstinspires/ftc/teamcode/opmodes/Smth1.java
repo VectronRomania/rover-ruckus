@@ -62,6 +62,20 @@ public class Smth1 extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
 
+//        Thread worker = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                autoDrivetrain.moveLift();
+//            }
+//        });
+//
+//        while (worker.isAlive()) {
+//            if (!opModeIsActive()) {
+//                worker.interrupt();
+//                break;
+//            }
+//        }
+
          while (opModeIsActive()) {
 
             // coboara lift

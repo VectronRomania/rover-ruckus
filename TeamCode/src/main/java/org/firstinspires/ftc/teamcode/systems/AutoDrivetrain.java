@@ -1,69 +1,79 @@
 package org.firstinspires.ftc.teamcode.systems;
 
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
+import org.firstinspires.ftc.teamcode.opmodes.tests.DistanceSensorTest;
 
 public class AutoDrivetrain extends Robot {
 
     private Type type;
 
-    public AutoDrivetrain(HardwareMap hw, Type t) {
+    private DistanceSensorTest distanceSensor;
+    private DistanceSensor sensorRange;
+    public int currentDistance;
+
+    private boolean lock;
+
+    public AutoDrivetrain(HardwareMap hardwareMap, Type t) {
 
         super();
-        super.init(hw);
+        super.init(hardwareMap);
 
-        left_back.setDirection(DcMotor.Direction.FORWARD);
-        left_front.setDirection(DcMotor.Direction.FORWARD);
-        right_back.setDirection(DcMotor.Direction.FORWARD);
-        right_front.setDirection(DcMotor.Direction.FORWARD);
+        super.left_back.setDirection(DcMotor.Direction.FORWARD);
+        super.left_front.setDirection(DcMotor.Direction.FORWARD);
+        super.right_back.setDirection(DcMotor.Direction.FORWARD);
+        super.right_front.setDirection(DcMotor.Direction.FORWARD);
 
-        left_back.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        left_front.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        right_back.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        right_front.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        super.left_back.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        super.left_front.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        super.right_back.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        super.right_front.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        left_back.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        left_front.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        right_back.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        right_front.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        super.left_back.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        super.left_front.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        super.right_back.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        super.right_front.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
     public void moveForward (int ticks){
-        left_back.setPower(0.5f);
-        left_front.setPower(0.5f);
-        right_back.setPower(0.5f);
-        right_front.setPower(0.5f);
+        super.left_back.setPower(0.5f);
+        super.left_front.setPower(0.5f);
+        super.right_back.setPower(0.5f);
+        super.right_front.setPower(0.5f);
 
-        left_back.setTargetPosition(left_back.getCurrentPosition() - ticks);
-        left_front.setTargetPosition(left_front.getCurrentPosition() - ticks);
-        right_back.setTargetPosition(right_back.getCurrentPosition() + ticks);
-        right_front.setTargetPosition(right_front.getCurrentPosition() + ticks);
+        super.left_back.setTargetPosition(super.left_back.getCurrentPosition() - ticks);
+        super.left_front.setTargetPosition(super.left_front.getCurrentPosition() - ticks);
+        super.right_back.setTargetPosition(super.right_back.getCurrentPosition() + ticks);
+        super.right_front.setTargetPosition(super.right_front.getCurrentPosition() + ticks);
     }
 
     public void moveBackward (int ticks){
-        left_back.setPower(0.5f);
-        left_front.setPower(0.5f);
-        right_back.setPower(0.5f);
-        right_front.setPower(0.5f);
+        super.left_back.setPower(0.5f);
+        super.left_front.setPower(0.5f);
+        super.right_back.setPower(0.5f);
+        super.right_front.setPower(0.5f);
 
-        left_back.setTargetPosition(left_back.getCurrentPosition() + ticks);
-        left_front.setTargetPosition(left_front.getCurrentPosition() + ticks);
-        right_back.setTargetPosition(right_back.getCurrentPosition() - ticks);
-        right_front.setTargetPosition(right_front.getCurrentPosition() - ticks);
+        super.left_back.setTargetPosition(super.left_back.getCurrentPosition() + ticks);
+        super.left_front.setTargetPosition(super.left_front.getCurrentPosition() + ticks);
+        super.right_back.setTargetPosition(super.right_back.getCurrentPosition() - ticks);
+        super.right_front.setTargetPosition(super.right_front.getCurrentPosition() - ticks);
     }
 
     public void diagonallyRight (int ticks){
-        left_back.setPower(0.5f);
-        left_front.setPower(0.5f);
-        right_back.setPower(0.5f);
-        right_front.setPower(0.5f);
+        super.left_back.setPower(0.5f);
+        super.left_front.setPower(0.5f);
+        super.right_back.setPower(0.5f);
+        super.right_front.setPower(0.5f);
 
-        left_back.setTargetPosition(left_back.getCurrentPosition() + ticks);
-        left_front.setTargetPosition(left_front.getCurrentPosition());
-        right_back.setTargetPosition(right_back.getCurrentPosition());
-        right_front.setTargetPosition(right_front.getCurrentPosition() - ticks);
+        super.left_back.setTargetPosition(super.left_back.getCurrentPosition() + ticks);
+        super.left_front.setTargetPosition(super.left_front.getCurrentPosition());
+        super.right_back.setTargetPosition(super.right_back.getCurrentPosition());
+        super.right_front.setTargetPosition(super.right_front.getCurrentPosition() - ticks);
     }
 
     public void diagonallyLeft (int ticks){
@@ -79,27 +89,27 @@ public class AutoDrivetrain extends Robot {
     }
 
     public void rotateRight (int ticks) {
-        left_back.setPower(0.5f);
-        left_front.setPower(0.5f);
-        right_back.setPower(0.5f);
-        right_front.setPower(0.5f);
+        super.left_back.setPower(0.5f);
+        super.left_front.setPower(0.5f);
+        super.right_back.setPower(0.5f);
+        super.right_front.setPower(0.5f);
 
-        left_back.setTargetPosition(left_back.getCurrentPosition() + ticks);
-        left_front.setTargetPosition(left_front.getCurrentPosition() + ticks);
-        right_back.setTargetPosition(right_back.getCurrentPosition() + ticks);
-        right_front.setTargetPosition(right_front.getCurrentPosition() + ticks);
+        super.left_back.setTargetPosition(super.left_back.getCurrentPosition() + ticks);
+        super.left_front.setTargetPosition(super.left_front.getCurrentPosition() + ticks);
+        super.right_back.setTargetPosition(super.right_back.getCurrentPosition() + ticks);
+        super.right_front.setTargetPosition(super.right_front.getCurrentPosition() + ticks);
     }
 
     public void rotateLeft (int ticks) {
-        left_back.setPower(0.5f);
-        left_front.setPower(0.5f);
-        right_back.setPower(0.5f);
-        right_front.setPower(0.5f);
+        super.left_back.setPower(0.5f);
+        super.left_front.setPower(0.5f);
+        super.right_back.setPower(0.5f);
+        super.right_front.setPower(0.5f);
 
-        left_back.setTargetPosition(left_back.getCurrentPosition() - ticks);
-        left_front.setTargetPosition(left_front.getCurrentPosition() - ticks);
-        right_back.setTargetPosition(right_back.getCurrentPosition() - ticks);
-        right_front.setTargetPosition(right_front.getCurrentPosition() - ticks);
+        super.left_back.setTargetPosition(super.left_back.getCurrentPosition() - ticks);
+        super.left_front.setTargetPosition(super.left_front.getCurrentPosition() - ticks);
+        super.right_back.setTargetPosition(super.right_back.getCurrentPosition() - ticks);
+        super.right_front.setTargetPosition(super.right_front.getCurrentPosition() - ticks);
     }
 
     public void right (int ticks) {
@@ -139,8 +149,20 @@ public class AutoDrivetrain extends Robot {
     }
 
     public void moveLift() {
-        lift_motor_1.setPower(0.5f);
-        lift_motor_2.setPower(-0.5f);
+        super.right_lift.setPower(0.5f);
+        super.left_lift.setPower(-0.5f);
+        currentDistance = (int)(sensorRange.getDistance(DistanceUnit.CM));
+        while(currentDistance >= 10) {
+            if (currentDistance <= 10) {
+                super.right_lift.setPower(0f);
+                super.left_lift.setPower(0f);
+            }
+            currentDistance = (int)(sensorRange.getDistance(DistanceUnit.CM));
+        }
     }
 
+    public boolean getLockStatus() { return this.lock; }
+    public void unlock() { this.lock = false; }
 }
+
+

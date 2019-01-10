@@ -14,24 +14,24 @@ public class Robot {
     public DcMotor left_back = null;
 
     // lift motors
-    public DcMotor lift_motor_1 = null;
-    public DcMotor lift_motor_2 = null;
+    public DcMotor left_lift = null;
+    public DcMotor right_lift = null;
 
     // servo for phone rotation
     public Servo phone_servo;
 
     // sensors
-    public DistanceSensor distanceSensor;
+//    public DistanceSensor distanceSensor;
 
-    public void init(HardwareMap hw) {
+    public void init(HardwareMap hardwareMap) {
         // TODO: 10/9/2018 add hardware
-        right_front = hw.get(DcMotor.class, "right_front");
-        right_back = hw.get(DcMotor.class, "right_back");
-        left_front = hw.get(DcMotor.class, "left_front");
-        left_back = hw.get(DcMotor.class, "left_back");
+        right_front = hardwareMap.get(DcMotor.class, "right_front");
+        right_back = hardwareMap.get(DcMotor.class, "right_back");
+        left_front = hardwareMap.get(DcMotor.class, "left_front");
+        left_back = hardwareMap.get(DcMotor.class, "left_back");
 
-//        lift_motor_1 = hw.get(DcMotor.class, "lift_motor_1");
-//        lift_motor_2 = hw.get(DcMotor.class, "lift_motor_2");
+        left_lift = hardwareMap.get(DcMotor.class, "left_lift");
+        right_lift = hardwareMap.get(DcMotor.class, "right_lift");
 //        lift_motor_1.setDirection(DcMotor.Direction.FORWARD);
 //        lift_motor_2.setDirection(DcMotor.Direction.FORWARD);
 

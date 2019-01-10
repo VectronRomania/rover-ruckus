@@ -86,9 +86,9 @@ public class TestPotra extends LinearOpMode {
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("LF", robot.left_front.getCurrentPosition());
-            telemetry.addData("LB", robot.right_front.getCurrentPosition());
-            telemetry.addData("RF", robot.right_back.getCurrentPosition());
-            telemetry.addData("RB", robot.left_back.getCurrentPosition());
+            telemetry.addData("LB", robot.left_back.getCurrentPosition());
+            telemetry.addData("RF", robot.right_front.getCurrentPosition());
+            telemetry.addData("RB", robot.right_back.getCurrentPosition());
             telemetry.update();
         }
     }
