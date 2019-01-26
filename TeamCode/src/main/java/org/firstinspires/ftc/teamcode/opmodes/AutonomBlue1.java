@@ -155,30 +155,46 @@ public class AutonomBlue1 extends LinearOpMode {
 
 //          coboara lift
             autoDrivetrain.moveLift();
-            autoDrivetrain.waitToFinish();
-            autoDrivetrain.right_lift.setPower(0.5f);
-            autoDrivetrain.left_lift.setPower(-0.5f);
-            sleep(1000);
+
+            sleep(250);
+
+            autoDrivetrain.right_lift.setPower(0.3);
+            autoDrivetrain.left_lift.setPower(-0.3);
+            sleep(2500);
             autoDrivetrain.right_lift.setPower(0);
-            autoDrivetrain.right_lift.setPower(0);
+            autoDrivetrain.left_lift.setPower(0);
+
+            sleep(250);
 
             autoDrivetrain.left_back.setPower(0.3);
             autoDrivetrain.left_front.setPower(0.3);
             autoDrivetrain.right_front.setPower(0.3);
             autoDrivetrain.right_back.setPower(0.3);
-            sleep(500);
-
+            sleep(750);
             autoDrivetrain.left_back.setPower(0);
             autoDrivetrain.left_front.setPower(0);
             autoDrivetrain.right_front.setPower(0);
             autoDrivetrain.right_back.setPower(0);
+
+            sleep(250);
+
+            autoDrivetrain.left_back.setPower(0.3);
+            autoDrivetrain.left_front.setPower(-0.3);
+            autoDrivetrain.right_front.setPower(-0.3);
+            autoDrivetrain.right_back.setPower(0.3);
+            sleep(800);
+            autoDrivetrain.left_back.setPower(0);
+            autoDrivetrain.left_front.setPower(0);
+            autoDrivetrain.right_front.setPower(0);
+            autoDrivetrain.right_back.setPower(0);
+
+            sleep(250);
 
             autoDrivetrain.left_front.setPower(-0.5);
             autoDrivetrain.left_back.setPower(-0.5);
             autoDrivetrain.right_front.setPower(0.5);
             autoDrivetrain.right_back.setPower(0.5);
             sleep(1000);
-
             autoDrivetrain.left_front.setPower(0);
             autoDrivetrain.left_back.setPower(0);
             autoDrivetrain.right_front.setPower(0);

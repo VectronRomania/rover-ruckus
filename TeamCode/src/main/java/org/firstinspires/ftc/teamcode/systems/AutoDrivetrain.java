@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.systems;
 
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -36,10 +37,20 @@ public class AutoDrivetrain extends Robot {
         super.right_back.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         super.right_front.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        super.left_back.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        super.left_front.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        super.right_back.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        super.right_front.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        super.left_back.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        super.left_front.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        super.right_back.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        super.right_front.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        super.left_lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        super.left_lift.setDirection(DcMotorSimple.Direction.FORWARD);
+        super.left_lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        super.left_lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        super.right_lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        super.right_lift.setDirection(DcMotorSimple.Direction.FORWARD);
+        super.right_lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        super.right_lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
 
@@ -162,13 +173,13 @@ public class AutoDrivetrain extends Robot {
     }
 
     public void moveLift() {
-        super.right_lift.setPower(0.5f);
-        super.left_lift.setPower(-0.5f);
+        super.right_lift.setPower(0.3);
+        super.left_lift.setPower(-0.3);
         currentDistance = (int)(distanceSensor.getDistance(DistanceUnit.MM));
-        while(currentDistance >= 95) {
-            if (currentDistance <= 95) {
-                super.right_lift.setPower(0f);
-                super.left_lift.setPower(0f);
+        while(currentDistance >= 93) {
+            if (currentDistance <= 93) {
+                super.right_lift.setPower(0);
+                super.left_lift.setPower(0);
                 break;
             }
             currentDistance = (int)(distanceSensor.getDistance(DistanceUnit.MM));
