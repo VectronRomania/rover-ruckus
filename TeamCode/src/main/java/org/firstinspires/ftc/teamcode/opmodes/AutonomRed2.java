@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -8,7 +7,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.systems.AutoDrivetrain;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
-import org.firstinspires.ftc.teamcode.systems.Type;
 import org.firstinspires.ftc.teamcode.systems.ar.TensorFlow;
 import org.firstinspires.ftc.teamcode.systems.ar.Vuforia;
 
@@ -49,7 +47,7 @@ public class AutonomRed2 extends LinearOpMode {
         robot = new Robot();
         robot.init(hardwareMap);
 
-        autoDrivetrain = new AutoDrivetrain(hardwareMap, Type.MECANUM);
+        autoDrivetrain = new AutoDrivetrain(hardwareMap);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();

@@ -1,9 +1,12 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class Robot {
 
@@ -21,7 +24,7 @@ public class Robot {
     public Servo phone_servo;
 
     // sensors
-//    public DistanceSensor distanceSensor;
+    public Rev2mDistanceSensor distanceSensor;
 
     public void init(HardwareMap hardwareMap) {
         // TODO: 10/9/2018 add hardware
@@ -32,13 +35,20 @@ public class Robot {
 
         left_lift = hardwareMap.get(DcMotor.class, "left_lift");
         right_lift = hardwareMap.get(DcMotor.class, "right_lift");
-//        lift_motor_1.setDirection(DcMotor.Direction.FORWARD);
-//        lift_motor_2.setDirection(DcMotor.Direction.FORWARD);
+
+        left_lift.setDirection(DcMotor.Direction.FORWARD);
+        right_lift.setDirection(DcMotor.Direction.FORWARD);
+
+        left_lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        right_lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
-//        lift_motor_1 = hw.get(DcMotor.class, "lift_motor_1");
-//        lift_motor_2 = hw.get(DcMotor.class, "lift_motor_2");
-//        distanceSensor = hw.get(DistanceSensor.class, "distanceSensor");
+        left_lift = hardwareMap.get(DcMotor.class, "left_lift");
+        right_lift = hardwareMap.get(DcMotor.class, "right_lift");
+        distanceSensor = hardwareMap.get(Rev2mDistanceSensor.class, "distance_sensor");
+
+//        distanceSensor.getDistance(DistanceUnit.CM);
+
     }
 
 }

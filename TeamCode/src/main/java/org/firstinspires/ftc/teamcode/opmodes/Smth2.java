@@ -1,16 +1,12 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.teamcode.systems.AutoDrivetrain;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
-import org.firstinspires.ftc.teamcode.systems.Type;
 
 import org.firstinspires.ftc.teamcode.systems.ar.Vuforia;
 import org.firstinspires.ftc.teamcode.systems.ar.TensorFlow;
@@ -48,7 +44,7 @@ public class Smth2 extends LinearOpMode {
         robot = new Robot();
         robot.init(hardwareMap);
 
-        autoDrivetrain = new AutoDrivetrain(hardwareMap, Type.MECANUM);
+        autoDrivetrain = new AutoDrivetrain(hardwareMap);
         autoDrivetrain.init(hardwareMap);
 
         vuforia = new Vuforia();

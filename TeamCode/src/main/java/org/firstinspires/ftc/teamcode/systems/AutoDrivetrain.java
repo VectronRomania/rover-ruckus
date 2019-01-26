@@ -13,13 +13,15 @@ public class AutoDrivetrain extends Robot {
 
     private Type type;
 
-    private DistanceSensorTest distanceSensor;
-    private DistanceSensor sensorRange;
     public int currentDistance;
+    public int left_front_encoder;
+    public int left_back_encoder;
+    public int right_front_encoder;
+    public int right_back_encoder;
 
     private boolean lock;
 
-    public AutoDrivetrain(HardwareMap hardwareMap, Type t) {
+    public AutoDrivetrain(HardwareMap hardwareMap) {
 
         super();
         super.init(hardwareMap);
@@ -34,10 +36,19 @@ public class AutoDrivetrain extends Robot {
         super.right_back.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         super.right_front.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        super.left_back.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        super.left_front.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        super.right_back.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        super.right_front.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        super.left_back.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        super.left_front.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        super.right_back.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        super.right_front.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+    }
+
+    public void initialize(){
+        left_front_encoder = super.left_front.getCurrentPosition();
+        left_back_encoder = super.left_back.getCurrentPosition();
+        right_front_encoder = super.right_front.getCurrentPosition();
+        right_back_encoder = super.right_back.getCurrentPosition();
+
     }
 
     public void moveForward (int ticks){
@@ -46,10 +57,10 @@ public class AutoDrivetrain extends Robot {
         super.right_back.setPower(0.5f);
         super.right_front.setPower(0.5f);
 
-        super.left_back.setTargetPosition(super.left_back.getCurrentPosition() - ticks);
-        super.left_front.setTargetPosition(super.left_front.getCurrentPosition() - ticks);
-        super.right_back.setTargetPosition(super.right_back.getCurrentPosition() + ticks);
-        super.right_front.setTargetPosition(super.right_front.getCurrentPosition() + ticks);
+        super.left_back.setTargetPosition(left_back_encoder - ticks);
+        super.left_front.setTargetPosition(left_front_encoder - ticks);
+        super.right_back.setTargetPosition(right_back_encoder + ticks);
+        super.right_front.setTargetPosition(right_front_encoder + ticks);
     }
 
     public void moveBackward (int ticks){
@@ -135,11 +146,6 @@ public class AutoDrivetrain extends Robot {
         right_back.setTargetPosition(right_back.getCurrentPosition() + ticks);
         right_front.setTargetPosition(right_front.getCurrentPosition() - ticks);
     }
-    public void waitToFinish() {
-        while ( left_front.isBusy() && right_front.isBusy() && left_back.isBusy() && right_back.isBusy() ) {
-
-        }
-    }
 
     public void stop(){
         left_back.setPower(0f);
@@ -148,18 +154,28 @@ public class AutoDrivetrain extends Robot {
         right_front.setPower(0f);
     }
 
+    public void waitToFinish() {
+        while ( left_front.isBusy() && right_front.isBusy() && left_back.isBusy() && right_back.isBusy() ) {
+
+        }
+        stop();
+    }
+
     public void moveLift() {
         super.right_lift.setPower(0.5f);
         super.left_lift.setPower(-0.5f);
-        currentDistance = (int)(sensorRange.getDistance(DistanceUnit.CM));
-        while(currentDistance >= 10) {
-            if (currentDistance <= 10) {
+        currentDistance = (int)(distanceSensor.getDistance(DistanceUnit.MM));
+        while(currentDistance >= 95) {
+            if (currentDistance <= 95) {
                 super.right_lift.setPower(0f);
                 super.left_lift.setPower(0f);
+                break;
             }
-            currentDistance = (int)(sensorRange.getDistance(DistanceUnit.CM));
+            currentDistance = (int)(distanceSensor.getDistance(DistanceUnit.MM));
         }
     }
+
+
 
     public boolean getLockStatus() { return this.lock; }
     public void unlock() { this.lock = false; }

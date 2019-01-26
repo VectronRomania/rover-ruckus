@@ -31,12 +31,10 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.systems.AutoDrivetrain;
-import org.firstinspires.ftc.teamcode.systems.Type;
 
 
 /**
@@ -72,7 +70,7 @@ public class TestPotra extends LinearOpMode {
 
         robot.init(hardwareMap);
 
-        autoDrivetrain = new AutoDrivetrain(hardwareMap, Type.MECANUM);
+        autoDrivetrain = new AutoDrivetrain(hardwareMap);
 
         autoDrivetrain.init(hardwareMap);
 
@@ -89,6 +87,8 @@ public class TestPotra extends LinearOpMode {
             telemetry.addData("LB", robot.left_back.getCurrentPosition());
             telemetry.addData("RF", robot.right_front.getCurrentPosition());
             telemetry.addData("RB", robot.right_back.getCurrentPosition());
+//            telemetry.addData("LeftLift", robot.left_lift.getCurrentPosition());
+//            telemetry.addData("RightLift", robot.right_back.getCurrentPosition());
             telemetry.update();
         }
     }

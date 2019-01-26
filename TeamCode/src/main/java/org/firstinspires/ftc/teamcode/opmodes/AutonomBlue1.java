@@ -1,15 +1,12 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.systems.AutoDrivetrain;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
-import org.firstinspires.ftc.teamcode.systems.Type;
 import org.firstinspires.ftc.teamcode.systems.ar.TensorFlow;
 import org.firstinspires.ftc.teamcode.systems.ar.Vuforia;
 
@@ -25,14 +22,11 @@ public class AutonomBlue1 extends LinearOpMode {
     private Robot robot;
     private AutoDrivetrain autoDrivetrain;
 
+    private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
     private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
     private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
 
-    private String goldPosition;
-
-    float goldMineral = -1;
-    float silverMineral_1 = -1;
-    float silverMineral_2 = -1;
+    private int goldPosition = -1;
 
     private Vuforia vuforia;
     private TensorFlow tensorFlow;
@@ -42,7 +36,6 @@ public class AutonomBlue1 extends LinearOpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
 
-
     public void mineralDetection() {
 
         if (tensorFlow.tfod != null) {
@@ -50,75 +43,90 @@ public class AutonomBlue1 extends LinearOpMode {
         }
 
         while (tensorFlow.tfod != null && opModeIsActive()) {
-
             List<Recognition> updatedRecognitions = tensorFlow.tfod.getUpdatedRecognitions();
             if (updatedRecognitions != null) {
                 telemetry.addData("# Object Detected", updatedRecognitions.size());
-                if (updatedRecognitions.size() <= 3) {
+                if (updatedRecognitions.size() == 2) {
+                    int goldMineral = -1;
+                    int silverMineral_1 = -1;
+                    int silverMineral_2 = -1;
 
                     for (Recognition r : updatedRecognitions) {
                         if (r.getLabel().equals(LABEL_GOLD_MINERAL)) {
-                            goldMineral = r.getLeft();
+                            goldMineral = (int)(r.getLeft());
                         } else if (silverMineral_1 == -1) {
-                            silverMineral_1 = r.getLeft();
+                            silverMineral_1 = (int)(r.getLeft());
                         } else {
-                            silverMineral_2 = r.getLeft();
+                            silverMineral_2 = (int)(r.getLeft());
                         }
                     }
 
-                    if (goldMineral < silverMineral_1 || goldMineral < silverMineral_2) {
-                        goldPosition = "Left";
-                        telemetry.addData("Object detected", goldPosition);
-                        telemetry.update();
-                        break;
-                    } else if (goldMineral > silverMineral_1 || goldMineral > silverMineral_2) {
-                        goldPosition = "Right";
-                        telemetry.addData("Object detected", goldPosition);
-                        telemetry.update();
-                        break;
-                    } else {
-                        goldPosition = "Center";
-                        telemetry.addData("Object detected", goldPosition);
-                        telemetry.update();
-                        break;
+                    if (goldMineral == -1 && silverMineral_1 != -1 && silverMineral_2 != -1) {
+                        telemetry.addData("GOLD MINERAL", "0");
+                        goldPosition = 0;
+//                        goldMineral <- left
+                    } else if (goldMineral < silverMineral_1 && silverMineral_2 == -1) {
+                        telemetry.addData("GOLD MINERAL", "1");
+                        goldPosition = 1;
+//                        goldMineral <- center
+                    } else if (goldMineral > silverMineral_1 && silverMineral_2 == -1) {
+                        telemetry.addData("GOLD MINERAL", "2");
+                        goldPosition = 2;
+//                          goldMineral <- right
+//                    } else {
+//                        goldPosition = "";
                     }
+                    tensorFlow.tfod.shutdown();
+                    telemetry.update();
+                    return;
+//                    if (tensorFlow.tfod != null) {
+//                        tensorFlow.tfod.shutdown();
+//                        tensorFlow.tfod = null;
+//                        break;
+//                    }
                 }
+                telemetry.update();
             }
-        }
-
-        if (tensorFlow.tfod != null) {
-            tensorFlow.tfod.shutdown();
         }
     }
 
     public void removeGoldLeft() {
-        autoDrivetrain.left(2888);
+        autoDrivetrain.rotateLeft(600);
         autoDrivetrain.waitToFinish();
-        autoDrivetrain.moveForward(580);
+        autoDrivetrain.moveForward(5000);
         autoDrivetrain.waitToFinish();
-        autoDrivetrain.moveBackward(580);
-        autoDrivetrain.waitToFinish();
-        autoDrivetrain.right(2888);
-        autoDrivetrain.waitToFinish();
+//        autoDrivetrain.left(2888);
+//        autoDrivetrain.waitToFinish();
+//        autoDrivetrain.moveForward(580);
+//        autoDrivetrain.waitToFinish();
+//        autoDrivetrain.moveBackward(580);
+//        autoDrivetrain.waitToFinish();
+//        autoDrivetrain.right(2888);
+//        autoDrivetrain.waitToFinish();
     }
 
     public void removeGoldCenter() {
-        autoDrivetrain.moveForward(580);
+        autoDrivetrain.moveForward(5000);
         autoDrivetrain.waitToFinish();
-        autoDrivetrain.moveBackward(580);
-        autoDrivetrain.waitToFinish();
+//        autoDrivetrain.moveBackward(580);
+//        autoDrivetrain.waitToFinish();
     }
 
     public void removeGoldRight() {
-        autoDrivetrain.right(2888);
+        autoDrivetrain.rotateRight(600);
         autoDrivetrain.waitToFinish();
-        autoDrivetrain.moveForward(580);
+        autoDrivetrain.moveForward(3000);
         autoDrivetrain.waitToFinish();
-        autoDrivetrain.moveBackward(580);
-        autoDrivetrain.waitToFinish();
-        autoDrivetrain.left(2888);
-        autoDrivetrain.waitToFinish();
+//        autoDrivetrain.moveBackward(580);
+//        autoDrivetrain.waitToFinish();
+//        autoDrivetrain.left(2888);
+//        autoDrivetrain.waitToFinish();
     }
+
+    public void dropMarker() {
+
+    }
+
 
     @Override
     public void runOpMode() {
@@ -128,8 +136,10 @@ public class AutonomBlue1 extends LinearOpMode {
         robot = new Robot();
         robot.init(hardwareMap);
 
-        autoDrivetrain = new AutoDrivetrain(hardwareMap, Type.MECANUM);
-//        autoDrivetrain.init(hardwareMap);
+        autoDrivetrain = new AutoDrivetrain(hardwareMap);
+        autoDrivetrain.init(hardwareMap);
+
+        autoDrivetrain.initialize();
 
         vuforia = new Vuforia();
         tensorFlow = new TensorFlow(vuforia, hardwareMap);
@@ -144,52 +154,93 @@ public class AutonomBlue1 extends LinearOpMode {
         while (opModeIsActive()) {
 
 //          coboara lift
-//            autoDrivetrain.moveLift();
-//            autoDrivetrain.waitToFinish();
+            autoDrivetrain.moveLift();
+            autoDrivetrain.waitToFinish();
+            autoDrivetrain.right_lift.setPower(0.5f);
+            autoDrivetrain.left_lift.setPower(-0.5f);
+            sleep(1000);
+            autoDrivetrain.right_lift.setPower(0);
+            autoDrivetrain.right_lift.setPower(0);
+
+            autoDrivetrain.left_back.setPower(0.3);
+            autoDrivetrain.left_front.setPower(0.3);
+            autoDrivetrain.right_front.setPower(0.3);
+            autoDrivetrain.right_back.setPower(0.3);
+            sleep(500);
+
+            autoDrivetrain.left_back.setPower(0);
+            autoDrivetrain.left_front.setPower(0);
+            autoDrivetrain.right_front.setPower(0);
+            autoDrivetrain.right_back.setPower(0);
+
+            autoDrivetrain.left_front.setPower(-0.5);
+            autoDrivetrain.left_back.setPower(-0.5);
+            autoDrivetrain.right_front.setPower(0.5);
+            autoDrivetrain.right_back.setPower(0.5);
+            sleep(1000);
+
+            autoDrivetrain.left_front.setPower(0);
+            autoDrivetrain.left_back.setPower(0);
+            autoDrivetrain.right_front.setPower(0);
+            autoDrivetrain.right_back.setPower(0);
+
+
+
+
 
 //          detecteaza minerale
 //            mineralDetection();
-//
+
+//            while (opModeIsActive()) {
+//                sleep(50);
+//            }
+//            return;
 ////          inlatura minerale
+//
+//            autoDrivetrain.moveForward(600);
+//            autoDrivetrain.waitToFinish();
+////            if (goldPosition == null) {
+////                return;
+////            }
 //            switch(goldPosition) {
-//                case "Left":
+//                case 0:
 //                    removeGoldLeft();
+//                    telemetry.addData("Sampling", "done");
 //                    break;
-//                case "Center":
+//                case 1:
 //                    removeGoldCenter();
+//                    telemetry.addData("Sampling", "done");
 //                    break;
-//                case "Right":
+//                case 2:
 //                    removeGoldRight();
+//                    telemetry.addData("Sampling", "done");
 //                    break;
 //                default :
-//                    telemetry.addData("Status", "not done");
+//                    telemetry.addData("Sampling", "failed");
 //            }
-
-            autoDrivetrain.rotateLeft(1381);
-            autoDrivetrain.waitToFinish();
-            autoDrivetrain.moveForward(5444);
-            autoDrivetrain.waitToFinish();
-
-//          drop team marker
-            // dropMarker();
-
-            autoDrivetrain.rotateRight(1481);
-            autoDrivetrain.waitToFinish();
-            autoDrivetrain.moveForward(5444);
-            autoDrivetrain.waitToFinish();
-
-//            autoDrivetrain.rotateRight(241);
-//            autoDrivetrain.waitToFinish();
-//            autoDrivetrain.moveForward(1444);
-//            autoDrivetrain.waitToFinish();
-
+//
+////            autoDrivetrain.rotateLeft(1200);
+////            autoDrivetrain.waitToFinish();
+////            autoDrivetrain.moveForward(1244);
+////            autoDrivetrain.waitToFinish();
+////
+//////          drop team marker
+////            // dropMarker();
+////
+////            autoDrivetrain.rotateRight(1481);
+////            autoDrivetrain.waitToFinish();
+////            autoDrivetrain.moveForward(2444);
+////            autoDrivetrain.waitToFinish();
+////
+//////            autoDrivetrain.rotateRight(241);
+//////            autoDrivetrain.waitToFinish();
+//////            autoDrivetrain.moveForward(1444);
+//////            autoDrivetrain.waitToFinish();
+//
             telemetry.addData("Status", "Finished");
             telemetry.update();
+            sleep(500);
+            break;
         }
-    }
-
-
-    public void dropMarker() {
-
     }
 }

@@ -164,10 +164,10 @@ public class DriveTrain extends Robot {
                         right_front.setDirection(DcMotor.Direction.FORWARD);
                         left_back.setDirection(DcMotor.Direction.FORWARD);
 
-                        left_front.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                        right_front.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                        left_back.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                        right_back.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                        left_front.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                        right_front.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                        left_back.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                        right_back.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
                     }
                 };
