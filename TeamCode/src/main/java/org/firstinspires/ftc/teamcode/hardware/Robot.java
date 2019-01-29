@@ -2,55 +2,88 @@ package org.firstinspires.ftc.teamcode.hardware;
 
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import com.qualcomm.robotcore.util.Hardware;
 
 public class Robot {
 
-    // movement motors
-    public DcMotor right_front = null;
-    public DcMotor right_back = null;
-    public DcMotor left_front = null;
-    public DcMotor left_back = null;
+    /**
+     * Drivetrain hardware
+     */
+    public static class Drivetrain {
 
-    // lift motors
-    public DcMotor left_lift = null;
-    public DcMotor right_lift = null;
+        public static DcMotor left_front;
 
-    // servo for phone rotation
-    public Servo phone_servo;
+        public static DcMotor right_front;
 
-    // sensors
-    public Rev2mDistanceSensor distanceSensor;
+        public static DcMotor left_back;
 
-    public void init(HardwareMap hardwareMap) {
-        // TODO: 10/9/2018 add hardware
-        right_front = hardwareMap.get(DcMotor.class, "right_front");
-        right_back = hardwareMap.get(DcMotor.class, "right_back");
-        left_front = hardwareMap.get(DcMotor.class, "left_front");
-        left_back = hardwareMap.get(DcMotor.class, "left_back");
-
-        left_lift = hardwareMap.get(DcMotor.class, "left_lift");
-        right_lift = hardwareMap.get(DcMotor.class, "right_lift");
-
-        left_lift.setDirection(DcMotor.Direction.FORWARD);
-        right_lift.setDirection(DcMotor.Direction.FORWARD);
-
-        left_lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        right_lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-
-        left_lift = hardwareMap.get(DcMotor.class, "left_lift");
-        right_lift = hardwareMap.get(DcMotor.class, "right_lift");
-        distanceSensor = hardwareMap.get(Rev2mDistanceSensor.class, "distance_sensor");
-
-//        distanceSensor.getDistance(DistanceUnit.CM);
+        public static DcMotor right_back;
 
     }
 
+    /**
+     * Lift hardware
+     */
+    public static class Lift {
+
+        public static DcMotor               left_lift;
+
+        public static DcMotor               right_lift;
+
+        public static Rev2mDistanceSensor   distanceSensor;
+    }
+
+    /**
+     * Extender hardware
+     */
+    public static class Extender {
+
+    }
+
+    /**
+     * Collector hardware
+     */
+    public static class Collector {
+
+    }
+
+    /**
+     * Other servos
+     */
+    public static class Servos {
+
+//        public static Servo phone_servo;
+
+    }
+
+    /**
+     * Other sensors
+     */
+    public static class Sensors {
+
+    }
+
+
+    public Robot() {}
+
+    public static Robot build(HardwareMap hw) {
+        Robot robot = new Robot();
+
+        Drivetrain.left_front   = hw.get(DcMotor.class, "left_front");
+        Drivetrain.right_front  = hw.get(DcMotor.class, "right_front");
+        Drivetrain.left_back    = hw.get(DcMotor.class, "left_back");
+        Drivetrain.right_back   = hw.get(DcMotor.class, "right_back");
+
+        Lift.left_lift      = hw.get(DcMotor.class, "left_lift");
+        Lift.right_lift     = hw.get(DcMotor.class, "right_lift");
+        Lift.distanceSensor = hw.get(Rev2mDistanceSensor.class, "distance_sensor");
+
+//        Servos.phone_servo = hw.get(Servo.class, "phone_servo");
+
+        return robot;
+    }
 }
 
 
