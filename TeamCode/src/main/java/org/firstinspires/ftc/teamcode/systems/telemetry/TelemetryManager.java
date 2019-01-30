@@ -48,8 +48,9 @@ public class TelemetryManager {
      * Add an item to the telemetry item list.
      * @param item the item that needs to be added.
      */
-    public void add(TelemetryItem item) {
+    public Integer add(TelemetryItem item) {
         items.add(item);
+        return items.size() - 1;
     }
 
     /**
@@ -76,5 +77,9 @@ public class TelemetryManager {
         update();
         write();
         flush();
+    }
+
+    public TelemetryItem get(Integer index) {
+        return items.get(index);
     }
 }

@@ -1,14 +1,13 @@
 package org.firstinspires.ftc.teamcode.systems.opmode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
 import org.firstinspires.ftc.teamcode.hardware.Robot;
-import org.firstinspires.ftc.teamcode.systems.autonomous.Task;
-import org.firstinspires.ftc.teamcode.systems.drivetrain.telemetry_items.MotorPowersTelemetryGroup;
-import org.firstinspires.ftc.teamcode.systems.drivetrain.types.HumanControlledDrivetrain;
+import org.firstinspires.ftc.teamcode.systems.drivetrain.types.AutonomousDrivetrain;
 import org.firstinspires.ftc.teamcode.systems.telemetry.TelemetryManager;
 
-import java.util.ArrayList;
-
-public abstract class AutonomousStandard extends OpModeStandard {
+public abstract class AutonomousStandard extends LinearOpMode {
 
     /**
      * The hardware.
@@ -18,23 +17,18 @@ public abstract class AutonomousStandard extends OpModeStandard {
     /**
      * The drivetrain.
      */
-    protected HumanControlledDrivetrain drivetrain;
+    protected AutonomousDrivetrain drivetrain;
 
     /**
      * The telemetry manager.
      */
-    protected TelemetryManager telemetryManager;
-
-    protected ArrayList<Task> tasks;
+    protected volatile TelemetryManager telemetryManager;
 
     @Override
     public void runOpMode() {
 
         robot = Robot.build(hardwareMap);
-
         telemetryManager = new TelemetryManager(telemetry);
-
-        telemetryManager.add(new MotorPowersTelemetryGroup());
 
         initialize();
 
@@ -49,13 +43,11 @@ public abstract class AutonomousStandard extends OpModeStandard {
     /**
      * Initialization method.
      */
-    public abstract void initialize();
-
+    protected abstract void initialize();
 
     /**
      * The Op Mode loop method.
      */
-    public void opModeLoop() {
+    protected abstract void opModeLoop();
 
-    }
 }

@@ -13,4 +13,9 @@ public final class TankController extends Controller implements AutonomousContro
     public void init() {
 
     }
+
+    @Override
+    public void move(Direction direction, Integer ticks, Double power) {
+
+    }
 }

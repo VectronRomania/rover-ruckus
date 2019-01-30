@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.systems.telemetry.TelemetryManager;
 /**
  * Standard TeleOp Op Mode.
  */
-public abstract class OpModeStandard extends LinearOpMode {
+public abstract class TeleOpStandard extends LinearOpMode {
 
     /**
      * The hardware.
@@ -25,15 +25,13 @@ public abstract class OpModeStandard extends LinearOpMode {
     /**
      * The telemetry manager.
      */
-    protected TelemetryManager telemetryManager;
+    protected volatile TelemetryManager telemetryManager;
 
     @Override
     public void runOpMode() {
 
         robot = Robot.build(hardwareMap);
         telemetryManager = new TelemetryManager(telemetry);
-
-        telemetryManager.add(new MotorPowersTelemetryGroup());
 
         initialize();
 

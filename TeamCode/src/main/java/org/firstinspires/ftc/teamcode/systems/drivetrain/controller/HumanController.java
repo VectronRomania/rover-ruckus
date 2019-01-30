@@ -7,6 +7,9 @@ import com.qualcomm.robotcore.hardware.Gamepad;
  * by a human, no matter what wheel base it has
  */
 public interface HumanController {
-    void init();
+    void brake();
     void drive(Gamepad gamepad);
+    void init();
+    void resume();
+    void stop();
 }
