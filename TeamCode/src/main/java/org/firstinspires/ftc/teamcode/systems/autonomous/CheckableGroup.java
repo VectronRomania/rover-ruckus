@@ -12,6 +12,7 @@ public class CheckableGroup implements Checkable {
 
     public CheckableGroup(CheckableLogicalOperation operation) {
         this.operation = operation;
+        this.checkables = new ArrayList<>();
     }
 
     @Override

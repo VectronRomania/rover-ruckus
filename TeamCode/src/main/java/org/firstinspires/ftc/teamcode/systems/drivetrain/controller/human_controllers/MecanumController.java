@@ -61,6 +61,6 @@ public final class MecanumController extends Controller implements HumanControll
             return;
         }
 
-        super.setPower(0.0);
+        super.stop();
     }
 }

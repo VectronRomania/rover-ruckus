@@ -31,5 +31,9 @@ public class AutonomousDrivetrain extends Drivetrain {
                 break;
         }
     }
+
+    public AutonomousController getController() {
+        return controller;
+    }
 }
 

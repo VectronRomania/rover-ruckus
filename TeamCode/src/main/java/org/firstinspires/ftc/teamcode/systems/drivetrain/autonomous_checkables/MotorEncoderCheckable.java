@@ -37,8 +37,7 @@ public class MotorEncoderCheckable implements Checkable {
     }
 
     public static CheckableGroup newDrivetrainEncoderCheckableGroup(Integer a, Integer b, Integer c, Integer d,
-                                                                    Integer bias,
-                                                                    CheckableLogicalOperation operation) {
+                                                                    Integer bias, CheckableLogicalOperation operation) {
         CheckableGroup group = new CheckableGroup(operation);
 
         group.add(new MotorEncoderCheckable(

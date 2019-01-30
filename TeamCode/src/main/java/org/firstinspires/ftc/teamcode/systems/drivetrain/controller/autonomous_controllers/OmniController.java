@@ -13,4 +13,9 @@ public final class OmniController extends Controller implements AutonomousContro
     public void init() {
 
     }
+
+    @Override
+    public void move(Direction direction, Integer ticks, Double power) {
+
+    }
 }
