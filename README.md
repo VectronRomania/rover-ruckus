@@ -688,7 +688,7 @@ Release 16.01.04
  * changed LICENSE file to new BSD version.
  * fixed race condition when shutting down Modern Robotics USB devices.
  * methods in the ColorSensor classes have been synchronized.
- * corrected isBusy() status to reflect end of motion.
+ * corrected isBusy() opModeRunning to reflect end of motion.
  * corrected "back" button keycode.
  * the notSupported() method of the GyroSensor class was changed to protected (it should not be public).
 

@@ -17,7 +17,7 @@ public class TelemetryManager {
     /**
      * The list of items.
      */
-    private ArrayList<TelemetryItem> items;
+    private volatile ArrayList<TelemetryItem> items;
 
     /**
      * The constructor.
@@ -47,10 +47,11 @@ public class TelemetryManager {
     /**
      * Add an item to the telemetry item list.
      * @param item the item that needs to be added.
+     * @return the index of the added item.
      */
     public Integer add(TelemetryItem item) {
         items.add(item);
-        return items.size() - 1;
+        return items.lastIndexOf(item);
     }
 
     /**
@@ -79,7 +80,12 @@ public class TelemetryManager {
         flush();
     }
 
-    public TelemetryItem get(Integer index) {
+    /**
+     * Get a telemetry item.
+     * @param index the index of the item.
+     * @return the item.
+     */
+    public synchronized TelemetryItem get(Integer index) {
         return items.get(index);
     }
 }

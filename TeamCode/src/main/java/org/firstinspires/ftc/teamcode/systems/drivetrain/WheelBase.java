@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.systems.drivetrain.configs;
+package org.firstinspires.ftc.teamcode.systems.drivetrain;
 
 /**
  * WheelBase stores what kind of wheel base the robot has

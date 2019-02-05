@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.systems.drivetrain.telemetry_items;
+package org.firstinspires.ftc.teamcode.systems.telemetry.items;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.systems.telemetry.TelemetryItem;
 
-public final class MotorPowerTelemetryItem extends TelemetryItem<Double> {
+public final class DrivetrainPowerTelemetryItem extends TelemetryItem<Double> {
 
     private final DcMotor motor;
 
@@ -12,7 +12,7 @@ public final class MotorPowerTelemetryItem extends TelemetryItem<Double> {
      * The costructor.
      * @param tag the item identifier.
      */
-    public MotorPowerTelemetryItem(String tag, DcMotor motor) {
+    public DrivetrainPowerTelemetryItem(String tag, DcMotor motor) {
         super(tag);
         this.motor = motor;
     }

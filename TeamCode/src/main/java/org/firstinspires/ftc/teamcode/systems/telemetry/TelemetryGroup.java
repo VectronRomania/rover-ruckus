@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.systems.telemetry;
 
+import android.support.annotation.NonNull;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.ArrayList;
@@ -19,9 +21,9 @@ public abstract class TelemetryGroup<T> extends TelemetryItem {
      * The constructor.
      * @param tag the group identifier.
      */
-    public TelemetryGroup(String tag) {
+    public TelemetryGroup(@NonNull String tag) {
         super(tag);
-        items = new ArrayList<TelemetryItem<T>>();
+        items = new ArrayList<>();
     }
 
     /**
@@ -48,7 +50,7 @@ public abstract class TelemetryGroup<T> extends TelemetryItem {
      * @param telemetry the telemetry where the item will write it's data.
      */
     @Override
-    public void write(Telemetry telemetry) {
+    public void write(@NonNull Telemetry telemetry) {
         telemetry.addLine(super.TAG);
         for (final TelemetryItem item : items) {
             item.write(telemetry);
@@ -59,7 +61,7 @@ public abstract class TelemetryGroup<T> extends TelemetryItem {
      * Adds a new telemetry item.
      * @param item the item which has to be added.
      */
-    public void add(TelemetryItem<T> item) {
+    public void add(@NonNull TelemetryItem<T> item) {
         items.add(item);
     }
 
@@ -94,7 +96,7 @@ public abstract class TelemetryGroup<T> extends TelemetryItem {
      * @param telemetry the telemetry where to write the item.
      * @param index the index of the item.
      */
-    public void write(Telemetry telemetry, int index) {
+    public void write(@NonNull Telemetry telemetry, int index) {
         items.get(index).write(telemetry);
     }
 
