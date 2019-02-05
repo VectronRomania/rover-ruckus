@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode.systems.opmode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.hardware.Robot;
-import org.firstinspires.ftc.teamcode.systems.drivetrain.types.AutonomousDrivetrain;
+import org.firstinspires.ftc.teamcode.systems.drivetrain.AutonomousDrivetrain;
 import org.firstinspires.ftc.teamcode.systems.telemetry.TelemetryManager;
 
+/**
+ * Standard Autonomous OpMode.
+ */
 public abstract class AutonomousStandard extends LinearOpMode {
 
     /**

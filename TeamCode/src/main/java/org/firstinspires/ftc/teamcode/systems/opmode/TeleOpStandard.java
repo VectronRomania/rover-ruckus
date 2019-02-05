@@ -3,12 +3,11 @@ package org.firstinspires.ftc.teamcode.systems.opmode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.hardware.Robot;
-import org.firstinspires.ftc.teamcode.systems.drivetrain.telemetry_items.MotorPowersTelemetryGroup;
-import org.firstinspires.ftc.teamcode.systems.drivetrain.types.HumanControlledDrivetrain;
+import org.firstinspires.ftc.teamcode.systems.drivetrain.HumanControlledDrivetrain;
 import org.firstinspires.ftc.teamcode.systems.telemetry.TelemetryManager;
 
 /**
- * Standard TeleOp Op Mode.
+ * Standard TeleOp OpMode.
  */
 public abstract class TeleOpStandard extends LinearOpMode {
 

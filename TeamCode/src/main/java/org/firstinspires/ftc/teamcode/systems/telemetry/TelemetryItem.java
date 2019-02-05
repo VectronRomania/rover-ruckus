@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.systems.telemetry;
 
+import android.support.annotation.NonNull;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 /**
@@ -11,7 +13,7 @@ public abstract class TelemetryItem<T> {
     /**
      * The item identifier.
      */
-    protected final String TAG;
+    final String TAG;
 
     /**
      * The item value.
@@ -22,7 +24,7 @@ public abstract class TelemetryItem<T> {
      * The costructor.
      * @param tag the item identifier.
      */
-    public TelemetryItem(String tag) {
+    public TelemetryItem(@NonNull String tag) {
         this.TAG = tag;
     }
 
@@ -46,7 +48,7 @@ public abstract class TelemetryItem<T> {
      * Write the item value in the telemetry(without flushing).
      * @param telemetry the telemetry where the item will write it's data.
      */
-    public void write(Telemetry telemetry) {
+    public void write(@NonNull Telemetry telemetry) {
         telemetry.addData(TAG, item);
     }
 

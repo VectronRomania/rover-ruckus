@@ -1,11 +1,9 @@
-package org.firstinspires.ftc.teamcode.systems.drivetrain.types;
+package org.firstinspires.ftc.teamcode.systems.drivetrain;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.hardware.Robot;
-import org.firstinspires.ftc.teamcode.systems.drivetrain.Drivetrain;
-import org.firstinspires.ftc.teamcode.systems.drivetrain.configs.ControlType;
-import org.firstinspires.ftc.teamcode.systems.drivetrain.configs.WheelBase;
+import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.Controller;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.HumanController;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.human_controllers.MecanumController;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.human_controllers.OmniController;
@@ -14,12 +12,12 @@ import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.human_contro
 /**
  * A HumanControlledDrivetrain is a drivetrain that is controlled by a human, with a gamepad
  */
-public class HumanControlledDrivetrain extends Drivetrain {
+public class HumanControlledDrivetrain extends Controller implements HumanController {
 
     private HumanController controller;
 
     public HumanControlledDrivetrain(Robot robot, WheelBase wheelBase) {
-        super(robot, wheelBase, ControlType.HUMAN_CONTROLLED);
+        super(robot);
 
         switch (wheelBase) {
             case MECANUM:
@@ -34,10 +32,19 @@ public class HumanControlledDrivetrain extends Drivetrain {
         }
     }
 
+    /**
+     * Initialize the drivetrain.
+     */
+    @Override
     public void init() {
         controller.init();
     }
 
+    /**
+     * Control the drivetrain with a gamepad.
+     * @param gamepad
+     */
+    @Override
     public void drive(Gamepad gamepad) {
         controller.drive(gamepad);
     }

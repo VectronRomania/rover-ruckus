@@ -31,9 +31,8 @@ package org.firstinspires.ftc.robotcontroller.external.samples;
 
 import com.qualcomm.hardware.adafruit.AdafruitBNO055IMU;
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ReadWriteFile;
 
 import org.firstinspires.ftc.robotcore.external.Func;
@@ -98,8 +97,7 @@ import java.util.Locale;
  * @see <a href="https://www.bosch-sensortec.com/bst/products/all_products/bno055">BNO055 product page</a>
  * @see <a href="https://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST_BNO055_DS000_14.pdf">BNO055 specification</a>
  */
-@TeleOp(name = "Sensor: BNO055 IMU Calibration", group = "Sensor")
-@Disabled                            // Uncomment this to add to the opmode list
+@Autonomous(name = "IMU Calibration", group = "Test")
 public class SensorBNO055IMUCalibration extends LinearOpMode
     {
     //----------------------------------------------------------------------------------------------
@@ -107,7 +105,8 @@ public class SensorBNO055IMUCalibration extends LinearOpMode
     //----------------------------------------------------------------------------------------------
 
     // Our sensors, motors, and other devices go here, along with other long term state
-    BNO055IMU imu;
+    BNO055IMU imu_left;
+    BNO055IMU imu_right;
 
     // State used for updating telemetry
     Orientation angles;
@@ -129,12 +128,15 @@ public class SensorBNO055IMUCalibration extends LinearOpMode
         telemetry.log().add("calibration data to a file.");
         telemetry.log().add("");
 
-        // We are expecting the IMU to be attached to an I2C port on a Core Device Interface Module and named "imu".
+        // We are expecting the IMU to be attached to an I2C port on a Core Device Interface Module and named "imu_left".
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.loggingEnabled = true;
         parameters.loggingTag     = "IMU";
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-        imu.initialize(parameters);
+        imu_left = hardwareMap.get(BNO055IMU.class, "imu_left");
+        imu_left.initialize(parameters);
+
+        imu_right = hardwareMap.get(BNO055IMU.class, "imu_right");
+        imu_right.initialize(parameters);
 
         composeTelemetry();
         telemetry.log().add("Waiting for start...");
@@ -152,17 +154,23 @@ public class SensorBNO055IMUCalibration extends LinearOpMode
             if (gamepad1.a) {
 
                 // Get the calibration data
-                BNO055IMU.CalibrationData calibrationData = imu.readCalibrationData();
+                BNO055IMU.CalibrationData left_calibrationData = imu_left.readCalibrationData();
+                BNO055IMU.CalibrationData right_calibrationData = imu_right.readCalibrationData();
 
                 // Save the calibration data to a file. You can choose whatever file
                 // name you wish here, but you'll want to indicate the same file name
                 // when you initialize the IMU in an opmode in which it is used. If you
                 // have more than one IMU on your robot, you'll of course want to use
                 // different configuration file names for each.
-                String filename = "AdafruitIMUCalibration.json";
-                File file = AppUtil.getInstance().getSettingsFile(filename);
-                ReadWriteFile.writeFile(file, calibrationData.serialize());
-                telemetry.log().add("saved to '%s'", filename);
+                String left_filename = "left_RevImuConfig.json";
+                File file = AppUtil.getInstance().getSettingsFile(left_filename);
+                ReadWriteFile.writeFile(file, left_calibrationData.serialize());
+                telemetry.log().add("saved to '%s'", left_filename);
+
+                String right_filename = "right_RevImuConfig.json";
+                File file2 = AppUtil.getInstance().getSettingsFile(right_filename);
+                ReadWriteFile.writeFile(file2, right_calibrationData.serialize());
+                telemetry.log().add("saved to '%s'", right_filename);
 
                 // Wait for the button to be released
                 while (gamepad1.a) {
@@ -184,19 +192,19 @@ public class SensorBNO055IMUCalibration extends LinearOpMode
                 // Acquiring the angles is relatively expensive; we don't want
                 // to do that in each of the three items that need that info, as that's
                 // three times the necessary expense.
-                angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+                angles   = imu_left.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
                 }
             });
 
         telemetry.addLine()
             .addData("status", new Func<String>() {
                 @Override public String value() {
-                    return imu.getSystemStatus().toShortString();
+                    return imu_left.getSystemStatus().toShortString();
                     }
                 })
             .addData("calib", new Func<String>() {
                 @Override public String value() {
-                    return imu.getCalibrationStatus().toString();
+                    return imu_left.getCalibrationStatus().toString();
                     }
                 });
 
