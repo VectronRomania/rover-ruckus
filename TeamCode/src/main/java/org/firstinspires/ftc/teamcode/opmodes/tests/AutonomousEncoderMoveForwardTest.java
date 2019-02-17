@@ -20,7 +20,7 @@ public class AutonomousEncoderMoveForwardTest extends AutonomousStandard {
 
     @Override
     public void initialize() {
-        drivetrain = new AutonomousDrivetrain(robot, WheelBase.MECANUM);
+        drivetrain = new AutonomousDrivetrain(WheelBase.MECANUM);
         drivetrain.init();
 
         motorEncoderCheckable = new DrivetrainEncoderCheckableGroup(

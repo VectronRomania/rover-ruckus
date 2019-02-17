@@ -15,14 +15,14 @@ public class Blue1 extends AutonomousStandard {
 
     @Override
     protected void initialize() {
-        drivetrain = new AutonomousDrivetrain(robot, WheelBase.MECANUM);
+        drivetrain = new AutonomousDrivetrain(WheelBase.MECANUM);
         mineralDetection = new BackgroundTask(
                 new MineralDetectionBackgroundRunnable(hardwareMap),
                 "detector",
                 BackgroundTask.Type.LOOP
         );
         mineralDetection.runInitialize();
-        lift = new Lift(robot);
+        lift = new Lift();
         lift.init();
     }
 

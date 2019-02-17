@@ -12,22 +12,21 @@ import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.human_contro
 /**
  * A HumanControlledDrivetrain is a drivetrain that is controlled by a human, with a gamepad
  */
-public class HumanControlledDrivetrain extends Controller implements HumanController {
+public class HumanControlledDrivetrain {
 
     private HumanController controller;
 
-    public HumanControlledDrivetrain(Robot robot, WheelBase wheelBase) {
-        super(robot);
+    public HumanControlledDrivetrain(WheelBase wheelBase) {
 
         switch (wheelBase) {
             case MECANUM:
-                this.controller = new MecanumController(super.robot);
+                this.controller = new MecanumController();
                 break;
             case OMNI:
-                this.controller = new OmniController(super.robot);
+                this.controller = new OmniController();
                 break;
             case TANK:
-                this.controller = new TankController(super.robot);
+                this.controller = new TankController();
                 break;
         }
     }
@@ -35,7 +34,6 @@ public class HumanControlledDrivetrain extends Controller implements HumanContro
     /**
      * Initialize the drivetrain.
      */
-    @Override
     public void init() {
         controller.init();
     }
@@ -44,7 +42,6 @@ public class HumanControlledDrivetrain extends Controller implements HumanContro
      * Control the drivetrain with a gamepad.
      * @param gamepad
      */
-    @Override
     public void drive(Gamepad gamepad) {
         controller.drive(gamepad);
     }

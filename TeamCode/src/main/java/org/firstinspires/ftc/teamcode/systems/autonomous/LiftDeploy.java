@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.systems.autonomous;
 
 import android.util.Pair;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
+
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.systems.Lift;
@@ -64,7 +66,7 @@ public class LiftDeploy {
 
         @Override
         protected void initialize() {
-            lift.switchToRunToPosition();
+            Robot.Lift.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
             this.telemetryItem = new TelemetryItem<Boolean>("Lift pulling down status") {
                 @Override
                 public void update() {
@@ -94,7 +96,7 @@ public class LiftDeploy {
      * Stage one of deployment moves the robot down based on the distance sensors' readings.
      */
     public void stageOne() {
-        lift.switchToRunUsingEncoder();
+        Robot.Lift.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lift.move(Lift.Direction.DOWN, 0.75);
     }
 
@@ -102,7 +104,7 @@ public class LiftDeploy {
      * Stage two of deployment completes the touchdown process using predefined encoder ticks.
      */
     public void stageTwo() {
-        lift.switchToRunToPosition();
+        Robot.Lift.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
         lift.move(Lift.Direction.DOWN, Robot.ENCODER_TICKS_PER_FULL_ROTATION, 0.75);
     }
 
@@ -110,7 +112,7 @@ public class LiftDeploy {
      * Stage three deployment unlatches the robot from the lander.
      */
     public void stageThree() {
-        lift.switchToRunToPosition();
+        Robot.Lift.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
         lift.move(Lift.Direction.UP, Robot.ENCODER_TICKS_PER_FULL_ROTATION * 3/2, 0.75);
         // TODO: 31/01/2019 write unlatching
     }
