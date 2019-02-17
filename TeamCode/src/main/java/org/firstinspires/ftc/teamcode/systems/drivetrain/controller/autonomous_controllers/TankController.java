@@ -4,10 +4,8 @@ import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.AutonomousController;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.Controller;
 
-public final class TankController extends Controller implements AutonomousController {
-    public TankController(Robot robot) {
-        super(robot);
-    }
+public final class TankController implements AutonomousController {
+    public TankController() {}
 
     @Override
     public void init() {
@@ -15,7 +13,7 @@ public final class TankController extends Controller implements AutonomousContro
     }
 
     @Override
-    public void move(Direction direction, Integer ticks, Double power) {
+    public void move(Controller.Direction direction, Integer ticks, Double power) {
 
     }
 }

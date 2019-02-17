@@ -11,10 +11,10 @@ import org.firstinspires.ftc.teamcode.systems.telemetry.TelemetryManager;
  */
 public abstract class AutonomousStandard extends LinearOpMode {
 
-    /**
-     * The hardware.
-     */
-    protected Robot robot;
+//    /**
+//     * The hardware.
+//     */
+//    protected Robot robot;
 
     /**
      * The drivetrain.
@@ -29,7 +29,7 @@ public abstract class AutonomousStandard extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        robot = Robot.build(hardwareMap);
+        Robot.build(hardwareMap);
         telemetryManager = new TelemetryManager(telemetry);
 
         initialize();

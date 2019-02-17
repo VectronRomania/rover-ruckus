@@ -5,10 +5,6 @@ package org.firstinspires.ftc.teamcode.systems.drivetrain.controller;
  * autonomously, no matter what wheel base it has
  */
 public interface AutonomousController {
-    /**
-     * Brake the drivetrain(without changing the target position).
-     */
-    void brake();
 
     /**
      * Initialize the drivetrain.
@@ -22,14 +18,4 @@ public interface AutonomousController {
      * @param power
      */
     void move(Controller.Direction direction, Integer ticks, Double power);
-
-    /**
-     * Resume robot movement(use after braking).
-     */
-    void resume();
-
-    /**
-     * Bring the robot to a full stop.
-     */
-    void stop();
 }

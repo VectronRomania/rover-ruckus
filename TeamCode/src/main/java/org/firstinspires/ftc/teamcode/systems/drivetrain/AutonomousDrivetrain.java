@@ -10,21 +10,20 @@ import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.autonomous_c
 /**
  * An AutonomousDrivetrain is a drivetrain that is controlled autonomously, through the use of special methods
  */
-public class AutonomousDrivetrain extends Controller implements AutonomousController {
+public class AutonomousDrivetrain extends Controller {
 
     private AutonomousController controller;
 
-    public AutonomousDrivetrain(Robot robot, WheelBase wheelBase) {
-        super(robot);
+    public AutonomousDrivetrain(WheelBase wheelBase) {
         switch (wheelBase) {
             case MECANUM:
-                this.controller = new MecanumController(robot);
+                this.controller = new MecanumController();
                 break;
             case OMNI:
-                this.controller = new OmniController(robot);
+                this.controller = new OmniController();
                 break;
             case TANK:
-                this.controller = new TankController(robot);
+                this.controller = new TankController();
                 break;
         }
     }
@@ -32,7 +31,6 @@ public class AutonomousDrivetrain extends Controller implements AutonomousContro
     /**
      * Initialize the drivetrain.
      */
-    @Override
     public void init() {
         controller.init();
     }
@@ -43,7 +41,6 @@ public class AutonomousDrivetrain extends Controller implements AutonomousContro
      * @param ticks
      * @param power
      */
-    @Override
     public void move(Direction direction, Integer ticks, Double power) {
         controller.move(direction, ticks, power);
     }

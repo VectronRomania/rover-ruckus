@@ -16,20 +16,18 @@ public final class MecanumController extends Controller implements HumanControll
 
     private Double powerLevel = 1.0;
 
-    public MecanumController(Robot robot) {
-        super(robot);
-    }
+    public MecanumController() {}
 
     @Override
     public void init() {
 
-        super.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        Robot.Drivetrain.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        super.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Robot.Drivetrain.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        super.setDirection(DcMotorSimple.Direction.FORWARD);
+        Robot.Drivetrain.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        super.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.FLOAT);
+        Robot.Drivetrain.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.FLOAT);
     }
 
     @Override
@@ -45,18 +43,18 @@ public final class MecanumController extends Controller implements HumanControll
             powerLevel = 0.25;
 
         if (gamepad.right_stick_x != 0) {
-            super.setPower(powerLevel * gamepad.right_stick_x);
+            Robot.Drivetrain.setPower(powerLevel * gamepad.right_stick_x);
             return;
         }
 
         if (gamepad.left_stick_x != 0 || gamepad.left_stick_y != 0) {
             Double x = gamepad.left_stick_x * powerLevel;
             Double y = -gamepad.left_stick_y * powerLevel;
-            super.setPower(
-                    -y -x,
+            Robot.Drivetrain.setPower(
+                    -y +x,
                     y +x,
                     y -x,
-                    -y +x
+                    -y -x
                     );
             return;
         }

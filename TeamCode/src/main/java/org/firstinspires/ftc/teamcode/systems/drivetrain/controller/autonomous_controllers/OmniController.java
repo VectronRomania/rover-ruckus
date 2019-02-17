@@ -5,9 +5,7 @@ import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.AutonomousCo
 import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.Controller;
 
 public final class OmniController extends Controller implements AutonomousController {
-    public OmniController(Robot robot) {
-        super(robot);
-    }
+    public OmniController() {}
 
     @Override
     public void init() {

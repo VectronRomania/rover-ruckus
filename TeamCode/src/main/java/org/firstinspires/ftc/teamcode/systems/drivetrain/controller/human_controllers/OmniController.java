@@ -7,9 +7,7 @@ import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.Controller;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.HumanController;
 
 public final class OmniController extends Controller implements HumanController {
-    public OmniController(Robot robot) {
-        super(robot);
-    }
+    public OmniController() {}
 
     @Override
     public void init() {
