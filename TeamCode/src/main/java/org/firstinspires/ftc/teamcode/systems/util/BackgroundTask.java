@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.systems.telemetry.TelemetryItem;
 /**
  * Class for managing background tasks.
  */
-public class BackgroundTask extends Thread {
+public class BackgroundTask<T> extends Thread {
 
     /**
      * The task type.
@@ -30,7 +30,7 @@ public class BackgroundTask extends Thread {
     /**
      * The runnable of the task.
      */
-    private volatile BackgroundTaskRunnable runnable;
+    private volatile BackgroundTaskRunnable<T> runnable;
 
     /**
      * The type of the task/
@@ -53,7 +53,7 @@ public class BackgroundTask extends Thread {
      * @param name the task name
      * @param taskType the task type
      */
-    public BackgroundTask(@NonNull final BackgroundTaskRunnable runnable, @NonNull final String name, @NonNull final Type taskType) {
+    public BackgroundTask(@NonNull final BackgroundTaskRunnable<T> runnable, @NonNull final String name, @NonNull final Type taskType) {
         this.runnable = runnable;
         this.taskName = name;
         this.taskType = taskType;
@@ -71,11 +71,11 @@ public class BackgroundTask extends Thread {
      * @param name the task name.
      */
     public BackgroundTask(@NonNull final Checkable checkable, @NonNull final String name) {
-        this.runnable = new BackgroundTaskRunnable<Boolean>() {
+        this.runnable = new BackgroundTaskRunnable<T>() {
             @Override
             public void run() {
-                result = checkable.check();
-                telemetryItem.set(checkable.check());
+                result = (T) checkable.check();
+                telemetryItem.set((T) checkable.check());
             }
 
             @Override
@@ -122,14 +122,15 @@ public class BackgroundTask extends Thread {
      */
     public synchronized void stopTask() {
         isStopRequested = true;
-        synchronized (this) {
-            try {
-                wait(250);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+//        synchronized (this) {
+//            try {
+//                wait(50);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
         this.runnable.stop();
+//        this.interrupt(); // TODO: 25/02/2019 better?
     }
 
     /**
@@ -147,5 +148,9 @@ public class BackgroundTask extends Thread {
     public synchronized void runInitialize() {
         runnable.initialize();
         isInitialized = true;
+    }
+
+    public T getResult() {
+        return runnable.getResult();
     }
 }

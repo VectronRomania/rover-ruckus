@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.systems.telemetry.items;
 import org.firstinspires.ftc.teamcode.systems.telemetry.TelemetryItem;
 import org.firstinspires.ftc.teamcode.systems.util.Checkable;
 
-public class CheckableTelemetryItem extends TelemetryItem<Boolean> {
+public final class CheckableTelemetryItem extends TelemetryItem<Boolean> {
 
     private final Checkable checkable;
 

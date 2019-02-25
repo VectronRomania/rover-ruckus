@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.AutonomousController;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.Controller;
+import org.firstinspires.ftc.teamcode.systems.util.checkables.DrivetrainCheckableGroup;
+import org.firstinspires.ftc.teamcode.systems.util.checkables.MotorEncoderCheckable;
 
 public final class MecanumController extends Controller implements AutonomousController {
 
@@ -20,63 +22,82 @@ public final class MecanumController extends Controller implements AutonomousCon
     }
 
     @Override
-    public void move(Direction direction, Integer ticks, Double power) {
+    public DrivetrainCheckableGroup move(Direction direction, Integer ticks, Double power) {
+
+        int a = 0, b = 0, c = 0, d = 0;
+
         switch (direction) {
             case N:
-                Robot.Drivetrain.setTargetPosition(
-                        Robot.Drivetrain.left_front.getCurrentPosition()    - ticks, Robot.Drivetrain.right_front.getCurrentPosition()  + ticks,
-                        Robot.Drivetrain.left_back.getCurrentPosition()     - ticks, Robot.Drivetrain.right_back.getCurrentPosition()   + ticks
-                );
+                a = Robot.Drivetrain.left_front.getCurrentPosition() - ticks;
+                b = Robot.Drivetrain.right_front.getCurrentPosition() + ticks;
+                c = Robot.Drivetrain.right_back.getCurrentPosition() + ticks;
+                d = Robot.Drivetrain.left_back.getCurrentPosition() - ticks;
                 break;
             case NE:
-                Robot.Drivetrain.setTargetPosition(
-                        Robot.Drivetrain.left_front.getCurrentPosition()    - ticks, Robot.Drivetrain.right_front.getCurrentPosition(),
-                        Robot.Drivetrain.left_back.getCurrentPosition(),                Robot.Drivetrain.right_back.getCurrentPosition()   + ticks
-                );
+                a = Robot.Drivetrain.left_front.getCurrentPosition() - ticks;
+                b = Robot.Drivetrain.right_front.getCurrentPosition();
+                c = Robot.Drivetrain.right_back.getCurrentPosition() + ticks;
+                d = Robot.Drivetrain.left_back.getCurrentPosition();
                 break;
             case E:
-                Robot.Drivetrain.setTargetPosition(
-                        Robot.Drivetrain.left_front.getCurrentPosition()    - ticks, Robot.Drivetrain.right_front.getCurrentPosition()  - ticks,
-                        Robot.Drivetrain.left_back.getCurrentPosition()     + ticks, Robot.Drivetrain.right_back.getCurrentPosition()   + ticks
-                );
+                a = Robot.Drivetrain.left_front.getCurrentPosition() - ticks;
+                b = Robot.Drivetrain.right_front.getCurrentPosition() - ticks;
+                c = Robot.Drivetrain.right_back.getCurrentPosition() - ticks;
+                d = Robot.Drivetrain.left_back.getCurrentPosition() - ticks;
                 break;
             case SE:
-                Robot.Drivetrain.setTargetPosition(
-                        Robot.Drivetrain.left_front.getCurrentPosition(),               Robot.Drivetrain.right_front.getCurrentPosition()  - ticks,
-                        Robot.Drivetrain.left_back.getCurrentPosition()     + ticks, Robot.Drivetrain.right_back.getCurrentPosition()
-                );
+                a = Robot.Drivetrain.left_front.getCurrentPosition();
+                b = Robot.Drivetrain.right_front.getCurrentPosition() - ticks;
+                c = Robot.Drivetrain.right_back.getCurrentPosition();
+                d = Robot.Drivetrain.left_back.getCurrentPosition() + ticks;
                 break;
             case S:
-                Robot.Drivetrain.setTargetPosition(
-                        Robot.Drivetrain.left_front.getCurrentPosition()    + ticks, Robot.Drivetrain.right_front.getCurrentPosition()  - ticks,
-                        Robot.Drivetrain.left_back.getCurrentPosition()     + ticks, Robot.Drivetrain.right_back.getCurrentPosition()   - ticks
-                );
+                a = Robot.Drivetrain.left_front.getCurrentPosition() + ticks;
+                b = Robot.Drivetrain.right_front.getCurrentPosition() - ticks;
+                c = Robot.Drivetrain.right_back.getCurrentPosition() - ticks;
+                d = Robot.Drivetrain.left_back.getCurrentPosition() + ticks;
                 break;
             case SW:
-                Robot.Drivetrain.setTargetPosition(
-                        Robot.Drivetrain.left_front.getCurrentPosition()    + ticks, Robot.Drivetrain.right_front.getCurrentPosition(),
-                        Robot.Drivetrain.left_back.getCurrentPosition(),                Robot.Drivetrain.right_back.getCurrentPosition()   - ticks
-                );
+                a = Robot.Drivetrain.left_front.getCurrentPosition() + ticks;
+                b = Robot.Drivetrain.right_front.getCurrentPosition();
+                c = Robot.Drivetrain.right_back.getCurrentPosition() - ticks;
+                d = Robot.Drivetrain.left_back.getCurrentPosition();
                 break;
             case W:
-                Robot.Drivetrain.setTargetPosition(
-                        Robot.Drivetrain.left_front.getCurrentPosition()    + ticks, Robot.Drivetrain.right_front.getCurrentPosition()  + ticks,
-                        Robot.Drivetrain.left_back.getCurrentPosition()     - ticks, Robot.Drivetrain.right_back.getCurrentPosition()   - ticks
-                );
+                a = Robot.Drivetrain.left_front.getCurrentPosition() + ticks;
+                b = Robot.Drivetrain.right_front.getCurrentPosition() + ticks;
+                c = Robot.Drivetrain.right_back.getCurrentPosition() - ticks;
+                d = Robot.Drivetrain.left_back.getCurrentPosition() - ticks;
                 break;
             case NW:
-                Robot.Drivetrain.setTargetPosition(
-                        Robot.Drivetrain.left_front.getCurrentPosition()    - ticks, Robot.Drivetrain.right_front.getCurrentPosition(),
-                        Robot.Drivetrain.left_back.getCurrentPosition(),                Robot.Drivetrain.right_back.getCurrentPosition()   + ticks
-                );
+                a = Robot.Drivetrain.left_front.getCurrentPosition() - ticks;
+                b = Robot.Drivetrain.right_front.getCurrentPosition();
+                c = Robot.Drivetrain.right_back.getCurrentPosition() + ticks;
+                d = Robot.Drivetrain.left_back.getCurrentPosition();
                 break;
             case ROTATE_LEFT:
+                a = Robot.Drivetrain.left_front.getCurrentPosition() + ticks;
+                b = Robot.Drivetrain.right_front.getCurrentPosition() + ticks;
+                c = Robot.Drivetrain.right_back.getCurrentPosition() + ticks;
+                d = Robot.Drivetrain.left_back.getCurrentPosition() + ticks;
                 Robot.Drivetrain.setTargetPosition(ticks);
                 break;
             case ROTATE_RIGHT:
-                Robot.Drivetrain.setTargetPosition(-ticks);
+                a = Robot.Drivetrain.left_front.getCurrentPosition() - ticks;
+                b = Robot.Drivetrain.right_front.getCurrentPosition() - ticks;
+                c = Robot.Drivetrain.right_back.getCurrentPosition() - ticks;
+                d = Robot.Drivetrain.left_back.getCurrentPosition() - ticks;
                 break;
         }
+
+        Robot.Drivetrain.setTargetPosition(a, b, c, d);
         Robot.Drivetrain.setPower(power);
+
+        return new DrivetrainCheckableGroup(
+                new MotorEncoderCheckable(Robot.Drivetrain.left_front, a, 10),
+                new MotorEncoderCheckable(Robot.Drivetrain.right_front, b, 10),
+                new MotorEncoderCheckable(Robot.Drivetrain.right_back, c, 10),
+                new MotorEncoderCheckable(Robot.Drivetrain.left_back, d, 10)
+        );
     }
 }

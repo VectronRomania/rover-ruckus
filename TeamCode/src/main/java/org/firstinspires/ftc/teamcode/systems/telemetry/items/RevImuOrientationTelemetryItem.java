@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.systems.telemetry.items;
 import org.firstinspires.ftc.teamcode.hardware.REVImu;
 import org.firstinspires.ftc.teamcode.systems.telemetry.TelemetryItem;
 
-public class RevImuOrientationTelemetryItem extends TelemetryItem<String> {
+public final class RevImuOrientationTelemetryItem extends TelemetryItem<String> {
 
     private REVImu imu;
 

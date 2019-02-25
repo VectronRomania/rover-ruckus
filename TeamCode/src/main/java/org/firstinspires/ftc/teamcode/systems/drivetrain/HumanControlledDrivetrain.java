@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.systems.drivetrain;
 
+import android.support.annotation.NonNull;
+
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.hardware.Robot;
@@ -16,7 +18,7 @@ public class HumanControlledDrivetrain {
 
     private HumanController controller;
 
-    public HumanControlledDrivetrain(WheelBase wheelBase) {
+    public HumanControlledDrivetrain(@NonNull WheelBase wheelBase) {
 
         switch (wheelBase) {
             case MECANUM:
@@ -42,7 +44,7 @@ public class HumanControlledDrivetrain {
      * Control the drivetrain with a gamepad.
      * @param gamepad
      */
-    public void drive(Gamepad gamepad) {
+    public void drive(@NonNull Gamepad gamepad) {
         controller.drive(gamepad);
     }
 

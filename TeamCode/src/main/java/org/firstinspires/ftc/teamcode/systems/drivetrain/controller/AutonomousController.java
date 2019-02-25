@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.systems.drivetrain.controller;
 
+import org.firstinspires.ftc.teamcode.systems.util.checkables.DrivetrainCheckableGroup;
+
 /**
  * An AutonomousController is an interface that specifies how the drivetrain would be controlled
  * autonomously, no matter what wheel base it has
@@ -17,5 +19,5 @@ public interface AutonomousController {
      * @param ticks
      * @param power
      */
-    void move(Controller.Direction direction, Integer ticks, Double power);
+    DrivetrainCheckableGroup move(Controller.Direction direction, Integer ticks, Double power);
 }

@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.systems.drivetrain;
 
-import org.firstinspires.ftc.teamcode.hardware.Robot;
+import android.support.annotation.NonNull;
+
 import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.AutonomousController;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.Controller;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.autonomous_controllers.MecanumController;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.autonomous_controllers.OmniController;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.autonomous_controllers.TankController;
+import org.firstinspires.ftc.teamcode.systems.util.checkables.DrivetrainCheckableGroup;
 
 /**
  * An AutonomousDrivetrain is a drivetrain that is controlled autonomously, through the use of special methods
@@ -14,7 +16,7 @@ public class AutonomousDrivetrain extends Controller {
 
     private AutonomousController controller;
 
-    public AutonomousDrivetrain(WheelBase wheelBase) {
+    public AutonomousDrivetrain(@NonNull WheelBase wheelBase) {
         switch (wheelBase) {
             case MECANUM:
                 this.controller = new MecanumController();
@@ -41,8 +43,9 @@ public class AutonomousDrivetrain extends Controller {
      * @param ticks
      * @param power
      */
-    public void move(Direction direction, Integer ticks, Double power) {
-        controller.move(direction, ticks, power);
+    @NonNull
+    public DrivetrainCheckableGroup move(@NonNull Direction direction, @NonNull Integer ticks, @NonNull Double power) {
+        return controller.move(direction, ticks, power);
     }
 }
 

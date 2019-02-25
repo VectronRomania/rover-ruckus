@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode.systems.drivetrain.controller.autonomous_controllers;
 
-import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.AutonomousController;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.Controller;
+import org.firstinspires.ftc.teamcode.systems.util.checkables.DrivetrainCheckableGroup;
 
 public final class OmniController extends Controller implements AutonomousController {
     public OmniController() {}
@@ -13,7 +13,7 @@ public final class OmniController extends Controller implements AutonomousContro
     }
 
     @Override
-    public void move(Direction direction, Integer ticks, Double power) {
-
+    public DrivetrainCheckableGroup move(Direction direction, Integer ticks, Double power) {
+        return null;
     }
 }

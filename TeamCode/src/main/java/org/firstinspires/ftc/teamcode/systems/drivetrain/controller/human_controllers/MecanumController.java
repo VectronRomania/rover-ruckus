@@ -43,7 +43,7 @@ public final class MecanumController extends Controller implements HumanControll
             powerLevel = 0.25;
 
         if (gamepad.right_stick_x != 0) {
-            Robot.Drivetrain.setPower(powerLevel * gamepad.right_stick_x);
+            Robot.Drivetrain.setPower(powerLevel * -gamepad.right_stick_x);
             return;
         }
 
@@ -51,10 +51,10 @@ public final class MecanumController extends Controller implements HumanControll
             Double x = gamepad.left_stick_x * powerLevel;
             Double y = -gamepad.left_stick_y * powerLevel;
             Robot.Drivetrain.setPower(
-                    -y +x,
-                    y +x,
+                    -y -x,
                     y -x,
-                    -y -x
+                    y +x,
+                    -y +x
                     );
             return;
         }

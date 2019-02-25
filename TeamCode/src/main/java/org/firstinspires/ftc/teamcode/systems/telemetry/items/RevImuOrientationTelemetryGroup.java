@@ -4,7 +4,7 @@ import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.systems.telemetry.TelemetryGroup;
 import org.firstinspires.ftc.teamcode.systems.telemetry.TelemetryItem;
 
-public class RevImuOrientationTelemetryGroup extends TelemetryGroup<String> {
+public final class RevImuOrientationTelemetryGroup extends TelemetryGroup<String> {
 
     public RevImuOrientationTelemetryGroup(String tag) {
         super(tag);
