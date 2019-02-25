@@ -8,11 +8,6 @@ import org.firstinspires.ftc.teamcode.systems.telemetry.TelemetryItem;
 public abstract class BackgroundTaskRunnable<T> implements Runnable {
 
     /**
-     * Is stop requested?
-     */
-    protected volatile Boolean isStopRequested = false;
-
-    /**
      * The status of the runnable.
      */
     protected volatile Boolean finished = false;
@@ -28,20 +23,13 @@ public abstract class BackgroundTaskRunnable<T> implements Runnable {
     protected volatile T result = null;
 
     /**
-     * Stop this runnable.
-     */
-    synchronized void stop() {
-        isStopRequested = true;
-    }
-
-    /**
      * Wait
-     * @param milis milliseconds
+     * @param millis milliseconds
      * @throws InterruptedException
      */
-    protected synchronized void sleep(long milis) throws InterruptedException {
+    protected synchronized void sleep(long millis) throws InterruptedException {
         synchronized (this) {
-            wait(milis);
+            wait(millis);
         }
     }
 

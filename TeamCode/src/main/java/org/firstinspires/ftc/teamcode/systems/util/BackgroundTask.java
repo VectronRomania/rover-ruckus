@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.systems.util;
 
 import android.support.annotation.NonNull;
 
+import org.firstinspires.ftc.teamcode.systems.telemetry.TelemetryGroup;
 import org.firstinspires.ftc.teamcode.systems.telemetry.TelemetryItem;
 
 /**
@@ -57,7 +58,7 @@ public class BackgroundTask<T> extends Thread {
         this.runnable = runnable;
         this.taskName = name;
         this.taskType = taskType;
-        this.statusTelemetryItem = new TelemetryItem<Boolean>(taskName) {
+        this.statusTelemetryItem = new TelemetryItem<Boolean>("Status") {
             @Override
             public void update() {
                 set(!isAlive());
@@ -94,11 +95,17 @@ public class BackgroundTask<T> extends Thread {
         };
     }
 
+    /**
+     * Start the background task.
+     */
     @Override
     public synchronized void start() {
         super.start();
     }
 
+    /**
+     * Run the background task.
+     */
     @Override
     public synchronized void run() {
         if (!isInitialized)
@@ -121,16 +128,14 @@ public class BackgroundTask<T> extends Thread {
      * Stop the task.
      */
     public synchronized void stopTask() {
-        isStopRequested = true;
-//        synchronized (this) {
-//            try {
-//                wait(50);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
-        this.runnable.stop();
-//        this.interrupt(); // TODO: 25/02/2019 better?
+        synchronized (this) {
+            try {
+                wait(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        this.interrupt();
     }
 
     /**
@@ -141,15 +146,30 @@ public class BackgroundTask<T> extends Thread {
         return statusTelemetryItem;
     }
 
-    public synchronized TelemetryItem getRunnableTelemetryItem() {
+    /**
+     * Get the runnable telemetry item.
+     * @return
+     */
+    public synchronized TelemetryItem<T> getRunnableTelemetryItem() {
         return runnable.getTelemetryItem();
     }
 
+    public synchronized TelemetryItem<T> getFormattedTelemetry() {
+        return new TelemetryGroup<T>(taskName){}.add(getStatusTelemetryItem()).add(getRunnableTelemetryItem());
+    }
+
+    /**
+     * Run the initialize method prematurely.
+     */
     public synchronized void runInitialize() {
         runnable.initialize();
         isInitialized = true;
     }
 
+    /**
+     * Get the result of the runnable.
+     * @return
+     */
     public T getResult() {
         return runnable.getResult();
     }
