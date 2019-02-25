@@ -14,6 +14,8 @@ import org.firstinspires.ftc.teamcode.systems.opmode.TeleOpStandard;
 import org.firstinspires.ftc.teamcode.systems.telemetry.TelemetryGroup;
 import org.firstinspires.ftc.teamcode.systems.telemetry.TelemetryItem;
 import org.firstinspires.ftc.teamcode.systems.telemetry.items.RevImuOrientationTelemetryGroup;
+import org.firstinspires.ftc.teamcode.systems.util.BackgroundTask;
+import org.firstinspires.ftc.teamcode.systems.util.BackgroundTaskRunnable;
 
 @TeleOp(name="TeleOpMode", group="teleop")
 public class TeleOpMode extends TeleOpStandard {
@@ -23,6 +25,9 @@ public class TeleOpMode extends TeleOpStandard {
     Collector collector;
     Scoop scoop;
 
+    BackgroundTask<Double> heightChecking;
+    BackgroundTask<String> imuChecking;
+
     @Override
     public void initialize() {
         drivetrain = new HumanControlledDrivetrain(WheelBase.MECANUM);
@@ -31,22 +36,47 @@ public class TeleOpMode extends TeleOpStandard {
 //        collector = new Collector();
 //        scoop = new Scoop();
 
-        TelemetryGroup height = new TelemetryGroup("Distance"){};
-        height.add(new TelemetryItem<Double>("Left") {
+        heightChecking = new BackgroundTask<>(new BackgroundTaskRunnable<Double>() {
             @Override
-            public void update() {
-                super.set(Robot.Lift.distance_left.getDistance(DistanceUnit.MM));
+            protected void initialize() {
+                this.telemetryItem = new TelemetryGroup<Double>("height readings") {}
+                        .add(new TelemetryItem<Double>("Left") {
+                            @Override
+                            public void update() {
+                                super.set(Robot.Lift.distance_left.getDistance(DistanceUnit.MM));
+                            }
+                        })
+                        .add(new TelemetryItem<Double>("Right") {
+                            @Override
+                            public void update() {
+                                super.set(Robot.Lift.distance_right.getDistance(DistanceUnit.MM));
+                            }
+                        });
             }
-        });
-        height.add(new TelemetryItem<Double>("Right") {
-            @Override
-            public void update() {
-                super.set(Robot.Lift.distance_right.getDistance(DistanceUnit.MM));
-            }
-        });
-        telemetryManager.add(height);
 
-        telemetryManager.add(new RevImuOrientationTelemetryGroup("IMU Readings"));
+            @Override
+            protected void shutdown() {}
+
+            @Override
+            public void run() {}
+        }, "Height checking", BackgroundTask.Type.LOOP);
+        heightChecking.start();
+        telemetryManager.add(heightChecking.getRunnableTelemetryItem());
+
+        imuChecking = new BackgroundTask<>(new BackgroundTaskRunnable<String>() {
+            @Override
+            protected void initialize() {
+                this.telemetryItem = new RevImuOrientationTelemetryGroup("imu readings");
+            }
+
+            @Override
+            protected void shutdown() {}
+
+            @Override
+            public void run() {}
+        }, "IMU Checking", BackgroundTask.Type.LOOP);
+        imuChecking.start();
+        telemetryManager.add(imuChecking.getRunnableTelemetryItem());
     }
 
     @Override
@@ -55,5 +85,10 @@ public class TeleOpMode extends TeleOpStandard {
         lift.manual(gamepad1);
         extender.manual(gamepad2);
 //        collector.manual(gamepad2);
+        if (!opModeIsActive()) {
+            heightChecking.stopTask();
+            imuChecking.stopTask();
+            idle();
+        }
     }
 }
