@@ -132,10 +132,10 @@ public class SensorBNO055IMUCalibration extends LinearOpMode
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.loggingEnabled = true;
         parameters.loggingTag     = "IMU";
-        imu_left = hardwareMap.get(BNO055IMU.class, "imu_left");
+        imu_left = hardwareMap.get(BNO055IMU.class, "left_imu");
         imu_left.initialize(parameters);
 
-        imu_right = hardwareMap.get(BNO055IMU.class, "imu_right");
+        imu_right = hardwareMap.get(BNO055IMU.class, "right_imu");
         imu_right.initialize(parameters);
 
         composeTelemetry();
