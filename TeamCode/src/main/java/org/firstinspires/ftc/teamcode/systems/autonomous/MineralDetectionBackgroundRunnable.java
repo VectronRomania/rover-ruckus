@@ -31,11 +31,10 @@ public class MineralDetectionBackgroundRunnable extends BackgroundTaskRunnable<I
         super.telemetryItem = new TelemetryItem<Integer>("Gold position") {
             @Override
             public void update() {
-                        this.set(result);
+                this.set(result);
             }
         };
     }
-
 
     @Override
     protected void shutdown() {
@@ -77,7 +76,7 @@ public class MineralDetectionBackgroundRunnable extends BackgroundTaskRunnable<I
                 if (goldMineral == -1 && silverMineral_1 != -1 && silverMineral_2 != -1) {
                     result = 0;
                     finished = true;
-//                  goldMineral <- servoLeft
+//                  goldMineral <- left
                 } else if (goldMineral < silverMineral_1 && silverMineral_2 == -1) {
                     result = 1;
                     finished = true;
@@ -85,7 +84,7 @@ public class MineralDetectionBackgroundRunnable extends BackgroundTaskRunnable<I
                 } else if (goldMineral > silverMineral_1 && silverMineral_2 == -1) {
                     result = 2;
                     finished = true;
-//                  goldMineral <- servoRight
+//                  goldMineral <- right
                 }
             }
         }

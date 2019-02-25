@@ -13,7 +13,7 @@ public class MineralDetectionTest extends AutonomousStandard {
 
     @Override
     protected void initialize() {
-        detector = new BackgroundTask(
+        detector = new BackgroundTask<>(
                 new MineralDetectionBackgroundRunnable(hardwareMap),
                 "Mineral detector",
                 BackgroundTask.Type.LOOP
@@ -29,8 +29,8 @@ public class MineralDetectionTest extends AutonomousStandard {
     protected void opModeLoop() {
         detector.start();
 
-        while (opModeIsActive() && detector.isAlive()) {
-            sleep(10);
+        while (opModeIsActive() && detector.isFinished()) {
+            idle();
             telemetryManager.cycle();
         }
 
@@ -40,7 +40,7 @@ public class MineralDetectionTest extends AutonomousStandard {
         }
 
         while (opModeIsActive()) {
-            sleep(10);
+            idle();
             telemetryManager.cycle();
         }
     }

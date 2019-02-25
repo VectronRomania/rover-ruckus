@@ -7,6 +7,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 
+/**
+ * System for controlling the collector.
+ */
 public class Collector {
 
     private boolean isCollectorMotorRunning = false;
@@ -22,6 +25,10 @@ public class Collector {
         Robot.Collector.setServoPosition(0);
     }
 
+    /**
+     * Control the collector manually.
+     * @param gamepad
+     */
     public void manual(Gamepad gamepad) {
 
 //        Servos

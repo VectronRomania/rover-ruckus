@@ -16,8 +16,7 @@ public class DrivetrainEncoderValueTest extends TeleOpStandard {
         drivetrain = new HumanControlledDrivetrain(WheelBase.MECANUM);
         drivetrain.init();
 
-        TelemetryItem item = new DrivetrainEncoderTelemetryGroup();
-        telemetryManager.add(item);
+        telemetryManager.add(new DrivetrainEncoderTelemetryGroup());
     }
 
     @Override

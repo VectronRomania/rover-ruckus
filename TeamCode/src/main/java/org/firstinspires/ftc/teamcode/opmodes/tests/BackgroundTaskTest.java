@@ -13,13 +13,11 @@ public class BackgroundTaskTest extends AutonomousStandard {
 
     @Override
     protected void initialize() {
-        testTask = new BackgroundTask(new BackgroundTaskRunnable() {
-
-            private int i;
+        testTask = new BackgroundTask<>(new BackgroundTaskRunnable<Integer>() {
 
             @Override
             protected void initialize() {
-                i = 0;
+                result = 0;
             }
 
             @Override
@@ -29,29 +27,30 @@ public class BackgroundTaskTest extends AutonomousStandard {
 
             @Override
             public void run() {
-                if (i > 100) {
+                if (result > 100) {
                     finished = true;
                     return;
                 }
-                i++;
+                result++;
                 try {
                     this.sleep(25);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
-        },"Background task test", BackgroundTask.Type.LOOP);
+        }, "Background task test", BackgroundTask.Type.LOOP);
 
         telemetryManager.add(testTask.getStatusTelemetryItem());
     }
 
     @Override
     protected void opModeLoop() {
+
         testTask.start();
 
         while (opModeIsActive() && testTask.isAlive()) {
             telemetryManager.cycle();
-            sleep(10);
+            idle();
         }
 
         if (!opModeIsActive()) {

@@ -8,13 +8,10 @@ import org.firstinspires.ftc.teamcode.systems.util.BackgroundTask;
 import org.firstinspires.ftc.teamcode.systems.util.BackgroundTaskRunnable;
 import org.firstinspires.ftc.teamcode.systems.util.Checkable;
 
+/**
+ * Container for the mineral sampling process.
+ */
 public class MineralSampler {
-
-//    public enum Position {
-//        LEFT,
-//        CENTER,
-//        RIGHT
-//    }
 
     private final AutonomousDrivetrain drivetrain;
 
@@ -22,8 +19,13 @@ public class MineralSampler {
         this.drivetrain = drivetrain;
     }
 
+    /**
+     * Return a background task for eliminating the proper mineral.
+     * @param position
+     * @return
+     */
     @NonNull
-    public BackgroundTask sample(@NonNull final int position) {
+    public BackgroundTask sample(final int position) {
         return new BackgroundTask<>(new BackgroundTaskRunnable<String>() {
             @Override
             protected void initialize() {
