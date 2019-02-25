@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.systems.telemetry.TelemetryItem;
 /**
  * Class for managing background tasks.
  */
-public class BackgroundTask<T> extends Thread {
+public final class BackgroundTask<T> extends Thread {
 
     /**
      * The task type.
@@ -58,25 +58,36 @@ public class BackgroundTask<T> extends Thread {
         this.runnable = runnable;
         this.taskName = name;
         this.taskType = taskType;
-        this.statusTelemetryItem = new TelemetryItem<Boolean>("Status") {
+        this.statusTelemetryItem = new TelemetryGroup<Boolean>(name){}.add(new TelemetryItem<Boolean>("Running") {
             @Override
             public void update() {
-                set(!isAlive());
+                this.set(isAlive());
             }
-        };
+        }).add(new TelemetryItem<Boolean>("Finished") {
+            @Override
+            public void update() {
+                this.set(isFinished());
+            }
+        });
     }
 
     /**
-     * The constructor.
-     * @param checkable the checkable that needs to be evaluated in the background.
-     * @param name the task name.
+     * Build a BackgroundTask from a Checkable.
+     * @param checkable
+     * @param name
+     * @return
      */
-    public BackgroundTask(@NonNull final Checkable checkable, @NonNull final String name) {
-        this.runnable = new BackgroundTaskRunnable<T>() {
+    public static BackgroundTask fromCheckable(@NonNull final Checkable checkable, @NonNull final String name) {
+
+        final BackgroundTask<Boolean> backgroundTask = new BackgroundTask<>(new BackgroundTaskRunnable<Boolean>() {
             @Override
             public void run() {
-                result = (T) checkable.check();
-                telemetryItem.set((T) checkable.check());
+                super.result = checkable.check();
+                super.telemetryItem.set(checkable.check());
+
+                if (super.result) {
+                    super.finished = true;
+                }
             }
 
             @Override
@@ -84,15 +95,16 @@ public class BackgroundTask<T> extends Thread {
 
             @Override
             protected void shutdown() {}
-        };
-        this.taskName = name;
-        this.taskType = Type.LOOP;
-        this.statusTelemetryItem = new TelemetryItem<Boolean>(taskName) {
+        }, name, Type.LOOP);
+
+        backgroundTask.statusTelemetryItem = new TelemetryItem<Boolean>(backgroundTask.taskName) {
             @Override
             public void update() {
-                set(!isAlive());
+                super.set(!backgroundTask.isAlive());
             }
         };
+
+        return backgroundTask;
     }
 
     /**
@@ -108,26 +120,35 @@ public class BackgroundTask<T> extends Thread {
      */
     @Override
     public synchronized void run() {
-        if (!isInitialized)
-            runnable.initialize();
+        if (!this.isInitialized)
+            this.runnable.initialize();
 
-        switch (taskType) {
+        if (this.isStopRequested)
+            return;
+
+        switch (this.taskType) {
             case LOOP:
-                while (!runnable.isFinished() && !isStopRequested) {
-                    runnable.run();
+                while (!this.runnable.isFinished() && !this.isStopRequested) {
+                    this.runnable.run();
                 }
                 break;
             case ONE_TIME:
-                runnable.run();
+                this.runnable.run();
+                if (this.isStopRequested) {
+                    return;
+                }
                 break;
         }
-        runnable.shutdown();
+        this.runnable.shutdown();
     }
 
     /**
      * Stop the task.
      */
     public synchronized void stopTask() {
+        this.isStopRequested = true;
+        this.runnable.stop();
+
         synchronized (this) {
             try {
                 wait(50);
@@ -154,10 +175,6 @@ public class BackgroundTask<T> extends Thread {
         return runnable.getTelemetryItem();
     }
 
-    public synchronized TelemetryItem<T> getFormattedTelemetry() {
-        return new TelemetryGroup<T>(taskName){}.add(getStatusTelemetryItem()).add(getRunnableTelemetryItem());
-    }
-
     /**
      * Run the initialize method prematurely.
      */
@@ -172,5 +189,13 @@ public class BackgroundTask<T> extends Thread {
      */
     public T getResult() {
         return runnable.getResult();
+    }
+
+    /**
+     * Check if the runnable finished.
+     * @return
+     */
+    public boolean isFinished() {
+        return this.runnable.isFinished();
     }
 }

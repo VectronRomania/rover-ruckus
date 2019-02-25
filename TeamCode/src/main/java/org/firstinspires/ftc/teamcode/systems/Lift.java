@@ -9,11 +9,14 @@ import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.systems.util.CheckableGroup;
 import org.firstinspires.ftc.teamcode.systems.util.checkables.MotorEncoderCheckable;
 
-
+/**
+ * System for controlling the lift.
+ */
 public class Lift {
 
-    private Double lastPower = 0.0;
-
+    /**
+     * The direction of movement of the lift.
+     */
     public enum Direction {
         UP,
         DOWN
@@ -52,25 +55,30 @@ public class Lift {
      * @param power
      */
     public CheckableGroup move(@NonNull Direction direction, @NonNull Integer ticks, @NonNull Double power) {
+
+        int left = 0;
+        int right = 0;
+
         switch (direction) {
             case UP:
-                Robot.Lift.setTargetPosition(
-                        Robot.Lift.left_lift.getCurrentPosition()   + ticks,
-                        Robot.Lift.right_lift.getCurrentPosition() - ticks
-                );
+                left = Robot.Lift.left_lift.getCurrentPosition() + ticks;
+                right = Robot.Lift.left_lift.getCurrentPosition() - ticks;
                 break;
             case DOWN:
-                Robot.Lift.setTargetPosition(
-                        Robot.Lift.left_lift.getCurrentPosition()   - ticks,
-                        Robot.Lift.right_lift.getCurrentPosition() + ticks
-                );
+                left = Robot.Lift.left_lift.getCurrentPosition() - ticks;
+                right = Robot.Lift.left_lift.getCurrentPosition() + ticks;
                 break;
         }
+        Robot.Lift.setTargetPosition(left, right);
         Robot.Lift.setPower(power);
-        CheckableGroup group = new CheckableGroup();
-        group.add(new MotorEncoderCheckable(Robot.Lift.left_lift, Robot.Lift.left_lift.getTargetPosition(), 5), CheckableGroup.Operation.AND);
-        group.add(new MotorEncoderCheckable(Robot.Lift.right_lift, Robot.Lift.right_lift.getTargetPosition(), 5), CheckableGroup.Operation.AND);
-        return group;
+
+        return new CheckableGroup()
+                .add(new MotorEncoderCheckable(
+                        Robot.Lift.left_lift,
+                        left, 5), CheckableGroup.Operation.AND)
+                .add(new MotorEncoderCheckable(
+                        Robot.Lift.right_lift,
+                        right, 5), CheckableGroup.Operation.AND);
     }
 
     /**
@@ -95,23 +103,14 @@ public class Lift {
         }
     }
 
+    /**
+     * Stop the lift entirely.
+     */
     public void stop() {
         Robot.Lift.setTargetPosition(
                 Robot.Lift.left_lift.getCurrentPosition(),
                 Robot.Lift.right_lift.getCurrentPosition()
         );
         Robot.Lift.setPower(0.0);
-    }
-
-    public void brake() {
-        lastPower = (Robot.Lift.left_lift.getPower() + Robot.Lift.right_lift.getPower()) / 2; // FIXME: 22/02/2019 not good
-
-        Robot.Lift.setPower(0.0);
-    }
-
-    public void resume() {
-        Robot.Lift.setPower(
-                lastPower, -lastPower
-        ); // FIXME: 22/02/2019 operators
     }
 }

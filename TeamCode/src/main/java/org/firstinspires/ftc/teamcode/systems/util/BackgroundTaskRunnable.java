@@ -23,7 +23,12 @@ public abstract class BackgroundTaskRunnable<T> implements Runnable {
     protected volatile T result = null;
 
     /**
-     * Wait
+     * Flag for requesting stop.
+     */
+    protected volatile Boolean isStopRequested = null;
+
+    /**
+     * Wait.
      * @param millis milliseconds
      * @throws InterruptedException
      */
@@ -32,18 +37,6 @@ public abstract class BackgroundTaskRunnable<T> implements Runnable {
             wait(millis);
         }
     }
-
-    /**
-     * Initialize the runnable.
-     * This is executed prior to run().
-     */
-    protected abstract void initialize();
-
-    /**
-     * Do any cleanup necessary after finishing.
-     * This is executed after run().
-     */
-    protected abstract void shutdown();
 
     /**
      * Check if the runnable finished.
@@ -68,4 +61,29 @@ public abstract class BackgroundTaskRunnable<T> implements Runnable {
     public T getResult() {
         return result;
     }
+
+    /**
+     * Set the appropriate flag for stopping.
+     */
+    public void stop() {
+        this.isStopRequested = true;
+    }
+
+    /**
+     * Initialize the runnable.
+     * This is executed prior to run().
+     */
+    protected abstract void initialize();
+
+    /**
+     * Do any cleanup necessary after finishing.
+     * This is executed after run().
+     */
+    protected abstract void shutdown();
+
+    /**
+     * Run the runnable.
+     */
+    @Override
+    public abstract void run();
 }

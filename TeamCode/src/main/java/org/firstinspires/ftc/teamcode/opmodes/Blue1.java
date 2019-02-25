@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
-import org.firstinspires.ftc.teamcode.hardware.REVImu;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.systems.Lift;
 import org.firstinspires.ftc.teamcode.systems.autonomous.LiftDeploy;
@@ -8,10 +7,8 @@ import org.firstinspires.ftc.teamcode.systems.autonomous.MineralDetectionBackgro
 import org.firstinspires.ftc.teamcode.systems.autonomous.MineralSampler;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.AutonomousDrivetrain;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.WheelBase;
-import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.Controller;
 import org.firstinspires.ftc.teamcode.systems.opmode.AutonomousStandard;
 import org.firstinspires.ftc.teamcode.systems.util.BackgroundTask;
-import org.firstinspires.ftc.teamcode.systems.util.Checkable;
 
 public class Blue1 extends AutonomousStandard {
 
@@ -39,7 +36,7 @@ public class Blue1 extends AutonomousStandard {
         telemetryManager.add(mineralDetector.getStatusTelemetryItem());
         telemetryManager.add(mineralDetector.getRunnableTelemetryItem());
 
-        BackgroundTask dropDownBackgroundTask = liftDeploy.dropDown();
+        BackgroundTask dropDownBackgroundTask = liftDeploy.getDeployTask();
         int liftdeploy_index1 = telemetryManager.add(dropDownBackgroundTask.getStatusTelemetryItem());
         int liftdeploy_index2 = telemetryManager.add(dropDownBackgroundTask.getRunnableTelemetryItem());
 

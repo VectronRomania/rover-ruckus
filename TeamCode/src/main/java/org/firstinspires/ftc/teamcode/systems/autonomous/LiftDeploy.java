@@ -14,8 +14,14 @@ import org.firstinspires.ftc.teamcode.systems.util.checkables.MotorEncoderChecka
 import org.firstinspires.ftc.teamcode.systems.util.BackgroundTaskRunnable;
 import org.firstinspires.ftc.teamcode.systems.util.Checkable;
 
+/**
+ * Container for the Autonomous deployment system.
+ */
 public class LiftDeploy {
 
+    /**
+     * Checkable that checks if the robot is in a certain pitch radius.
+     */
     public class RevPitchCheckable implements Checkable {
 
         final double pitch;
@@ -44,7 +50,7 @@ public class LiftDeploy {
     }
 
     /**
-     * Checkable for checking the height reported by the distance sensors
+     * Checkable for checking the height reported by the distance sensors.
      */
     public class LiftHeightCheckable implements Checkable {
 
@@ -66,7 +72,7 @@ public class LiftDeploy {
     /**
      * DrivetrainCheckableGroup for checking encoder values in the lift
      */
-    public class LiftEncoderCheckableGroup extends org.firstinspires.ftc.teamcode.systems.util.CheckableGroup {
+    public class LiftEncoderCheckableGroup extends CheckableGroup {
         public LiftEncoderCheckableGroup(Integer ticksLeft, Integer ticksRight, Integer bias) {
             items.add(
                     new Pair<Checkable, Operation>(
@@ -83,78 +89,20 @@ public class LiftDeploy {
         }
     }
 
-//    /**
-//     * BackgroundTaskRunnable for pulling down the lift after deployment
-//     */
-//    public class LiftDropDownRunnable extends BackgroundTaskRunnable<Boolean> {
-//
-//        private final Lift lift;
-//
-//        public LiftDropDownRunnable(final Lift lift) {
-//            this.lift = lift;
-//        }
-//
-//        @Override
-//        protected void initialize() {
-//            Robot.Lift.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-//            this.telemetryItem = new TelemetryItem<Boolean>("Lift pulling down status") {
-//                @Override
-//                public void update() {
-//                    set(result);
-//                }
-//            };
-//        }
-//
-//        @Override
-//        protected void shutdown() {
-//            lift.stop();
-//        }
-//
-//        @Override
-//        public void run() {
-//            lift.move(Lift.Direction.DOWN, 100, 1.0);
-//        }
-//    }
-//
-//
-//    /**
-//     * Stage one of deployment moves the robot down based on the distance sensors' readings.
-//     */
-//    public void stageOne() {
-//        Robot.Lift.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        lift.move(Lift.Direction.DOWN, 0.75);
-//    }
-//
-//    /**
-//     * Stage two of deployment completes the touchdown process using predefined encoder ticks.
-//     */
-//    public void stageTwo() {
-//        Robot.Lift.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        lift.move(Lift.Direction.DOWN, Robot.ENCODER_TICKS_40_1, 0.75);
-//    }
-//
-//    /**
-//     * Stage three deployment unlatches the robot from the lander.
-//     */
-//    public void stageThree() {
-//        Robot.Lift.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        lift.move(Lift.Direction.UP, Robot.ENCODER_TICKS_40_1 * 3/2, 0.75);
-//        // TODO: 31/01/2019 write unlatching
-//    }
-
     private final Lift lift;
-    private final REVImu imu_left;
-    private final REVImu imu_right;
     private final AutonomousDrivetrain autonomousDrivetrain;
 
-    public LiftDeploy(final Lift lift, final REVImu imu_left, final REVImu imu_right, final AutonomousDrivetrain autonomousDrivetrain) {
+    public LiftDeploy(final Lift lift,
+                      final AutonomousDrivetrain autonomousDrivetrain) {
         this.lift = lift;
-        this.imu_left = imu_left;
-        this.imu_right = imu_right;
         this.autonomousDrivetrain = autonomousDrivetrain;
     }
 
-    public BackgroundTask dropDown() {
+    /**
+     * Return a task that executes the entire deployment process.
+     * @return
+     */
+    public BackgroundTask getDeployTask() {
         return new BackgroundTask<>(new BackgroundTaskRunnable<Integer>() {
             @Override
             protected void initialize() {
@@ -165,8 +113,11 @@ public class LiftDeploy {
 
             @Override
             protected void shutdown() {
-                super.telemetryItem.set(0);
                 lift.stop();
+                if (isStopRequested) {
+                    return;
+                }
+                super.telemetryItem.set(0);
                 result = 1;
             }
 
@@ -189,7 +140,7 @@ public class LiftDeploy {
 
 //                Normalize robot pitch
                 super.telemetryItem.set(2);
-                RevPitchCheckable revPitchCheckable = new RevPitchCheckable(90, 5, imu_left, imu_right);
+                RevPitchCheckable revPitchCheckable = new RevPitchCheckable(90, 5, Robot.Sensors.left_imu, Robot.Sensors.right_imu);
                 while (!revPitchCheckable.check() && !super.isStopRequested) {
                     lift.move(Lift.Direction.DOWN, 0.1);
                     try {
