@@ -257,8 +257,8 @@ public class Robot {
 
         Lift.left_lift      = hw.get(DcMotor.class, "left_lift");
         Lift.right_lift     = hw.get(DcMotor.class, "right_lift");
-//        Lift.distance_left = hw.get(Rev2mDistanceSensor.class, "lift_distance_left");
-//        Lift.distance_right = hw.get(Rev2mDistanceSensor.class, "lift_distance_right");
+        Lift.distance_left = hw.get(Rev2mDistanceSensor.class, "lift_distance_left");
+        Lift.distance_right = hw.get(Rev2mDistanceSensor.class, "lift_distance_right");
 
         Extender.extender = hw.get(DcMotor.class, "extender");
 
