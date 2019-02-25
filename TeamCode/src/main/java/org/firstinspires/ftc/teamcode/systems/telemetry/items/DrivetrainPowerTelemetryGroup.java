@@ -8,22 +8,22 @@ public final class DrivetrainPowerTelemetryGroup extends TelemetryGroup<Double> 
     public DrivetrainPowerTelemetryGroup() {
         super("Drivetrain motor powers");
 
-        add(new DrivetrainPowerTelemetryItem(
+        add(new MotorPowerTelemetryItem(
                 "left_front",
                 Robot.Drivetrain.left_front
         ));
 
-        add(new DrivetrainPowerTelemetryItem(
+        add(new MotorPowerTelemetryItem(
                 "left_back",
                 Robot.Drivetrain.left_back
         ));
 
-        add(new DrivetrainPowerTelemetryItem(
+        add(new MotorPowerTelemetryItem(
                 "right_front",
                 Robot.Drivetrain.right_front
         ));
 
-        add(new DrivetrainPowerTelemetryItem(
+        add(new MotorPowerTelemetryItem(
                 "right_back",
                 Robot.Drivetrain.right_back
         ));

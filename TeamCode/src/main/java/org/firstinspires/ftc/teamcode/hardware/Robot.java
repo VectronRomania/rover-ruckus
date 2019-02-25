@@ -249,7 +249,6 @@ public class Robot {
     public Robot() {}
 
     public static void build(HardwareMap hw) {
-        Robot robot = new Robot();
 
         Drivetrain.left_front   = hw.get(DcMotor.class, "left_front");
         Drivetrain.right_front  = hw.get(DcMotor.class, "right_front");
@@ -276,12 +275,3 @@ public class Robot {
         Sensors.right_imu = REVImu.get(hw, "right_imu", Constants.RIGHT_IMU_CONFIG_FILE_NAME);
     }
 }
-
-
-
-
-
-
-//        Servos.phone_servo = hw.get(Servo.class, "phone_servo");
-
-//        return robot;

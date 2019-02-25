@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.AutonomousController;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.Controller;
+import org.firstinspires.ftc.teamcode.systems.util.Checkable;
 import org.firstinspires.ftc.teamcode.systems.util.checkables.DrivetrainCheckableGroup;
 import org.firstinspires.ftc.teamcode.systems.util.checkables.MotorEncoderCheckable;
 
@@ -22,9 +23,12 @@ public final class MecanumController extends Controller implements AutonomousCon
     }
 
     @Override
-    public DrivetrainCheckableGroup move(Direction direction, Integer ticks, Double power) {
+    public Checkable move(Direction direction, Integer ticks, Double power) {
 
-        int a = 0, b = 0, c = 0, d = 0;
+        int a = 0;
+        int b = 0;
+        int c = 0;
+        int d = 0;
 
         switch (direction) {
             case N:

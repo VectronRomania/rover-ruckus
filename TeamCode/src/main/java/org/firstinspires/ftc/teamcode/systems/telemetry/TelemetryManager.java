@@ -49,7 +49,7 @@ public class TelemetryManager {
      * @param item the item that needs to be added.
      * @return the index of the added item.
      */
-    public Integer add(TelemetryItem item) {
+    public int add(TelemetryItem item) {
         items.add(item);
         return items.lastIndexOf(item);
     }
@@ -85,7 +85,7 @@ public class TelemetryManager {
      * @param index the index of the item.
      * @return the item.
      */
-    public synchronized TelemetryItem get(Integer index) {
+    public synchronized TelemetryItem get(int index) {
         return items.get(index);
     }
 }

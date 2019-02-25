@@ -8,22 +8,22 @@ public final class DrivetrainEncoderTelemetryGroup extends TelemetryGroup<Intege
     public DrivetrainEncoderTelemetryGroup() {
         super("Drivetrain motor encoder values");
 
-        add(new DrivetrainEncoderTelemetryItem(
+        add(new MotorEncoderTelemetryItem(
                 "left_front",
                 Robot.Drivetrain.left_front
         ));
 
-        add(new DrivetrainEncoderTelemetryItem(
+        add(new MotorEncoderTelemetryItem(
                 "left_back",
                 Robot.Drivetrain.left_back
         ));
 
-        add(new DrivetrainEncoderTelemetryItem(
+        add(new MotorEncoderTelemetryItem(
                 "right_front",
                 Robot.Drivetrain.right_front
         ));
 
-        add(new DrivetrainEncoderTelemetryItem(
+        add(new MotorEncoderTelemetryItem(
                 "right_back",
                 Robot.Drivetrain.right_back
         ));
