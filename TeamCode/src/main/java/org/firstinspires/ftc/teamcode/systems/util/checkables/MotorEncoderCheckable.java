@@ -20,7 +20,9 @@ public class MotorEncoderCheckable implements Checkable {
 
     @Override
     public Boolean check() {
-        return motor.getCurrentPosition() > targetPosition - bias || motor.getCurrentPosition() < targetPosition + bias;
+        if (targetPosition < motor.getCurrentPosition()) {
+            return motor.getCurrentPosition() < targetPosition + bias;
+        }
+        return motor.getCurrentPosition() > targetPosition - bias;
     }
-
 }

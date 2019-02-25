@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes.tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.systems.util.background_runnables.MineralDetectionBackgroundRunnable;
+import org.firstinspires.ftc.teamcode.systems.autonomous.MineralDetectionBackgroundRunnable;
 import org.firstinspires.ftc.teamcode.systems.opmode.AutonomousStandard;
 import org.firstinspires.ftc.teamcode.systems.util.BackgroundTask;
 

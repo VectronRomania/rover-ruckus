@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.systems.util.background_runnables;
+package org.firstinspires.ftc.teamcode.systems.autonomous;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.Constants;
-import org.firstinspires.ftc.teamcode.systems.TensorFlow;
-import org.firstinspires.ftc.teamcode.systems.Vuforia;
+import org.firstinspires.ftc.teamcode.systems.ar.TensorFlow;
+import org.firstinspires.ftc.teamcode.systems.ar.Vuforia;
 import org.firstinspires.ftc.teamcode.systems.telemetry.TelemetryItem;
 import org.firstinspires.ftc.teamcode.systems.util.BackgroundTaskRunnable;
 
@@ -74,7 +74,7 @@ public class MineralDetectionBackgroundRunnable extends BackgroundTaskRunnable<I
                 if (goldMineral == -1 && silverMineral_1 != -1 && silverMineral_2 != -1) {
                     result = 0;
                     finished = true;
-//                  goldMineral <- left
+//                  goldMineral <- servoLeft
                 } else if (goldMineral < silverMineral_1 && silverMineral_2 == -1) {
                     result = 1;
                     finished = true;
@@ -82,7 +82,7 @@ public class MineralDetectionBackgroundRunnable extends BackgroundTaskRunnable<I
                 } else if (goldMineral > silverMineral_1 && silverMineral_2 == -1) {
                     result = 2;
                     finished = true;
-//                  goldMineral <- right
+//                  goldMineral <- servoRight
                 }
             }
         }
