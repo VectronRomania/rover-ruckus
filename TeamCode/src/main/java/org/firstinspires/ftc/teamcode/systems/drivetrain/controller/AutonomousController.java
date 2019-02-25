@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.systems.drivetrain.controller;
 
-import org.firstinspires.ftc.teamcode.systems.util.checkables.DrivetrainCheckableGroup;
+import org.firstinspires.ftc.teamcode.systems.util.Checkable;
 
 /**
  * An AutonomousController is an interface that specifies how the drivetrain would be controlled
@@ -19,5 +19,5 @@ public interface AutonomousController {
      * @param ticks
      * @param power
      */
-    DrivetrainCheckableGroup move(Controller.Direction direction, Integer ticks, Double power);
+    Checkable move(Controller.Direction direction, Integer ticks, Double power);
 }

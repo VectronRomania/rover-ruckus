@@ -7,6 +7,7 @@ import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.Controller;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.autonomous_controllers.MecanumController;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.autonomous_controllers.OmniController;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.autonomous_controllers.TankController;
+import org.firstinspires.ftc.teamcode.systems.util.Checkable;
 import org.firstinspires.ftc.teamcode.systems.util.checkables.DrivetrainCheckableGroup;
 
 /**
@@ -44,7 +45,7 @@ public class AutonomousDrivetrain extends Controller {
      * @param power
      */
     @NonNull
-    public DrivetrainCheckableGroup move(@NonNull Direction direction, @NonNull Integer ticks, @NonNull Double power) {
+    public Checkable move(@NonNull Direction direction, @NonNull Integer ticks, @NonNull Double power) {
         return controller.move(direction, ticks, power);
     }
 }

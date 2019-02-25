@@ -2,40 +2,20 @@ package org.firstinspires.ftc.teamcode.opmodes.tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.hardware.Robot;
-import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.Controller;
-import org.firstinspires.ftc.teamcode.systems.util.Checkable;
-import org.firstinspires.ftc.teamcode.systems.telemetry.items.CheckableTelemetryItem;
-import org.firstinspires.ftc.teamcode.systems.util.checkables.DrivetrainCheckableGroup;
-import org.firstinspires.ftc.teamcode.systems.util.checkables.MotorEncoderCheckable;
-import org.firstinspires.ftc.teamcode.systems.drivetrain.WheelBase;
-import org.firstinspires.ftc.teamcode.systems.telemetry.items.DrivetrainEncoderTelemetryGroup;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.AutonomousDrivetrain;
+import org.firstinspires.ftc.teamcode.systems.drivetrain.WheelBase;
+import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.Controller;
 import org.firstinspires.ftc.teamcode.systems.opmode.AutonomousStandard;
-import org.firstinspires.ftc.teamcode.systems.telemetry.TelemetryItem;
+import org.firstinspires.ftc.teamcode.systems.telemetry.items.CheckableTelemetryItem;
+import org.firstinspires.ftc.teamcode.systems.util.Checkable;
 
 @Autonomous(name = "Encoder Move Forward Test", group = "test")
 public class AutonomousEncoderMoveForwardTest extends AutonomousStandard {
-
-    private Checkable motorEncoderCheckable;
 
     @Override
     public void initialize() {
         drivetrain = new AutonomousDrivetrain(WheelBase.MECANUM);
         drivetrain.init();
-
-        motorEncoderCheckable = new DrivetrainCheckableGroup(
-                new MotorEncoderCheckable(Robot.Drivetrain.left_front, -1000, 10),
-                new MotorEncoderCheckable(Robot.Drivetrain.right_front, 1000, 10),
-                new MotorEncoderCheckable(Robot.Drivetrain.right_back, 1000, 10),
-                new MotorEncoderCheckable(Robot.Drivetrain.left_back, -1000, 10)
-        );
-
-        TelemetryItem telemetryEncoderRecorder = new DrivetrainEncoderTelemetryGroup();
-        TelemetryItem telemetryTestStatus = new CheckableTelemetryItem("Test status", motorEncoderCheckable);
-
-        telemetryManager.add(telemetryTestStatus);
-        telemetryManager.add(telemetryEncoderRecorder);
 
         telemetryManager.cycle();
     }
@@ -43,11 +23,12 @@ public class AutonomousEncoderMoveForwardTest extends AutonomousStandard {
     @Override
     public void opModeLoop() {
 
-        drivetrain.move(Controller.Direction.N, 1000, 0.25);
+        Checkable checkable = drivetrain.move(Controller.Direction.N, 1000, 0.25);
+        telemetryManager.add(new CheckableTelemetryItem("Test status", checkable));
 
-        while (opModeIsActive() && !motorEncoderCheckable.check()) {
+        while (opModeIsActive() && !checkable.check()) {
             telemetryManager.cycle();
-            sleep(50);
+            idle();
         }
 
         drivetrain.stop();

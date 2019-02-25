@@ -11,33 +11,35 @@ import org.firstinspires.ftc.teamcode.systems.util.BackgroundTaskRunnable;
 
 import java.util.List;
 
+/**
+ * Component for detecting minerals.
+ */
 public class MineralDetectionBackgroundRunnable extends BackgroundTaskRunnable<Integer> {
 
-    private TensorFlow tensorFlow;
-    private final HardwareMap hw;
+    private final TensorFlow tensorFlow;
 
     public MineralDetectionBackgroundRunnable(final HardwareMap hw) {
-        this.hw = hw;
+        tensorFlow = new TensorFlow(new Vuforia(), hw);
     }
 
     @Override
     protected synchronized void initialize() {
-        tensorFlow = new TensorFlow(new Vuforia(), hw);
         if (tensorFlow.tfod != null) {
             tensorFlow.tfod.activate();
         }
 
-        telemetryItem = new TelemetryItem<Integer>("Gold position") {
+        super.telemetryItem = new TelemetryItem<Integer>("Gold position") {
             @Override
             public void update() {
-                        this.set(result);
-                    }
+                this.set(result);
+            }
         };
     }
 
-
     @Override
     protected void shutdown() {
+        if (super.isStopRequested)
+            return;
         if (tensorFlow.tfod != null) {
             tensorFlow.tfod.shutdown();
         }
@@ -46,7 +48,7 @@ public class MineralDetectionBackgroundRunnable extends BackgroundTaskRunnable<I
     @Override
     public void run() {
         if (tensorFlow.tfod == null) {
-            isStopRequested = true;
+            super.isStopRequested = true;
             return;
         }
 
@@ -74,7 +76,7 @@ public class MineralDetectionBackgroundRunnable extends BackgroundTaskRunnable<I
                 if (goldMineral == -1 && silverMineral_1 != -1 && silverMineral_2 != -1) {
                     result = 0;
                     finished = true;
-//                  goldMineral <- servoLeft
+//                  goldMineral <- left
                 } else if (goldMineral < silverMineral_1 && silverMineral_2 == -1) {
                     result = 1;
                     finished = true;
@@ -82,7 +84,7 @@ public class MineralDetectionBackgroundRunnable extends BackgroundTaskRunnable<I
                 } else if (goldMineral > silverMineral_1 && silverMineral_2 == -1) {
                     result = 2;
                     finished = true;
-//                  goldMineral <- servoRight
+//                  goldMineral <- right
                 }
             }
         }

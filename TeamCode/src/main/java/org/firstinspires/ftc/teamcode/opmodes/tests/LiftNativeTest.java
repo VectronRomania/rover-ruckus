@@ -31,13 +31,12 @@ public class LiftNativeTest extends LinearOpMode {
         right.setPower(1.0);
 
         while (opModeIsActive()) {
-
             if (left.getCurrentPosition() > 990 && right.getCurrentPosition() > 990) {
                 left.setPower(0.0);
                 right.setPower(0.0);
                 break;
             }
+            idle();
         }
-
     }
 }

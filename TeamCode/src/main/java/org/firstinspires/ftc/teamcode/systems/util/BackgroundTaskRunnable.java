@@ -8,11 +8,6 @@ import org.firstinspires.ftc.teamcode.systems.telemetry.TelemetryItem;
 public abstract class BackgroundTaskRunnable<T> implements Runnable {
 
     /**
-     * Is stop requested?
-     */
-    protected volatile Boolean isStopRequested = false;
-
-    /**
      * The status of the runnable.
      */
     protected volatile Boolean finished = false;
@@ -28,34 +23,20 @@ public abstract class BackgroundTaskRunnable<T> implements Runnable {
     protected volatile T result = null;
 
     /**
-     * Stop this runnable.
+     * Flag for requesting stop.
      */
-    synchronized void stop() {
-        isStopRequested = true;
-    }
+    protected volatile Boolean isStopRequested = null;
 
     /**
-     * Wait
-     * @param milis milliseconds
+     * Wait.
+     * @param millis milliseconds
      * @throws InterruptedException
      */
-    protected synchronized void sleep(long milis) throws InterruptedException {
+    protected synchronized void sleep(long millis) throws InterruptedException {
         synchronized (this) {
-            wait(milis);
+            wait(millis);
         }
     }
-
-    /**
-     * Initialize the runnable.
-     * This is executed prior to run().
-     */
-    protected abstract void initialize();
-
-    /**
-     * Do any cleanup necessary after finishing.
-     * This is executed after run().
-     */
-    protected abstract void shutdown();
 
     /**
      * Check if the runnable finished.
@@ -80,4 +61,29 @@ public abstract class BackgroundTaskRunnable<T> implements Runnable {
     public T getResult() {
         return result;
     }
+
+    /**
+     * Set the appropriate flag for stopping.
+     */
+    public void stop() {
+        this.isStopRequested = true;
+    }
+
+    /**
+     * Initialize the runnable.
+     * This is executed prior to run().
+     */
+    protected abstract void initialize();
+
+    /**
+     * Do any cleanup necessary after finishing.
+     * This is executed after run().
+     */
+    protected abstract void shutdown();
+
+    /**
+     * Run the runnable.
+     */
+    @Override
+    public abstract void run();
 }

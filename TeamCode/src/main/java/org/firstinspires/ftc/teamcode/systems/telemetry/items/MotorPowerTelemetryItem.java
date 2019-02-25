@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.systems.telemetry.TelemetryItem;
 
-public final class DrivetrainEncoderTelemetryItem extends TelemetryItem<Integer> {
+public final class MotorPowerTelemetryItem extends TelemetryItem<Double> {
 
     private final DcMotor motor;
 
@@ -12,13 +12,13 @@ public final class DrivetrainEncoderTelemetryItem extends TelemetryItem<Integer>
      * The costructor.
      * @param tag the item identifier.
      */
-    public DrivetrainEncoderTelemetryItem(String tag, DcMotor motor) {
+    public MotorPowerTelemetryItem(String tag, DcMotor motor) {
         super(tag);
         this.motor = motor;
     }
 
     @Override
     public void update() {
-        super.set(motor.getCurrentPosition());
+        super.set(motor.getPower());
     }
 }

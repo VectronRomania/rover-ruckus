@@ -56,7 +56,7 @@ public class EncoderNativeTest extends LinearOpMode {
 
                 break;
             }
-
+            idle();
         }
     }
 }

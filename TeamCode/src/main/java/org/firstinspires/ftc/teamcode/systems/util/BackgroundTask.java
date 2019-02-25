@@ -2,12 +2,13 @@ package org.firstinspires.ftc.teamcode.systems.util;
 
 import android.support.annotation.NonNull;
 
+import org.firstinspires.ftc.teamcode.systems.telemetry.TelemetryGroup;
 import org.firstinspires.ftc.teamcode.systems.telemetry.TelemetryItem;
 
 /**
  * Class for managing background tasks.
  */
-public class BackgroundTask<T> extends Thread {
+public final class BackgroundTask<T> extends Thread {
 
     /**
      * The task type.
@@ -57,25 +58,36 @@ public class BackgroundTask<T> extends Thread {
         this.runnable = runnable;
         this.taskName = name;
         this.taskType = taskType;
-        this.statusTelemetryItem = new TelemetryItem<Boolean>(taskName) {
+        this.statusTelemetryItem = new TelemetryGroup<Boolean>(name){}.add(new TelemetryItem<Boolean>("Running") {
             @Override
             public void update() {
-                set(!isAlive());
+                this.set(isAlive());
             }
-        };
+        }).add(new TelemetryItem<Boolean>("Finished") {
+            @Override
+            public void update() {
+                this.set(isFinished());
+            }
+        });
     }
 
     /**
-     * The constructor.
-     * @param checkable the checkable that needs to be evaluated in the background.
-     * @param name the task name.
+     * Build a BackgroundTask from a Checkable.
+     * @param checkable
+     * @param name
+     * @return
      */
-    public BackgroundTask(@NonNull final Checkable checkable, @NonNull final String name) {
-        this.runnable = new BackgroundTaskRunnable<T>() {
+    public static BackgroundTask fromCheckable(@NonNull final Checkable checkable, @NonNull final String name) {
+
+        final BackgroundTask<Boolean> backgroundTask = new BackgroundTask<>(new BackgroundTaskRunnable<Boolean>() {
             @Override
             public void run() {
-                result = (T) checkable.check();
-                telemetryItem.set((T) checkable.check());
+                super.result = checkable.check();
+                super.telemetryItem.set(checkable.check());
+
+                if (super.result) {
+                    super.finished = true;
+                }
             }
 
             @Override
@@ -83,54 +95,68 @@ public class BackgroundTask<T> extends Thread {
 
             @Override
             protected void shutdown() {}
-        };
-        this.taskName = name;
-        this.taskType = Type.LOOP;
-        this.statusTelemetryItem = new TelemetryItem<Boolean>(taskName) {
+        }, name, Type.LOOP);
+
+        backgroundTask.statusTelemetryItem = new TelemetryItem<Boolean>(backgroundTask.taskName) {
             @Override
             public void update() {
-                set(!isAlive());
+                super.set(!backgroundTask.isAlive());
             }
         };
+
+        return backgroundTask;
     }
 
+    /**
+     * Start the background task.
+     */
     @Override
     public synchronized void start() {
         super.start();
     }
 
+    /**
+     * Run the background task.
+     */
     @Override
     public synchronized void run() {
-        if (!isInitialized)
-            runnable.initialize();
+        if (!this.isInitialized)
+            this.runnable.initialize();
 
-        switch (taskType) {
+        if (this.isStopRequested)
+            return;
+
+        switch (this.taskType) {
             case LOOP:
-                while (!runnable.isFinished() && !isStopRequested) {
-                    runnable.run();
+                while (!this.runnable.isFinished() && !this.isStopRequested) {
+                    this.runnable.run();
                 }
                 break;
             case ONE_TIME:
-                runnable.run();
+                this.runnable.run();
+                if (this.isStopRequested) {
+                    return;
+                }
                 break;
         }
-        runnable.shutdown();
+        this.runnable.shutdown();
     }
 
     /**
      * Stop the task.
      */
     public synchronized void stopTask() {
-        isStopRequested = true;
-//        synchronized (this) {
-//            try {
-//                wait(50);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
+        this.isStopRequested = true;
         this.runnable.stop();
-//        this.interrupt(); // TODO: 25/02/2019 better?
+
+        synchronized (this) {
+            try {
+                wait(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        this.interrupt();
     }
 
     /**
@@ -141,16 +167,35 @@ public class BackgroundTask<T> extends Thread {
         return statusTelemetryItem;
     }
 
-    public synchronized TelemetryItem getRunnableTelemetryItem() {
+    /**
+     * Get the runnable telemetry item.
+     * @return
+     */
+    public synchronized TelemetryItem<T> getRunnableTelemetryItem() {
         return runnable.getTelemetryItem();
     }
 
+    /**
+     * Run the initialize method prematurely.
+     */
     public synchronized void runInitialize() {
         runnable.initialize();
         isInitialized = true;
     }
 
+    /**
+     * Get the result of the runnable.
+     * @return
+     */
     public T getResult() {
         return runnable.getResult();
+    }
+
+    /**
+     * Check if the runnable finished.
+     * @return
+     */
+    public boolean isFinished() {
+        return this.runnable.isFinished();
     }
 }

@@ -11,11 +11,6 @@ import org.firstinspires.ftc.teamcode.systems.telemetry.TelemetryManager;
  */
 public abstract class TeleOpStandard extends LinearOpMode {
 
-//    /**
-//     * The hardware.
-//     */
-//    protected Robot robot;
-
     /**
      * The drivetrain.
      */
