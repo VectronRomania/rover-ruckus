@@ -29,7 +29,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import java.util.ArrayList;
 
 @TeleOp(name = "Servo Tester", group = "test")
-public class ServoTester extends LinearOpMode {
+public final class ServoTester extends LinearOpMode {
 
     public class ServoBean {
         Servo servo;
@@ -151,9 +151,9 @@ public class ServoTester extends LinearOpMode {
         if (x == 0)
             return 0.5;
         if (x < 0) {
-            return -x/2 + 0.5;
+            return -x / 2 + 0.5;
         } else {
-            return 0.5 - x/2;
+            return 0.5 - x / 2;
         }
     }
 }

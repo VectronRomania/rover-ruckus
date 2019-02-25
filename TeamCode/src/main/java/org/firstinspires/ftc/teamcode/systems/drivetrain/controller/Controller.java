@@ -1,9 +1,6 @@
 package org.firstinspires.ftc.teamcode.systems.drivetrain.controller;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
-
 import org.firstinspires.ftc.teamcode.hardware.Robot;
-import org.firstinspires.ftc.teamcode.systems.telemetry.TelemetryGroup;
 
 public abstract class Controller {
 
@@ -16,10 +13,10 @@ public abstract class Controller {
         ROTATE_RIGHT
     }
 
-    protected Double a_power;
-    protected Double b_power;
-    protected Double c_power;
-    protected Double d_power;
+    private Double a_power;
+    private Double b_power;
+    private Double c_power;
+    private Double d_power;
 
     public Controller() {
         a_power = 0.0;

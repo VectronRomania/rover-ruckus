@@ -13,7 +13,6 @@ import org.firstinspires.ftc.teamcode.systems.util.CheckableGroup;
 import org.firstinspires.ftc.teamcode.systems.util.checkables.MotorEncoderCheckable;
 import org.firstinspires.ftc.teamcode.systems.util.BackgroundTaskRunnable;
 import org.firstinspires.ftc.teamcode.systems.util.Checkable;
-import org.firstinspires.ftc.teamcode.systems.util.CheckableLogicalOperation;
 
 public class LiftDeploy {
 
@@ -70,15 +69,15 @@ public class LiftDeploy {
     public class LiftEncoderCheckableGroup extends org.firstinspires.ftc.teamcode.systems.util.CheckableGroup {
         public LiftEncoderCheckableGroup(Integer ticksLeft, Integer ticksRight, Integer bias) {
             items.add(
-                    new Pair<Checkable, CheckableLogicalOperation>(
+                    new Pair<Checkable, Operation>(
                         new MotorEncoderCheckable(Robot.Lift.left_lift, ticksLeft, bias),
-                        CheckableLogicalOperation.AND
+                        Operation.AND
                     )
             );
             items.add(
-                    new Pair<Checkable, CheckableLogicalOperation>(
+                    new Pair<Checkable, Operation>(
                             new MotorEncoderCheckable(Robot.Lift.right_lift, ticksRight, bias),
-                            CheckableLogicalOperation.AND
+                            Operation.AND
                     )
             );
         }

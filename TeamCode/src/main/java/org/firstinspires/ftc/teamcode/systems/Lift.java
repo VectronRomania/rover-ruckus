@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.systems.util.CheckableGroup;
-import org.firstinspires.ftc.teamcode.systems.util.CheckableLogicalOperation;
 import org.firstinspires.ftc.teamcode.systems.util.checkables.MotorEncoderCheckable;
 
 
@@ -69,8 +68,8 @@ public class Lift {
         }
         Robot.Lift.setPower(power);
         CheckableGroup group = new CheckableGroup();
-        group.add(new MotorEncoderCheckable(Robot.Lift.left_lift, Robot.Lift.left_lift.getTargetPosition(), 5), CheckableLogicalOperation.AND);
-        group.add(new MotorEncoderCheckable(Robot.Lift.right_lift, Robot.Lift.right_lift.getTargetPosition(), 5), CheckableLogicalOperation.AND);
+        group.add(new MotorEncoderCheckable(Robot.Lift.left_lift, Robot.Lift.left_lift.getTargetPosition(), 5), CheckableGroup.Operation.AND);
+        group.add(new MotorEncoderCheckable(Robot.Lift.right_lift, Robot.Lift.right_lift.getTargetPosition(), 5), CheckableGroup.Operation.AND);
         return group;
     }
 

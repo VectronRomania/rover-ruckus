@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * A telemetry group is an easy to use container for multiple telemetry items.
  * @param <T> the type of data this group uses for reading and writing.
  */
-public abstract class TelemetryGroup<T> extends TelemetryItem {
+public abstract class TelemetryGroup<T> extends TelemetryItem<T> {
 
     /**
      * The items of this group.
@@ -61,8 +61,9 @@ public abstract class TelemetryGroup<T> extends TelemetryItem {
      * Adds a new telemetry item.
      * @param item the item which has to be added.
      */
-    public void add(@NonNull TelemetryItem<T> item) {
+    public TelemetryGroup<T> add(@NonNull TelemetryItem<T> item) {
         items.add(item);
+        return this;
     }
 
     /**
