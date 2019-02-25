@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
-import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.systems.Lift;
 import org.firstinspires.ftc.teamcode.systems.autonomous.LiftDeploy;
 import org.firstinspires.ftc.teamcode.systems.autonomous.MineralDetectionBackgroundRunnable;
@@ -25,9 +24,8 @@ public class Blue1 extends AutonomousStandard {
                 BackgroundTask.Type.LOOP
         );
         mineralDetector.runInitialize();
-        liftDeploy = new LiftDeploy(new Lift(), Robot.Sensors.left_imu, Robot.Sensors.right_imu, drivetrain);
+        liftDeploy = new LiftDeploy(new Lift(), drivetrain);
         mineralSampler = new MineralSampler(drivetrain);
-
     }
 
     @Override
