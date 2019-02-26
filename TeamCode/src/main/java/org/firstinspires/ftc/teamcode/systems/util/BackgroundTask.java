@@ -58,17 +58,18 @@ public final class BackgroundTask<T> extends Thread {
         this.runnable = runnable;
         this.taskName = name;
         this.taskType = taskType;
-        this.statusTelemetryItem = new TelemetryGroup<Boolean>(name){}.add(new TelemetryItem<Boolean>("Running") {
-            @Override
-            public void update() {
-                this.set(isAlive());
-            }
-        }).add(new TelemetryItem<Boolean>("Finished") {
-            @Override
-            public void update() {
-                this.set(isFinished());
-            }
-        });
+        this.statusTelemetryItem = new TelemetryGroup<Boolean>(name){}
+            .add(new TelemetryItem<Boolean>("Running") {
+                @Override
+                public void update() {
+                    this.set(isAlive());
+                }
+            }).add(new TelemetryItem<Boolean>("Finished") {
+                @Override
+                public void update() {
+                    this.set(isFinished());
+                }
+            });
     }
 
     /**

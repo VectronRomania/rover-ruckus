@@ -4,12 +4,10 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
-import org.firstinspires.ftc.teamcode.systems.Collector;
 import org.firstinspires.ftc.teamcode.systems.Extender;
 import org.firstinspires.ftc.teamcode.systems.Lift;
-import org.firstinspires.ftc.teamcode.systems.Scoop;
-import org.firstinspires.ftc.teamcode.systems.drivetrain.WheelBase;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.HumanControlledDrivetrain;
+import org.firstinspires.ftc.teamcode.systems.drivetrain.WheelBase;
 import org.firstinspires.ftc.teamcode.systems.opmode.TeleOpStandard;
 import org.firstinspires.ftc.teamcode.systems.telemetry.TelemetryGroup;
 import org.firstinspires.ftc.teamcode.systems.telemetry.TelemetryItem;
@@ -20,13 +18,13 @@ import org.firstinspires.ftc.teamcode.systems.util.BackgroundTaskRunnable;
 @TeleOp(name="TeleOpMode", group="teleop")
 public class TeleOpMode extends TeleOpStandard {
 
-    Lift lift;
-    Extender extender;
-    Collector collector;
-    Scoop scoop;
+    private Lift lift;
+    private Extender extender;
+//    Collector collector;
+//    Scoop scoop;
 
-    BackgroundTask<Double> heightChecking;
-    BackgroundTask<String> imuChecking;
+    private BackgroundTask<Double> heightChecking;
+    private BackgroundTask<String> imuChecking;
 
     @Override
     public void initialize() {
@@ -58,10 +56,11 @@ public class TeleOpMode extends TeleOpStandard {
             protected void shutdown() {}
 
             @Override
-            public void run() {}
+            public void run() {
+                this.telemetryItem.update();
+            }
         }, "Height checking", BackgroundTask.Type.LOOP);
         heightChecking.start();
-        telemetryManager.add(heightChecking.getRunnableTelemetryItem());
 
         imuChecking = new BackgroundTask<>(new BackgroundTaskRunnable<String>() {
             @Override
@@ -73,9 +72,13 @@ public class TeleOpMode extends TeleOpStandard {
             protected void shutdown() {}
 
             @Override
-            public void run() {}
+            public void run() {
+                this.telemetryItem.update();
+            }
         }, "IMU Checking", BackgroundTask.Type.LOOP);
         imuChecking.start();
+
+        telemetryManager.add(heightChecking.getRunnableTelemetryItem());
         telemetryManager.add(imuChecking.getRunnableTelemetryItem());
     }
 

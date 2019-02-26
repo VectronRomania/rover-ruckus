@@ -157,7 +157,7 @@ public class LiftDeploy {
 
 //                Move the robot to unlatch
                 super.telemetryItem.set(3);
-                CheckableGroup drivetrainEncoderCheckableGroup = autonomousDrivetrain.move(
+                Checkable drivetrainEncoderCheckableGroup = autonomousDrivetrain.move(
                         Controller.Direction.W,
                         1000,
                         0.25);
