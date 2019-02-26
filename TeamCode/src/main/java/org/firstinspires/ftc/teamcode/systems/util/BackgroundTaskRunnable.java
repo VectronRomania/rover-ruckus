@@ -27,6 +27,15 @@ public abstract class BackgroundTaskRunnable<T> implements Runnable {
      */
     protected volatile Boolean isStopRequested = null;
 
+    public BackgroundTaskRunnable() {
+        this.finished = true;
+        this.telemetryItem = new TelemetryItem<T>("DEFAULT") {
+            @Override
+            public void update() {}
+        };
+        this.finished = true;
+    }
+
     /**
      * Wait.
      * @param millis milliseconds
