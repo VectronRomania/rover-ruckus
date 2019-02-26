@@ -1,11 +1,15 @@
 package org.firstinspires.ftc.teamcode.systems.util;
 
+import android.util.Log;
+
 import org.firstinspires.ftc.teamcode.systems.telemetry.TelemetryItem;
 
 /**
  * Runnable for a background task.
  */
 public abstract class BackgroundTaskRunnable<T> implements Runnable {
+
+    public static final String TAG = "BackgroundTaskRunnable";
 
     /**
      * The status of the runnable.
@@ -15,7 +19,7 @@ public abstract class BackgroundTaskRunnable<T> implements Runnable {
     /**
      * The telemetry item provided by the runnable.
      */
-    protected volatile TelemetryItem<T> telemetryItem = null;
+    protected volatile TelemetryItem<T> telemetryItem;
 
     /**
      * The result of this runnable.
@@ -25,15 +29,14 @@ public abstract class BackgroundTaskRunnable<T> implements Runnable {
     /**
      * Flag for requesting stop.
      */
-    protected volatile Boolean isStopRequested = null;
+    protected volatile Boolean isStopRequested = false;
 
     public BackgroundTaskRunnable() {
-        this.finished = true;
+        Log.d(TAG, "BackgroundTaskRunnable() called");
         this.telemetryItem = new TelemetryItem<T>("DEFAULT") {
             @Override
             public void update() {}
         };
-        this.finished = true;
     }
 
     /**
@@ -42,6 +45,7 @@ public abstract class BackgroundTaskRunnable<T> implements Runnable {
      * @throws InterruptedException
      */
     protected synchronized void sleep(long millis) throws InterruptedException {
+        Log.d(TAG, "sleep() called with: millis = [" + millis + "]");
         synchronized (this) {
             wait(millis);
         }
@@ -52,6 +56,7 @@ public abstract class BackgroundTaskRunnable<T> implements Runnable {
      * @return
      */
     synchronized Boolean isFinished() {
+        Log.v(TAG, "isFinished() called");
         return finished;
     }
 
@@ -60,6 +65,7 @@ public abstract class BackgroundTaskRunnable<T> implements Runnable {
      * @return
      */
     TelemetryItem<T> getTelemetryItem() {
+        Log.d(TAG, "getTelemetryItem() called");
         return telemetryItem;
     }
 
@@ -68,6 +74,7 @@ public abstract class BackgroundTaskRunnable<T> implements Runnable {
      * @return
      */
     public T getResult() {
+        Log.d(TAG, "getResult() called");
         return result;
     }
 
@@ -75,6 +82,7 @@ public abstract class BackgroundTaskRunnable<T> implements Runnable {
      * Set the appropriate flag for stopping.
      */
     public void stop() {
+        Log.d(TAG, "stop() called");
         this.isStopRequested = true;
     }
 

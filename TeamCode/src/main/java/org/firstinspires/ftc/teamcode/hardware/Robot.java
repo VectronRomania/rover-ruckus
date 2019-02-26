@@ -263,8 +263,8 @@ public class Robot {
         Extender.extender = hw.get(DcMotor.class, "extender");
 
         Collector.collector     = hw.get(DcMotor.class, "collector");
-//        Collector.servoLeft     = hw.get(Servo.class, "collector_servo_left");
-//        Collector.servoRight    = hw.get(Servo.class, "collector_servo_left");
+        Collector.servoLeft     = hw.get(Servo.class, "collector_servo_left");
+        Collector.servoRight    = hw.get(Servo.class, "collector_servo_right");
 
         Servos.scoopLeft        = hw.get(Servo.class, "scoop_left");
         Servos.scoopRight       = hw.get(Servo.class, "scoop_right");

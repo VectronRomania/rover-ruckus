@@ -28,11 +28,14 @@ public abstract class AutonomousStandard extends LinearOpMode {
         telemetryManager = new TelemetryManager(telemetry);
 
         initialize();
+        telemetry.addData(">", "Ready");
+        telemetry.update();
 
         waitForStart();
 
+        opModeLoop();
+
         while (opModeIsActive()) {
-            opModeLoop();
             telemetryManager.cycle();
         }
     }

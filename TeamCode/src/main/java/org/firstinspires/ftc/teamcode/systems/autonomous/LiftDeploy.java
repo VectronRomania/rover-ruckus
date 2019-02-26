@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.systems.autonomous;
 
 import android.util.Pair;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.hardware.REVImu;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
@@ -91,11 +93,14 @@ public class LiftDeploy {
 
     private final Lift lift;
     private final AutonomousDrivetrain autonomousDrivetrain;
+    private final LinearOpMode opMode;
 
     public LiftDeploy(final Lift lift,
-                      final AutonomousDrivetrain autonomousDrivetrain) {
+                      final AutonomousDrivetrain autonomousDrivetrain,
+                      final LinearOpMode opMode) {
         this.lift = lift;
         this.autonomousDrivetrain = autonomousDrivetrain;
+        this.opMode = opMode;
     }
 
     /**
@@ -204,6 +209,6 @@ public class LiftDeploy {
 //                }
 //                autonomousDrivetrain.stop();
             }
-        }, "Lift deploy", BackgroundTask.Type.ONE_TIME);
+        }, "Lift deploy", BackgroundTask.Type.ONE_TIME, opMode);
     }
 }

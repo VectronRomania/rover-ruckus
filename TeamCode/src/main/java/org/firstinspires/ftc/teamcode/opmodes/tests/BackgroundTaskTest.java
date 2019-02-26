@@ -31,14 +31,14 @@ public class BackgroundTaskTest extends AutonomousStandard {
                     finished = true;
                     return;
                 }
-                result++;
+                result = result + 1;
                 try {
                     this.sleep(25);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
-        }, "Background task test", BackgroundTask.Type.LOOP);
+        }, "Background task test", BackgroundTask.Type.ONE_TIME, this);
 
         telemetryManager.add(testTask.getStatusTelemetryItem());
     }
@@ -48,7 +48,7 @@ public class BackgroundTaskTest extends AutonomousStandard {
 
         testTask.start();
 
-        while (opModeIsActive() && testTask.isAlive()) {
+        while (opModeIsActive() && !testTask.isFinished()) {
             telemetryManager.cycle();
             idle();
         }
@@ -57,6 +57,7 @@ public class BackgroundTaskTest extends AutonomousStandard {
             testTask.stopTask();
         }
 
-        stop();
+        sleep(1000);
+        super.stop();
     }
 }
