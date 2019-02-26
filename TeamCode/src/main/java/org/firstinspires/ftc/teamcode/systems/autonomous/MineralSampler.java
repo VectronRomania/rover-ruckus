@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.systems.autonomous;
 
 import android.support.annotation.NonNull;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
 import org.firstinspires.ftc.teamcode.systems.drivetrain.AutonomousDrivetrain;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.Controller;
 import org.firstinspires.ftc.teamcode.systems.util.BackgroundTask;
@@ -15,8 +17,12 @@ public class MineralSampler {
 
     private final AutonomousDrivetrain drivetrain;
 
-    public MineralSampler(AutonomousDrivetrain drivetrain) {
+    private final LinearOpMode opMode;
+
+    public MineralSampler(AutonomousDrivetrain drivetrain,
+                          LinearOpMode opMode) {
         this.drivetrain = drivetrain;
+        this.opMode = opMode;
     }
 
     /**
@@ -24,6 +30,7 @@ public class MineralSampler {
      * @param position
      * @return
      */
+
     @NonNull
     public BackgroundTask sample(final int position) {
         return new BackgroundTask<>(new BackgroundTaskRunnable<String>() {
@@ -48,7 +55,7 @@ public class MineralSampler {
                 switch (position) {
                     case 1:
                         drivetrainCheckable = drivetrain.move(Controller.Direction.ROTATE_LEFT, 1000, 0.5);
-                        telemetryItem.set("rotate");
+                        telemetryItem.set("rotate left");
                         while (!drivetrainCheckable.check() && !super.isStopRequested) {
                             try {
                                 super.sleep(20);
@@ -57,7 +64,6 @@ public class MineralSampler {
                                 return;
                             }
                         }
-                        drivetrain.stop();
                         if (isStopRequested) {
                             return;
                         }
@@ -69,14 +75,44 @@ public class MineralSampler {
                                 super.sleep(20);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
-                                result = "error";
-                                telemetryItem.set("error");
                                 return;
                             }
                         }
                         if (isStopRequested) {
                             return;
                         }
+
+                        drivetrainCheckable = drivetrain.move(Controller.Direction.S, 1000, 0.5);
+                        telemetryItem.set("move backward");
+                        while (!drivetrainCheckable.check() && !super.isStopRequested) {
+                            try {
+                                super.sleep(20);
+                            } catch(InterruptedException e) {
+                                e.printStackTrace();
+                                return;
+                            }
+                        }
+                        if (isStopRequested) {
+                            return;
+                        }
+
+                        drivetrainCheckable = drivetrain.move(Controller.Direction.ROTATE_RIGHT, 1000, 0.5);
+                        telemetryItem.set("rotate right");
+                        while (!drivetrainCheckable.check() && !super.isStopRequested) {
+                            try {
+                                super.sleep(20);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                                result = "error";
+                                telemetryItem.set("error");
+                                return;
+                            }
+                        }
+                        drivetrain.stop();
+                        if (isStopRequested) {
+                            return;
+                        }
+
                         result = "done";
                         super.telemetryItem.set("done");
                         break;
@@ -88,20 +124,36 @@ public class MineralSampler {
                                 super.sleep(20);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
-                                result = "error";
-                                telemetryItem.set("error");
                                 return;
                             }
                         }
                         if (isStopRequested) {
                             return;
                         }
+
+                        drivetrainCheckable = drivetrain.move(Controller.Direction.S, 1000, 0.5);
+                        telemetryItem.set("move backward");
+                        while (!drivetrainCheckable.check() && !super.isStopRequested) {
+                            try {
+                                super.sleep(20);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                                result = "error";
+                                telemetryItem.set("error");
+                                return;
+                            }
+                        }
+                        drivetrain.stop();
+                        if (isStopRequested) {
+                            return;
+                        }
+
                         result = "done";
                         super.telemetryItem.set("done");
                         break;
                     case 3:
                         drivetrainCheckable = drivetrain.move(Controller.Direction.ROTATE_RIGHT, 1000, 0.5);
-                        telemetryItem.set("rotate");
+                        telemetryItem.set("rotate right");
                         while (!drivetrainCheckable.check() && !super.isStopRequested) {
                             try {
                                 super.sleep(20);
@@ -110,7 +162,6 @@ public class MineralSampler {
                                 return;
                             }
                         }
-                        drivetrain.stop();
                         if (isStopRequested) {
                             return;
                         }
@@ -122,19 +173,49 @@ public class MineralSampler {
                                 super.sleep(20);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
-                                result = "error";
-                                telemetryItem.set("error");
                                 return;
                             }
                         }
                         if (isStopRequested) {
                             return;
                         }
+
+                        drivetrainCheckable = drivetrain.move(Controller.Direction.S, 1000, 0.5);
+                        telemetryItem.set("move backward");
+                        while (!drivetrainCheckable.check() && !super.isStopRequested) {
+                            try {
+                                super.sleep(20);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                                return;
+                            }
+                        }
+                        if (isStopRequested) {
+                            return;
+                        }
+
+                        drivetrainCheckable = drivetrain.move(Controller.Direction.ROTATE_LEFT, 1000, 0.5);
+                        telemetryItem.set("rotate left");
+                        while (!drivetrainCheckable.check() && !super.isStopRequested) {
+                            try {
+                                super.sleep(20);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                                result = "error";
+                                telemetryItem.set("error");
+                                return;
+                            }
+                        }
+                        drivetrain.stop();
+                        if (isStopRequested) {
+                            return;
+                        }
+
                         result = "done";
                         super.telemetryItem.set("done");
                         break;
                 }
             }
-        }, "Mineral sampler", BackgroundTask.Type.ONE_TIME);
+        }, "Mineral sampler", BackgroundTask.Type.ONE_TIME, opMode);
     }
 }

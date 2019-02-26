@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes.tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.systems.autonomous.MineralDetectionBackgroundRunnable;
+import org.firstinspires.ftc.teamcode.systems.autonomous.MineralDetector;
 import org.firstinspires.ftc.teamcode.systems.opmode.AutonomousStandard;
 import org.firstinspires.ftc.teamcode.systems.util.BackgroundTask;
 
@@ -13,11 +13,7 @@ public class MineralDetectionTest extends AutonomousStandard {
 
     @Override
     protected void initialize() {
-        detector = new BackgroundTask<>(
-                new MineralDetectionBackgroundRunnable(hardwareMap),
-                "Mineral detector",
-                BackgroundTask.Type.LOOP
-        );
+        detector = new MineralDetector(hardwareMap, this).getDetector();
 
         detector.runInitialize();
 
@@ -29,14 +25,14 @@ public class MineralDetectionTest extends AutonomousStandard {
     protected void opModeLoop() {
         detector.start();
 
-        while (opModeIsActive() && detector.isFinished()) {
+        while (opModeIsActive() && !detector.isFinished()) {
             idle();
             telemetryManager.cycle();
         }
 
         if (!opModeIsActive()) {
             detector.stopTask();
-            stop();
+            return;
         }
 
         while (opModeIsActive()) {

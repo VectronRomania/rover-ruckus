@@ -11,11 +11,13 @@ import org.firstinspires.ftc.teamcode.hardware.Robot;
 /**
  * System for controlling the extender.
  */
+
 public class Extender {
 
     /**
      * The direction of the movement of the extender.
      */
+
     public enum Direction {
         FORWARD,
         BACKWARD
@@ -32,6 +34,7 @@ public class Extender {
      * Control the extender manually.
      * @param gamepad
      */
+
     public void manual(Gamepad gamepad) {
         Robot.Extender.setPower(gamepad.left_stick_y);
     }
@@ -41,6 +44,7 @@ public class Extender {
      * @param direction
      * @param power
      */
+
     public void move(@NonNull Direction direction, double power) {
         if (direction == Direction.FORWARD) {
             Robot.Extender.setPower(power);

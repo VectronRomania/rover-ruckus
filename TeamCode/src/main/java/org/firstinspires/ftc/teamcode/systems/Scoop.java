@@ -7,6 +7,7 @@ import org.firstinspires.ftc.teamcode.hardware.Robot;
 /**
  * System for controlling the scoop.
  */
+
 public class Scoop {
 
     public Scoop() {

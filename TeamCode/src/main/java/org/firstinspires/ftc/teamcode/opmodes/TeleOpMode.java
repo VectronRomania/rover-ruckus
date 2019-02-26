@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
+import org.firstinspires.ftc.teamcode.systems.Collector;
 import org.firstinspires.ftc.teamcode.systems.Extender;
 import org.firstinspires.ftc.teamcode.systems.Lift;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.HumanControlledDrivetrain;
@@ -20,7 +21,7 @@ public class TeleOpMode extends TeleOpStandard {
 
     private Lift lift;
     private Extender extender;
-//    Collector collector;
+    Collector collector;
 //    Scoop scoop;
 
     private BackgroundTask<Double> heightChecking;
@@ -31,7 +32,7 @@ public class TeleOpMode extends TeleOpStandard {
         drivetrain = new HumanControlledDrivetrain(WheelBase.MECANUM);
         lift = new Lift();
         extender = new Extender();
-//        collector = new Collector();
+        collector = new Collector();
 //        scoop = new Scoop();
 
         heightChecking = new BackgroundTask<>(new BackgroundTaskRunnable<Double>() {
@@ -59,7 +60,7 @@ public class TeleOpMode extends TeleOpStandard {
             public void run() {
                 this.telemetryItem.update();
             }
-        }, "Height checking", BackgroundTask.Type.LOOP);
+        }, "Height checking", BackgroundTask.Type.LOOP, this);
         heightChecking.start();
 
         imuChecking = new BackgroundTask<>(new BackgroundTaskRunnable<String>() {
@@ -75,7 +76,7 @@ public class TeleOpMode extends TeleOpStandard {
             public void run() {
                 this.telemetryItem.update();
             }
-        }, "IMU Checking", BackgroundTask.Type.LOOP);
+        }, "IMU Checking", BackgroundTask.Type.LOOP, this);
         imuChecking.start();
 
         telemetryManager.add(heightChecking.getRunnableTelemetryItem());
@@ -87,11 +88,10 @@ public class TeleOpMode extends TeleOpStandard {
         drivetrain.drive(gamepad1);
         lift.manual(gamepad1);
         extender.manual(gamepad2);
-//        collector.manual(gamepad2);
+        collector.manual(gamepad2);
         if (!opModeIsActive()) {
             heightChecking.stopTask();
             imuChecking.stopTask();
-            idle();
         }
     }
 }

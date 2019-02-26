@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode.systems.util;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.systems.telemetry.TelemetryGroup;
 import org.firstinspires.ftc.teamcode.systems.telemetry.TelemetryItem;
@@ -9,6 +12,8 @@ import org.firstinspires.ftc.teamcode.systems.telemetry.TelemetryItem;
  * Class for managing background tasks.
  */
 public final class BackgroundTask<T> extends Thread {
+
+    public static final String TAG = "BackgroundTask";
 
     /**
      * The task type.
@@ -49,12 +54,21 @@ public final class BackgroundTask<T> extends Thread {
     private volatile Boolean isInitialized = false;
 
     /**
+     * The op mode of this task.
+     */
+    private volatile LinearOpMode opMode;
+
+    /**
      * The constructor.
      * @param runnable the background runnable
      * @param name the task name
      * @param taskType the task type
      */
-    public BackgroundTask(@NonNull final BackgroundTaskRunnable<T> runnable, @NonNull final String name, @NonNull final Type taskType) {
+    public BackgroundTask(@NonNull final BackgroundTaskRunnable<T> runnable,
+                          @NonNull final String name,
+                          @NonNull final Type taskType,
+                          @NonNull final LinearOpMode opMode) {
+        Log.d(TAG, "BackgroundTask() called with: runnable = [" + runnable + "], name = [" + name + "], taskType = [" + taskType + "]");
         this.runnable = runnable;
         this.taskName = name;
         this.taskType = taskType;
@@ -70,6 +84,7 @@ public final class BackgroundTask<T> extends Thread {
                     this.set(isFinished());
                 }
             });
+        this.opMode = opMode;
     }
 
     /**
@@ -78,7 +93,10 @@ public final class BackgroundTask<T> extends Thread {
      * @param name
      * @return
      */
-    public static BackgroundTask fromCheckable(@NonNull final Checkable checkable, @NonNull final String name) {
+    public static BackgroundTask fromCheckable(@NonNull final Checkable checkable,
+                                               @NonNull final String name,
+                                               @NonNull final LinearOpMode opMode) {
+        Log.d(TAG, "fromCheckable() called with: checkable = [" + checkable + "], name = [" + name + "]");
 
         final BackgroundTask<Boolean> backgroundTask = new BackgroundTask<>(new BackgroundTaskRunnable<Boolean>() {
             @Override
@@ -96,7 +114,7 @@ public final class BackgroundTask<T> extends Thread {
 
             @Override
             protected void shutdown() {}
-        }, name, Type.LOOP);
+        }, name, Type.LOOP, opMode);
 
         backgroundTask.statusTelemetryItem = new TelemetryItem<Boolean>(backgroundTask.taskName) {
             @Override
@@ -105,6 +123,7 @@ public final class BackgroundTask<T> extends Thread {
             }
         };
 
+        Log.d(TAG, "fromCheckable() returned: " + backgroundTask);
         return backgroundTask;
     }
 
@@ -113,6 +132,7 @@ public final class BackgroundTask<T> extends Thread {
      */
     @Override
     public synchronized void start() {
+        Log.d(TAG, "start() called");
         super.start();
     }
 
@@ -121,25 +141,33 @@ public final class BackgroundTask<T> extends Thread {
      */
     @Override
     public synchronized void run() {
-        if (!this.isInitialized)
+        Log.d(TAG, "run() called");
+        if (!this.isInitialized) {
+            Log.d(TAG, "run: not initialized, initializing");
             this.runnable.initialize();
+        }
 
-        if (this.isStopRequested)
+        if (this.isStopRequested()) {
+            Log.d(TAG, "run: stop requested");
             return;
+        }
 
         switch (this.taskType) {
             case LOOP:
+                Log.d(TAG, "run: starting loop task");
                 while (!this.runnable.isFinished() && !this.isStopRequested) {
                     this.runnable.run();
+                    Log.v(TAG, "run: task loop");
                 }
+                Log.d(TAG, "run: task exit");
                 break;
             case ONE_TIME:
+                Log.d(TAG, "run: starting one time task");
                 this.runnable.run();
-                if (this.isStopRequested) {
-                    return;
-                }
+                Log.d(TAG, "run: task exit");
                 break;
         }
+        Log.d(TAG, "run: shutdown");
         this.runnable.shutdown();
     }
 
@@ -147,16 +175,9 @@ public final class BackgroundTask<T> extends Thread {
      * Stop the task.
      */
     public synchronized void stopTask() {
+        Log.d(TAG, "stopTask() called");
         this.isStopRequested = true;
         this.runnable.stop();
-
-        synchronized (this) {
-            try {
-                wait(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
         this.interrupt();
     }
 
@@ -165,6 +186,7 @@ public final class BackgroundTask<T> extends Thread {
      * @return
      */
     public synchronized TelemetryItem<Boolean> getStatusTelemetryItem() {
+        Log.d(TAG, "getStatusTelemetryItem() called");
         return statusTelemetryItem;
     }
 
@@ -173,6 +195,7 @@ public final class BackgroundTask<T> extends Thread {
      * @return
      */
     public synchronized TelemetryItem<T> getRunnableTelemetryItem() {
+        Log.d(TAG, "getRunnableTelemetryItem() called");
         return runnable.getTelemetryItem();
     }
 
@@ -180,6 +203,7 @@ public final class BackgroundTask<T> extends Thread {
      * Run the initialize method prematurely.
      */
     public synchronized void runInitialize() {
+        Log.d(TAG, "runInitialize() called");
         runnable.initialize();
         isInitialized = true;
     }
@@ -189,6 +213,7 @@ public final class BackgroundTask<T> extends Thread {
      * @return
      */
     public T getResult() {
+        Log.d(TAG, "getResult() called");
         return runnable.getResult();
     }
 
@@ -197,6 +222,12 @@ public final class BackgroundTask<T> extends Thread {
      * @return
      */
     public boolean isFinished() {
+        Log.v(TAG, "isFinished() called");
         return this.runnable.isFinished();
+    }
+
+    private boolean isStopRequested() {
+        Log.v(TAG, "isStopRequested() called");
+        return isStopRequested ||  !opMode.opModeIsActive();
     }
 }
