@@ -26,7 +26,7 @@ public class CheckableGroup implements Checkable {
     /**
      * The result of the last evaluation.
      */
-    private Boolean result;
+    private Boolean result = null;
 
     public CheckableGroup() {
         this.items = new ArrayList<>();

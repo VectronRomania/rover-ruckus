@@ -45,7 +45,7 @@ public abstract class BackgroundTaskRunnable<T> implements Runnable {
      * @throws InterruptedException
      */
     protected synchronized void sleep(long millis) throws InterruptedException {
-        Log.d(TAG, "sleep() called with: millis = [" + millis + "]");
+        Log.v(TAG, "sleep() called with: millis = [" + millis + "]");
         synchronized (this) {
             wait(millis);
         }

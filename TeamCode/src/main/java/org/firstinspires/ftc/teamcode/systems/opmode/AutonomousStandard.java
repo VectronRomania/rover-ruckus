@@ -14,7 +14,7 @@ public abstract class AutonomousStandard extends LinearOpMode {
     /**
      * The drivetrain.
      */
-    protected AutonomousDrivetrain drivetrain;
+    protected volatile AutonomousDrivetrain drivetrain;
 
     /**
      * The telemetry manager.
