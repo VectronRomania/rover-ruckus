@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.opmodes.tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.systems.opmode.AutonomousStandard;
 import org.firstinspires.ftc.teamcode.systems.util.BackgroundTask;
 import org.firstinspires.ftc.teamcode.systems.util.BackgroundTaskRunnable;
 
+@Disabled
 @Autonomous(name = "Background Task Test", group = "test")
 public class BackgroundTaskTest extends AutonomousStandard {
 
@@ -53,11 +55,6 @@ public class BackgroundTaskTest extends AutonomousStandard {
             idle();
         }
 
-        if (!opModeIsActive()) {
-            testTask.stopTask();
-        }
-
-        sleep(1000);
-        super.stop();
+        testTask.stopTask();
     }
 }

@@ -30,14 +30,6 @@ public class MineralDetectionTest extends AutonomousStandard {
             telemetryManager.cycle();
         }
 
-        if (!opModeIsActive()) {
-            detector.stopTask();
-            return;
-        }
-
-        while (opModeIsActive()) {
-            idle();
-            telemetryManager.cycle();
-        }
+        detector.stopTask();
     }
 }
