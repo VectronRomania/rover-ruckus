@@ -15,8 +15,11 @@ import org.firstinspires.ftc.teamcode.systems.util.BackgroundTask;
 @Autonomous(name = "Deploy+sample", group = "autonomous")
 public class Blue1 extends AutonomousStandard {
 
-    private BackgroundTask<Integer> mineralDetector;
+    private MineralDetector mineralDetector;
+    private BackgroundTask<String> mineralDetectorTask;
+
     private MineralSampler mineralSampler;
+
     private LiftDeploy liftDeploy;
 
     @Override
@@ -24,46 +27,50 @@ public class Blue1 extends AutonomousStandard {
         drivetrain = new AutonomousDrivetrain(WheelBase.MECANUM);
         drivetrain.init();
 
-        mineralDetector = new MineralDetector(hardwareMap, this).getDetector();
-        mineralDetector.runInitialize();
+        mineralDetector = new MineralDetector(hardwareMap, this);
+        mineralDetectorTask = mineralDetector.getDetector();
+        mineralDetectorTask.runInitialize();
 
         liftDeploy = new LiftDeploy(new Lift(), drivetrain, this);
 
         mineralSampler = new MineralSampler(drivetrain, this);
-
-        telemetryManager.add(new DrivetrainEncoderTelemetryGroup());
     }
 
     @Override
     protected void opModeLoop() {
-        mineralDetector.start();
-        telemetryManager.add(mineralDetector.getStatusTelemetryItem());
-        telemetryManager.add(mineralDetector.getRunnableTelemetryItem());
+//        Start the mineral detector
+        mineralDetectorTask.start();
+        telemetryManager.add(mineralDetectorTask.getStatusTelemetryItem());
+        telemetryManager.add(mineralDetectorTask.getRunnableTelemetryItem());
 
-//        BackgroundTask dropDownBackgroundTask = liftDeploy.getDeployTask();
-//        int liftdeploy_index1 = telemetryManager.add(dropDownBackgroundTask.getStatusTelemetryItem());
-//        int liftdeploy_index2 = telemetryManager.add(dropDownBackgroundTask.getRunnableTelemetryItem());
-//
-//        dropDownBackgroundTask.start();
-//        while(opModeIsActive() && dropDownBackgroundTask.isAlive()) {
-//            idle();
-//        }
-//        if (opModeIsActive()) {
-//            stop();
-//        }
-//        telemetryManager.remove(liftdeploy_index1);
-//        telemetryManager.remove(liftdeploy_index2);
+//        Start the deployment task and wait for it to finish
+        BackgroundTask dropDownBackgroundTask = liftDeploy.getDeployTask();
+        int liftdeploy_index1 = telemetryManager.add(dropDownBackgroundTask.getStatusTelemetryItem());
+        int liftdeploy_index2 = telemetryManager.add(dropDownBackgroundTask.getRunnableTelemetryItem());
 
-        while (opModeIsActive() && !mineralDetector.isFinished()) {
+        dropDownBackgroundTask.start();
+        while(opModeIsActive() && !dropDownBackgroundTask.isFinished()) {
             telemetryManager.cycle();
             idle();
         }
+        if (!opModeIsActive()) {
+            return;
+        }
+        telemetryManager.remove(liftdeploy_index1);
+        telemetryManager.remove(liftdeploy_index2);
 
-        BackgroundTask mineralSamplingBackgroundTask = mineralSampler.sample(mineralDetector.getResult());
+//        Switch the detector to deployed detection
+        mineralDetector.switchToDeployed();
+
+//        Create the sampling task, start it and wait for it to finish
+        BackgroundTask mineralSamplingBackgroundTask = mineralSampler.sample(mineralDetector);
         mineralSamplingBackgroundTask.start();
+
         telemetryManager.add(mineralSamplingBackgroundTask.getStatusTelemetryItem());
         telemetryManager.add(mineralSamplingBackgroundTask.getRunnableTelemetryItem());
-        while (opModeIsActive() && mineralSamplingBackgroundTask.isFinished()) {
+
+        while (opModeIsActive() && !mineralSamplingBackgroundTask.isFinished()) {
+            telemetryManager.cycle();
             idle();
         }
 

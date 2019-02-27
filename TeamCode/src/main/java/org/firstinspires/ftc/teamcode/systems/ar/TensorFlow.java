@@ -19,7 +19,7 @@ public class TensorFlow {
 
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia.vuforiaLocalizer);
 
-        tfodParameters.minimumConfidence = 0.1;
+//        tfodParameters.minimumConfidence = 0.1;
 
         tfod.loadModelFromAsset(Constants.TFOD_MODEL_ASSET,
                 Constants.LABEL_GOLD_MINERAL,

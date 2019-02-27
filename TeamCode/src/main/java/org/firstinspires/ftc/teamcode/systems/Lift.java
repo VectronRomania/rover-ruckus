@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.hardware.Robot;
+import org.firstinspires.ftc.teamcode.systems.util.Checkable;
 import org.firstinspires.ftc.teamcode.systems.util.CheckableGroup;
 import org.firstinspires.ftc.teamcode.systems.util.checkables.MotorEncoderCheckable;
 
@@ -54,7 +55,7 @@ public class Lift {
      * @param ticks
      * @param power
      */
-    public CheckableGroup move(@NonNull Direction direction, @NonNull Integer ticks, @NonNull Double power) {
+    public Checkable move(@NonNull Direction direction, @NonNull Integer ticks, @NonNull Double power) {
 
         int left = 0;
         int right = 0;
@@ -75,10 +76,10 @@ public class Lift {
         return new CheckableGroup()
                 .add(new MotorEncoderCheckable(
                         Robot.Lift.left_lift,
-                        left, 5), CheckableGroup.Operation.AND)
+                        left, 10), CheckableGroup.Operation.AND)
                 .add(new MotorEncoderCheckable(
                         Robot.Lift.right_lift,
-                        right, 5), CheckableGroup.Operation.AND);
+                        right, 10), CheckableGroup.Operation.AND);
     }
 
     /**

@@ -29,6 +29,9 @@ public abstract class TeleOpStandard extends LinearOpMode {
 
         initialize();
 
+        telemetry.addData(">", "Ready");
+        telemetry.update();
+
         waitForStart();
 
         while (opModeIsActive()) {
