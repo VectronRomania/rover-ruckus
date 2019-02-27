@@ -37,6 +37,7 @@ public abstract class AutonomousStandard extends LinearOpMode {
 
         while (opModeIsActive()) {
             telemetryManager.cycle();
+            idle();
         }
     }
 
