@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.systems.util.Checkable;
 
 public class MotorEncoderCheckable implements Checkable {
 
-    private final DcMotor motor;
+    private volatile DcMotor motor;
 
     private final Integer bias;
 
@@ -19,7 +19,7 @@ public class MotorEncoderCheckable implements Checkable {
     }
 
     @Override
-    public Boolean check() {
+    public synchronized Boolean check() {
         if (targetPosition < motor.getCurrentPosition()) {
             return motor.getCurrentPosition() < targetPosition + bias;
         }

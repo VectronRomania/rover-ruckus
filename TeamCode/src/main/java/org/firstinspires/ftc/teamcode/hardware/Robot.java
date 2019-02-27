@@ -23,13 +23,13 @@ public class Robot {
      */
     public static class Drivetrain {
 
-        public static DcMotor left_front;
+        public static volatile DcMotor left_front;
 
-        public static DcMotor right_front;
+        public static volatile DcMotor right_front;
 
-        public static DcMotor left_back;
+        public static volatile DcMotor left_back;
 
-        public static DcMotor right_back;
+        public static volatile DcMotor right_back;
 
         public static void setPower(double power) {
             left_front.setPower(power);
@@ -93,13 +93,13 @@ public class Robot {
      */
     public static class Lift {
 
-        public static DcMotor               left_lift;
+        public static volatile DcMotor               left_lift;
 
-        public static DcMotor               right_lift;
+        public static volatile DcMotor               right_lift;
 
-        public static Rev2mDistanceSensor   distance_left;
+        public static volatile Rev2mDistanceSensor   distance_left;
 
-        public static Rev2mDistanceSensor   distance_right;
+        public static volatile Rev2mDistanceSensor   distance_right;
 
         public static void setPower(double power) {
             left_lift.setPower(power);
@@ -142,7 +142,7 @@ public class Robot {
      */
     public static class Extender {
 
-        public static DcMotor extender;
+        public static volatile DcMotor extender;
 
         public static void setPower(double a) {
             extender.setPower(a);
@@ -171,7 +171,7 @@ public class Robot {
      */
     public static class Collector {
 
-        public static DcMotor collector;
+        public static volatile DcMotor collector;
 
         public static void setPower(double a) {
             collector.setPower(a);
@@ -193,9 +193,9 @@ public class Robot {
             collector.setTargetPosition(a);
         }
 
-        public static Servo servoLeft;
+        public static volatile Servo servoLeft;
 
-        public static Servo servoRight;
+        public static volatile Servo servoRight;
 
         public static void setServoDirection(Servo.Direction direction) {
             servoLeft.setDirection(direction);
@@ -223,13 +223,13 @@ public class Robot {
      */
     public static class Servos {
 
-        public static Servo scoopLeft;
+        public static volatile Servo scoopLeft;
 
-        public static Servo scoopRight;
+        public static volatile Servo scoopRight;
 
-        public static Servo scoopLeftHigh;
+        public static volatile Servo scoopLeftHigh;
 
-        public static Servo scoopRightHigh;
+        public static volatile Servo scoopRightHigh;
 
 //        public static Servo phone_servo;
 
@@ -240,9 +240,9 @@ public class Robot {
      */
     public static class Sensors {
 
-        public static REVImu left_imu;
+        public static volatile REVImu left_imu;
 
-        public static REVImu right_imu;
+        public static volatile REVImu right_imu;
     }
 
 

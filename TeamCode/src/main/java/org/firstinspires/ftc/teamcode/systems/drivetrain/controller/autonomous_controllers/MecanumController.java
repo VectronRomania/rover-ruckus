@@ -98,10 +98,10 @@ public final class MecanumController extends Controller implements AutonomousCon
         Robot.Drivetrain.setPower(power);
 
         return new DrivetrainCheckableGroup(
-                new MotorEncoderCheckable(Robot.Drivetrain.left_front, a, 10),
-                new MotorEncoderCheckable(Robot.Drivetrain.right_front, b, 10),
-                new MotorEncoderCheckable(Robot.Drivetrain.right_back, c, 10),
-                new MotorEncoderCheckable(Robot.Drivetrain.left_back, d, 10)
+                new MotorEncoderCheckable(Robot.Drivetrain.left_front, a, 15),
+                new MotorEncoderCheckable(Robot.Drivetrain.right_front, b, 15),
+                new MotorEncoderCheckable(Robot.Drivetrain.right_back, c, 15),
+                new MotorEncoderCheckable(Robot.Drivetrain.left_back, d, 15)
         );
     }
 }

@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.AutonomousDrivetrain;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.Controller;
 import org.firstinspires.ftc.teamcode.systems.util.BackgroundTask;
@@ -40,6 +41,7 @@ public class MineralSampler {
                 drivetrain.stop();
                 super.telemetryItem.set("not started");
                 result = "not started";
+                finished = false;
             }
 
             @Override
@@ -53,51 +55,32 @@ public class MineralSampler {
                 Checkable drivetrainCheckable;
                 result = "started";
                 switch (position) {
+//                    left
+                    case 0:
+                        drivetrainCheckable = drivetrain.move(Controller.Direction.N,
+                                Robot.ENCODER_TICKS_40_1 * 3 / 2,
+                                0.3);
+                        telemetryItem.set("move forward");
+                        while (!drivetrainCheckable.check() && !super.isStopRequested) {
+                            try {
+                                super.sleep(20);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                                result = "error";
+                                telemetryItem.set("error");
+                                return;
+                            }
+                        }
+
+                        result = "done";
+                        super.telemetryItem.set("done");
+                        break;
+//                        center
                     case 1:
-                        drivetrainCheckable = drivetrain.move(Controller.Direction.ROTATE_LEFT, 1000, 0.5);
-                        telemetryItem.set("rotate left");
-                        while (!drivetrainCheckable.check() && !super.isStopRequested) {
-                            try {
-                                super.sleep(20);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                                return;
-                            }
-                        }
-                        if (isStopRequested) {
-                            return;
-                        }
-
-                        drivetrainCheckable = drivetrain.move(Controller.Direction.N, 1000, 0.5);
-                        telemetryItem.set("move forward");
-                        while (!drivetrainCheckable.check() && !super.isStopRequested) {
-                            try {
-                                super.sleep(20);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                                return;
-                            }
-                        }
-                        if (isStopRequested) {
-                            return;
-                        }
-
-                        drivetrainCheckable = drivetrain.move(Controller.Direction.S, 1000, 0.5);
-                        telemetryItem.set("move backward");
-                        while (!drivetrainCheckable.check() && !super.isStopRequested) {
-                            try {
-                                super.sleep(20);
-                            } catch(InterruptedException e) {
-                                e.printStackTrace();
-                                return;
-                            }
-                        }
-                        if (isStopRequested) {
-                            return;
-                        }
-
-                        drivetrainCheckable = drivetrain.move(Controller.Direction.ROTATE_RIGHT, 1000, 0.5);
-                        telemetryItem.set("rotate right");
+                        drivetrainCheckable = drivetrain.move(Controller.Direction.E,
+                                1000,
+                                0.3);
+                        telemetryItem.set("rotate");
                         while (!drivetrainCheckable.check() && !super.isStopRequested) {
                             try {
                                 super.sleep(20);
@@ -108,57 +91,41 @@ public class MineralSampler {
                                 return;
                             }
                         }
-                        drivetrain.stop();
                         if (isStopRequested) {
                             return;
+                        }
+
+                        drivetrainCheckable = drivetrain.move(Controller.Direction.N,
+                                Robot.ENCODER_TICKS_40_1 * 3 / 2,
+                                0.3);
+                        telemetryItem.set("move forward");
+                        while (!drivetrainCheckable.check() && !super.isStopRequested) {
+                            try {
+                                super.sleep(20);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                                result = "error";
+                                telemetryItem.set("error");
+                                return;
+                            }
                         }
 
                         result = "done";
                         super.telemetryItem.set("done");
                         break;
+//                        right
                     case 2:
-                        drivetrainCheckable = drivetrain.move(Controller.Direction.N, 1000, 0.5);
-                        telemetryItem.set("move forward");
-                        while (!drivetrainCheckable.check() && !super.isStopRequested) {
-                            try {
-                                super.sleep(20);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                                return;
-                            }
-                        }
-                        if (isStopRequested) {
-                            return;
-                        }
-
-                        drivetrainCheckable = drivetrain.move(Controller.Direction.S, 1000, 0.5);
-                        telemetryItem.set("move backward");
-                        while (!drivetrainCheckable.check() && !super.isStopRequested) {
-                            try {
-                                super.sleep(20);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                                result = "error";
-                                telemetryItem.set("error");
-                                return;
-                            }
-                        }
-                        drivetrain.stop();
-                        if (isStopRequested) {
-                            return;
-                        }
-
-                        result = "done";
-                        super.telemetryItem.set("done");
-                        break;
-                    case 3:
-                        drivetrainCheckable = drivetrain.move(Controller.Direction.ROTATE_RIGHT, 1000, 0.5);
+                        drivetrainCheckable = drivetrain.move(Controller.Direction.E,
+                                2000,
+                                0.3);
                         telemetryItem.set("rotate right");
                         while (!drivetrainCheckable.check() && !super.isStopRequested) {
                             try {
                                 super.sleep(20);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
+                                result = "error";
+                                telemetryItem.set("error");
                                 return;
                             }
                         }
@@ -166,7 +133,9 @@ public class MineralSampler {
                             return;
                         }
 
-                        drivetrainCheckable = drivetrain.move(Controller.Direction.N, 1000, 0.5);
+                        drivetrainCheckable = drivetrain.move(Controller.Direction.N,
+                                Robot.ENCODER_TICKS_40_1 * 7 / 2,
+                                0.5);
                         telemetryItem.set("move forward");
                         while (!drivetrainCheckable.check() && !super.isStopRequested) {
                             try {
@@ -175,40 +144,6 @@ public class MineralSampler {
                                 e.printStackTrace();
                                 return;
                             }
-                        }
-                        if (isStopRequested) {
-                            return;
-                        }
-
-                        drivetrainCheckable = drivetrain.move(Controller.Direction.S, 1000, 0.5);
-                        telemetryItem.set("move backward");
-                        while (!drivetrainCheckable.check() && !super.isStopRequested) {
-                            try {
-                                super.sleep(20);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                                return;
-                            }
-                        }
-                        if (isStopRequested) {
-                            return;
-                        }
-
-                        drivetrainCheckable = drivetrain.move(Controller.Direction.ROTATE_LEFT, 1000, 0.5);
-                        telemetryItem.set("rotate left");
-                        while (!drivetrainCheckable.check() && !super.isStopRequested) {
-                            try {
-                                super.sleep(20);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                                result = "error";
-                                telemetryItem.set("error");
-                                return;
-                            }
-                        }
-                        drivetrain.stop();
-                        if (isStopRequested) {
-                            return;
                         }
 
                         result = "done";
