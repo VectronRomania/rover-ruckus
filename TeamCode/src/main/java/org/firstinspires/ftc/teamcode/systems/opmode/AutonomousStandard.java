@@ -19,7 +19,7 @@ public abstract class AutonomousStandard extends LinearOpMode {
     /**
      * The telemetry manager.
      */
-    protected volatile TelemetryManager telemetryManager;
+    protected TelemetryManager telemetryManager;
 
     @Override
     public void runOpMode() {
@@ -37,7 +37,7 @@ public abstract class AutonomousStandard extends LinearOpMode {
 
         while (opModeIsActive()) {
             telemetryManager.cycle();
-            idle();
+//            idle();
         }
     }
 

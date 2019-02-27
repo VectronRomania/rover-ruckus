@@ -31,7 +31,7 @@ public class TelemetryManager {
     /**
      * Writes all items in the telemetry.
      */
-    public void write() {
+    public synchronized void write() {
         for (TelemetryItem item : items) {
             item.write(telemetry);
         }
@@ -40,7 +40,7 @@ public class TelemetryManager {
     /**
      * Flushes the telemetry data.
      */
-    public void flush() {
+    public synchronized void flush() {
         telemetry.update();
     }
 
@@ -49,7 +49,7 @@ public class TelemetryManager {
      * @param item the item that needs to be added.
      * @return the index of the added item.
      */
-    public int add(TelemetryItem item) {
+    public synchronized int add(TelemetryItem item) {
         items.add(item);
         return items.lastIndexOf(item);
     }
@@ -58,14 +58,14 @@ public class TelemetryManager {
      * Remove an item from the telemetry item list.
      * @param index the index of the item that has to be removed.
      */
-    public void remove(int index) {
+    public synchronized void remove(int index) {
         items.remove(index);
     }
 
     /**
      * Update all the items' values.
      */
-    public void update() {
+    public synchronized void update() {
         for (TelemetryItem item : items) {
             item.update();
         }
@@ -74,7 +74,7 @@ public class TelemetryManager {
     /**
      * Do a complete telemetry cycle.
      */
-    public void cycle() {
+    public synchronized void cycle() {
         update();
         write();
         flush();

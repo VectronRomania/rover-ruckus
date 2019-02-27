@@ -155,7 +155,7 @@ public final class BackgroundTask<T> extends Thread {
         switch (this.taskType) {
             case LOOP:
                 Log.d(TAG, "run: starting loop task");
-                while (!this.runnable.isFinished() && !this.isStopRequested) {
+                while (!this.runnable.isFinished() && !this.isStopRequested()) {
                     this.runnable.run();
                     Log.v(TAG, "run: task loop");
                 }
@@ -176,6 +176,8 @@ public final class BackgroundTask<T> extends Thread {
      */
     public synchronized void stopTask() {
         Log.d(TAG, "stopTask() called");
+        if (!this.isAlive())
+            return;
         this.isStopRequested = true;
         this.runnable.stop();
         this.interrupt();
