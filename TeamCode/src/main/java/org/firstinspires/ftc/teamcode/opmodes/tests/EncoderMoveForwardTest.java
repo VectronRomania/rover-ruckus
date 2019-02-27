@@ -24,14 +24,14 @@ public class EncoderMoveForwardTest extends AutonomousStandard {
     @Override
     public void opModeLoop() {
 
-        Checkable checkable = drivetrain.move(Controller.Direction.N, Robot.ENCODER_TICKS_40_1, 0.25);
+        final Checkable checkable = drivetrain.move(Controller.Direction.N, Robot.ENCODER_TICKS_40_1, 0.25);
         telemetryManager.add(new CheckableTelemetryItem("Test status", checkable));
 
         while (opModeIsActive() && !checkable.check()) {
             telemetryManager.cycle();
             idle();
         }
-
+        telemetryManager.cycle();
         drivetrain.stop();
     }
 }

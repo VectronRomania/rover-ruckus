@@ -54,7 +54,7 @@ public class BackgroundTaskTest extends AutonomousStandard {
             telemetryManager.cycle();
             idle();
         }
-
+        telemetryManager.cycle();
         testTask.stopTask();
     }
 }

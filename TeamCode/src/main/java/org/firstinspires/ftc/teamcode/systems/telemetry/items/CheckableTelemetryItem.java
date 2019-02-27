@@ -8,7 +8,7 @@ public final class CheckableTelemetryItem extends TelemetryItem<Boolean> {
     private final Checkable checkable;
 
     /**
-     * The costructor.
+     * The constructor.
      * @param tag the item identifier.
      */
     public CheckableTelemetryItem(String tag, Checkable checkable) {
