@@ -36,7 +36,7 @@ public class Extender {
      */
 
     public void manual(Gamepad gamepad) {
-        Robot.Extender.setPower(gamepad.left_stick_y);
+        Robot.Extender.setPower(gamepad.right_stick_y / 2);
     }
 
     /**

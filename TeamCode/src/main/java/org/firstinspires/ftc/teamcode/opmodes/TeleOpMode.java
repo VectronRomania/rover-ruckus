@@ -7,6 +7,7 @@ import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.systems.Collector;
 import org.firstinspires.ftc.teamcode.systems.Extender;
 import org.firstinspires.ftc.teamcode.systems.Lift;
+import org.firstinspires.ftc.teamcode.systems.Scoop;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.HumanControlledDrivetrain;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.WheelBase;
 import org.firstinspires.ftc.teamcode.systems.opmode.TeleOpStandard;
@@ -21,8 +22,8 @@ public class TeleOpMode extends TeleOpStandard {
 
     private Lift lift;
     private Extender extender;
-    Collector collector;
-//    Scoop scoop;
+    private Collector collector;
+//    private Scoop scoop;
 
     private BackgroundTask<Double> heightChecking;
     private BackgroundTask<String> imuChecking;
@@ -34,6 +35,8 @@ public class TeleOpMode extends TeleOpStandard {
         extender = new Extender();
         collector = new Collector();
 //        scoop = new Scoop();
+
+//        telemetryManager.add(scoop.getTelemetryItem());
 
         heightChecking = new BackgroundTask<>(new BackgroundTaskRunnable<Double>() {
             @Override
@@ -74,7 +77,7 @@ public class TeleOpMode extends TeleOpStandard {
 
             @Override
             public void run() {
-                this.telemetryItem.update();
+//                this.telemetryItem.update();
             }
         }, "IMU Checking", BackgroundTask.Type.LOOP, this);
         imuChecking.start();
@@ -89,9 +92,10 @@ public class TeleOpMode extends TeleOpStandard {
         lift.manual(gamepad1);
         extender.manual(gamepad2);
         collector.manual(gamepad2);
-        if (!opModeIsActive()) {
-            heightChecking.stopTask();
-            imuChecking.stopTask();
-        }
+//        scoop.manual(gamepad1);
+//        if (!opModeIsActive()) {
+//            heightChecking.stopTask();
+//            imuChecking.stopTask();
+//        }
     }
 }

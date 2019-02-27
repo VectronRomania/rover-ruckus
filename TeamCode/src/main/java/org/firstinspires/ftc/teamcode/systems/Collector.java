@@ -14,6 +14,8 @@ import org.firstinspires.ftc.teamcode.hardware.Robot;
 public class Collector {
 
     private boolean isCollectorMotorRunning = false;
+    private boolean aButtonLock = false;
+    private double servoPosition = 0.75;
 
     public Collector() {
         Robot.Collector.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -23,7 +25,7 @@ public class Collector {
         Robot.Collector.setPower(0);
 
         Robot.Collector.setServoDirection(Servo.Direction.FORWARD, Servo.Direction.REVERSE);
-        Robot.Collector.setServoPosition(0.5);
+        Robot.Collector.setServoPosition(servoPosition);
     }
 
     /**
@@ -35,12 +37,21 @@ public class Collector {
 
 //        Servos
         if (gamepad.y) {
-            Robot.Collector.setServoPosition(0);
-        } else if (gamepad.b) {
-            Robot.Collector.setServoPosition(0.5);
-        } else if (gamepad.a){
-            Robot.Collector.setServoPosition(0.75);
+            servoPosition = 0.75;
         }
+        if (gamepad.b) {
+            servoPosition = 0.5;
+        }
+        if (gamepad.a && !aButtonLock){
+            if (servoPosition > 0) {
+                servoPosition -= 0.1;
+            }
+            aButtonLock = true;
+        }
+        if (!gamepad.a) {
+            aButtonLock = false;
+        }
+        Robot.Collector.setServoPosition(servoPosition);
 
 //        Collector motor
         if (gamepad.right_bumper) {
