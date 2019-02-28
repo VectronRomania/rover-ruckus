@@ -43,6 +43,7 @@ public class Blue1 extends AutonomousStandard {
         telemetryManager.add(mineralDetectorTask.getStatusTelemetryItem());
         telemetryManager.add(mineralDetectorTask.getRunnableTelemetryItem());
 
+
 //        Start the deployment task and wait for it to finish
         BackgroundTask dropDownBackgroundTask = liftDeploy.getDeployTask();
         int liftdeploy_index1 = telemetryManager.add(dropDownBackgroundTask.getStatusTelemetryItem());
@@ -59,20 +60,26 @@ public class Blue1 extends AutonomousStandard {
         telemetryManager.remove(liftdeploy_index1);
         telemetryManager.remove(liftdeploy_index2);
 
+
 //        Switch the detector to deployed detection
-        mineralDetector.switchToDeployed();
+        mineralDetector.switchToDeployed(); // FIXME: 28/02/2019 maybe move this earlier
+
 
 //        Create the sampling task, start it and wait for it to finish
         BackgroundTask mineralSamplingBackgroundTask = mineralSampler.sample(mineralDetector);
+        int sampling_index1 = telemetryManager.add(mineralSamplingBackgroundTask.getStatusTelemetryItem());
+        int sampling_index2 = telemetryManager.add(mineralSamplingBackgroundTask.getRunnableTelemetryItem());
+
         mineralSamplingBackgroundTask.start();
-
-        telemetryManager.add(mineralSamplingBackgroundTask.getStatusTelemetryItem());
-        telemetryManager.add(mineralSamplingBackgroundTask.getRunnableTelemetryItem());
-
         while (opModeIsActive() && !mineralSamplingBackgroundTask.isFinished()) {
             telemetryManager.cycle();
             idle();
         }
+        if (!opModeIsActive()) {
+            return;
+        }
+        telemetryManager.remove(sampling_index1);
+        telemetryManager.remove(sampling_index2);
 
 //        drivetrain.move(Controller.Direction.N, 500, 0.5);
 //        drivetrain.move(Controller.Direction.ROTATE_LEFT, 340, 0.5);

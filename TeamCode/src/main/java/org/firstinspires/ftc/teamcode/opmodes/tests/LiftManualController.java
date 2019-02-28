@@ -18,6 +18,6 @@ public class LiftManualController extends TeleOpStandard {
 
     @Override
     public void opModeLoop() {
-        Robot.Lift.setPower(-gamepad1.left_stick_y, -gamepad1.right_stick_y);
+        Robot.Lift.setPower(-gamepad1.left_stick_y / 4, -gamepad1.right_stick_y / 4);
     }
 }

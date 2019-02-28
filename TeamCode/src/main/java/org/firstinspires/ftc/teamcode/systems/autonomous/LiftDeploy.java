@@ -137,7 +137,9 @@ public class LiftDeploy {
 //                Drop down reading distance
                 super.telemetryItem.set(1);
                 LiftHeightCheckable heightCheckable = new LiftHeightCheckable(138);
-                lift.move(Lift.Direction.DOWN, 0.75);
+                if (!heightCheckable.check()) {
+                    lift.move(Lift.Direction.DOWN, 0.75);
+                }
                 while (!heightCheckable.check() && !super.isStopRequested) {
                     // FIXME: 27/02/2019 test using sleep
 //                    try {
@@ -147,6 +149,7 @@ public class LiftDeploy {
 //                        return;
 //                    }
                 }
+                lift.stop();
                 if (isStopRequested) {
                     return;
                 }
@@ -154,8 +157,10 @@ public class LiftDeploy {
 //                Normalize robot pitch
                 super.telemetryItem.set(2);
                 RevPitchCheckable revPitchCheckable = new RevPitchCheckable(77, 5, Robot.Sensors.left_imu, Robot.Sensors.right_imu);
-                lift.move(Lift.Direction.DOWN, 0.5);
-                autonomousDrivetrain.move(Controller.Direction.N, Robot.ENCODER_TICKS_40_1, 0.2);
+                if (!revPitchCheckable.check()) {
+                    lift.move(Lift.Direction.DOWN, 0.5);
+                    autonomousDrivetrain.move(Controller.Direction.N, Robot.ENCODER_TICKS_40_1, 0.2);
+                }
                 while (!revPitchCheckable.check() && !super.isStopRequested) {
 //                    try {
 //                        this.sleep(5);

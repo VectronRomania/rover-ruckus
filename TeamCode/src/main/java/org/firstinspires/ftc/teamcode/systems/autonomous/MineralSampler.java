@@ -53,26 +53,139 @@ public class MineralSampler {
                 Checkable drivetrainCheckable;
                 super.telemetryItem.set("started");
 
+                /**
+                 * -1 -> not detected
+                 * 0  -> detected, inaccurate position(either Center or Right)
+                 * 1  -> accurate detection
+                 */
+                int mineralDetectionAccuarcy = -1;
+
 //                If the gold mineral was detected during deployment
                 if (mineralDetector.isDeploymentGoldDetected()) {
 
-//                    If gold mineral was detected when 3 minerals were detected
-                    if (mineralDetector.getDeploymentGoldPosition3() != MineralDetector.Position.NOT_DETECTED) { // FIXME: 27/02/2019
-                        // TODO: 27/02/2019 sample the mineral
-                    }
+////                    If gold mineral was detected when 3 minerals were detected
+//                    if (mineralDetector.getDeploymentGoldPosition3() != MineralDetector.Position.NOT_DETECTED) {
+//                        mineralDetectionAccuarcy = 1;
+//                    }
 
 //                If gold mineral was detected when 2 minerals were detected
-                    else if (mineralDetector.getDeploymentGoldPosition2() != MineralDetector.Position.NOT_DETECTED) {
-                        // TODO: 27/02/2019 sample the mineral
+                    if (mineralDetector.getDeploymentGoldPosition2() != MineralDetector.Position.NOT_DETECTED) {
+                        mineralDetectionAccuarcy = 1;
                     }
 
                     else if (mineralDetector.getDeploymentGoldPosition() == MineralDetector.Position.DETECTED) {
-                        // TODO: 27/02/2019 scan center, gold can't be left
+                        mineralDetectionAccuarcy = 0;
                     }
                 }
 
-//                continue with samplingx
-                
+                drivetrainCheckable = drivetrain.move(Controller.Direction.N, Robot.ENCODER_TICKS_40_1, 0.4);
+                while (!drivetrainCheckable.check() && !isStopRequested) {}
+                drivetrain.stop();
+
+//                if gold was not detected
+                if (mineralDetectionAccuarcy == -1) {
+//                    wait a bit so that the detector has time to detect
+                    try {
+                        sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                        return;
+                    }
+//                    if a mineral was not detected, move to the center mineral
+                    if (!mineralDetector.isSamplingGoldDetected()) {
+                        drivetrainCheckable = drivetrain.move(Controller.Direction.E, Robot.ENCODER_TICKS_40_1, 0.4);
+                        while (!drivetrainCheckable.check() && !isStopRequested) {}
+                        drivetrain.stop();
+
+                        try {
+                            sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                            return;
+                        }
+                    }
+//                    if a mineral was not detected, move to the right mineral
+                    if (!mineralDetector.isSamplingGoldDetected()) {
+                        drivetrainCheckable = drivetrain.move(Controller.Direction.E, Robot.ENCODER_TICKS_40_1, 0.4);
+                        while (!drivetrainCheckable.check() && !isStopRequested) {}
+                        drivetrain.stop();
+
+                        try {
+                            sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                            return;
+                        }
+                    }
+                    if (mineralDetector.getSamplingGoldPosition() == MineralDetector.Position.NOT_DETECTED) {
+                        return;
+                    }
+//                    score the mineral
+                    drivetrainCheckable = drivetrain.move(Controller.Direction.N, Robot.ENCODER_TICKS_40_1 / 2, 0.2);
+                    while (!drivetrainCheckable.check() && !isStopRequested) {}
+                    drivetrain.stop();
+                    return;
+                }
+
+//                if gold is detected but it's position is unknown
+                if (mineralDetectionAccuarcy == 0) {
+
+                    drivetrainCheckable = drivetrain.move(Controller.Direction.E, Robot.ENCODER_TICKS_40_1, 0.4);
+                    while (!drivetrainCheckable.check() && !isStopRequested) {}
+                    drivetrain.stop();
+
+                    try {
+                        sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                        return;
+                    }
+
+                    if (!mineralDetector.isSamplingGoldDetected()) {
+                        drivetrainCheckable = drivetrain.move(Controller.Direction.E, Robot.ENCODER_TICKS_40_1, 0.4);
+                        while (!drivetrainCheckable.check() && !isStopRequested) {}
+                        drivetrain.stop();
+                    }
+                    if (mineralDetector.getDeploymentGoldPosition() == MineralDetector.Position.DETECTED) {
+                        drivetrainCheckable = drivetrain.move(Controller.Direction.N, Robot.ENCODER_TICKS_40_1 / 2, 0.2);
+                        while (!drivetrainCheckable.check() && !isStopRequested) {}
+                        drivetrain.stop();
+                    }
+                    return;
+                }
+
+//                if gold was detected and it's position is known
+                final MineralDetector.Position position;
+                if (mineralDetector.getDeploymentGoldPosition() != MineralDetector.Position.NOT_DETECTED
+                        && mineralDetector.getSamplingtGoldPosition2() == MineralDetector.Position.NOT_DETECTED) {
+                    position = mineralDetector.getDeploymentGoldPosition();
+                } else if (mineralDetector.getDeploymentGoldPosition() == MineralDetector.Position.NOT_DETECTED
+                        && mineralDetector.getSamplingtGoldPosition2() != MineralDetector.Position.NOT_DETECTED) {
+                    position = mineralDetector.getDeploymentGoldPosition2();
+                } else if (mineralDetector.getDeploymentGoldPosition() == mineralDetector.getDeploymentGoldPosition2()) {
+                    position = mineralDetector.getDeploymentGoldPosition();
+                } else {
+                    position = mineralDetector.getDeploymentGoldPosition2();
+                }
+                switch (position) {
+                    case LEFT:
+                        break;
+                    case CENTER:
+                        drivetrainCheckable = drivetrain.move(Controller.Direction.E, Robot.ENCODER_TICKS_40_1 * 2, 0.5);
+                        break;
+                    case RIGHT:
+                        drivetrainCheckable = drivetrain.move(Controller.Direction.E, Robot.ENCODER_TICKS_40_1 * 2, 0.5);
+                        break;
+                }
+                while (!drivetrainCheckable.check() && !isStopRequested) {}
+                drivetrain.stop();
+
+                drivetrainCheckable = drivetrain.move(Controller.Direction.N, Robot.ENCODER_TICKS_40_1 / 2, 0.3);
+                while (!drivetrainCheckable.check() && !isStopRequested) {}
+                drivetrain.stop();
+
+
+
 
 //                switch (position) {
 ////                    left
