@@ -24,6 +24,9 @@ public abstract class TeleOpStandard extends LinearOpMode {
     @Override
     public void runOpMode() {
 
+        telemetry.addData("****", "Initializing");
+        telemetry.update();
+
         Robot.build(hardwareMap);
         telemetryManager = new TelemetryManager(telemetry);
 

@@ -96,28 +96,15 @@ public class LiftDeploy {
                 while (!liftEncoderCheckable.check() && !super.isStopRequested) {}
                 lift.stop();
 
-
-
-//                Move the robot to unlatch and retract the lift
+//                Move the robot to unlatch
                 super.telemetryItem.set(4);
-                Checkable drivetrainEncoderCheckableGroup = autonomousDrivetrain.move(
-                        Controller.Direction.W,
-                        Robot.ENCODER_TICKS_40_1 / 2, // FIXME: 27/02/2019 test correct ticks
-                        0.25);
-                liftEncoderCheckable = lift.move(Lift.Direction.DOWN, 3 * Robot.ENCODER_TICKS_60_1, 0.75);
-                while (! (drivetrainEncoderCheckableGroup.check() && liftEncoderCheckable.check() )
-                        && !super.isStopRequested ) {
-//                    try {
-//                        this.sleep(10);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                        return;
-//                    }
-                }
-                if (isStopRequested) {
-                    return;
-                }
+                Checkable drivetrainEncoderCheckableGroup = autonomousDrivetrain.move(Controller.Direction.W, Robot.ENCODER_TICKS_40_1,0.25);
+                while (!drivetrainEncoderCheckableGroup.check() && !super.isStopRequested) {}
                 autonomousDrivetrain.stop();
+
+//                Retract the lift
+                liftEncoderCheckable = lift.move(Lift.Direction.DOWN, 3 * Robot.ENCODER_TICKS_60_1, 0.4);
+                while (!liftEncoderCheckable.check() && !super.isStopRequested ) {}
                 lift.stop();
             }
         }, "Lift deploy", BackgroundTask.Type.ONE_TIME, opMode);

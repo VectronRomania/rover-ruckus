@@ -13,12 +13,11 @@ import org.firstinspires.ftc.teamcode.hardware.Robot;
 
 public class Collector {
 
-    private boolean isCollectorMotorRunning = false;
-    private boolean aButtonLock = false;
+    private boolean buttonLock = false;
     private double servoPosition = 0.75;
 
     public Collector() {
-        Robot.Collector.setDirection(DcMotorSimple.Direction.FORWARD);
+        Robot.Collector.setDirection(DcMotorSimple.Direction.REVERSE);
         Robot.Collector.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Robot.Collector.setRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         Robot.Collector.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -39,33 +38,30 @@ public class Collector {
         if (gamepad.y) {
             servoPosition = 0.85;
         }
-        if (gamepad.b) {
-            servoPosition = 0.5;
-        }
-        if (gamepad.a && !aButtonLock){
+        if (gamepad.a && !buttonLock){
             if (servoPosition > 0) {
                 servoPosition -= 0.1;
             }
-            aButtonLock = true;
+            buttonLock = true;
         }
-        if (!gamepad.a) {
-            aButtonLock = false;
+        if (gamepad.b && !buttonLock) {
+            if (servoPosition < 1) {
+                servoPosition += 0.1;
+            }
+            buttonLock = true;
+        }
+        if (!gamepad.a && !gamepad.b) {
+            buttonLock = false;
         }
         Robot.Collector.setServoPosition(servoPosition);
 
 //        Collector motor
-        if (gamepad.right_bumper) {
-            isCollectorMotorRunning = true;
-        } else if (gamepad.left_bumper) {
-            isCollectorMotorRunning = false;
-        }
-        if (gamepad.right_trigger > 0) {
-            Robot.Collector.setPower(-gamepad.right_trigger);
+        if (gamepad.left_trigger > 0) {
+            Robot.Collector.setPower(-gamepad.left_trigger);
+        } else if (gamepad.right_trigger > 0) {
+            Robot.Collector.setPower(gamepad.right_trigger);
         } else {
-            if (isCollectorMotorRunning)
-                Robot.Collector.setPower(1);
-            else
-                Robot.Collector.setPower(0);
+            Robot.Collector.setPower(0);
         }
     }
 }

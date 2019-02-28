@@ -39,8 +39,8 @@ public class Blue1 extends AutonomousStandard {
         telemetry.addData("imu", "calibrating");
         telemetry.update();
         while (opModeIsActive() &&
-                Robot.Sensors.left_imu.sensor.isSystemCalibrated() &&
-                Robot.Sensors.right_imu.sensor.isSystemCalibrated()) {
+                Robot.Sensors.left_imu.sensor.isGyroCalibrated() &&
+                Robot.Sensors.right_imu.sensor.isGyroCalibrated()) {
             idle();
         }
     }
