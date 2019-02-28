@@ -31,6 +31,8 @@ public class Lift {
         Robot.Lift.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         Robot.Lift.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        Robot.Lift.setPower(0);
     }
 
     /**
@@ -56,6 +58,7 @@ public class Lift {
      * @param power
      */
     public Checkable move(@NonNull Direction direction, @NonNull Integer ticks, @NonNull Double power) {
+        Robot.Lift.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         int left = 0;
         int right = 0;
@@ -88,6 +91,7 @@ public class Lift {
      * @param power
      */
     public void move(@NonNull Direction direction, @NonNull Double power) {
+        Robot.Lift.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
         switch (direction) {
             case UP:
                 Robot.Lift.setPower(

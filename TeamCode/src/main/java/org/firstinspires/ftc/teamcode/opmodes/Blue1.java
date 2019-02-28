@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.systems.Lift;
 import org.firstinspires.ftc.teamcode.systems.autonomous.LiftDeploy;
 import org.firstinspires.ftc.teamcode.systems.autonomous.MineralDetector;
@@ -34,6 +35,14 @@ public class Blue1 extends AutonomousStandard {
         liftDeploy = new LiftDeploy(new Lift(), drivetrain, this);
 
         mineralSampler = new MineralSampler(drivetrain, this);
+
+        telemetry.addData("imu", "calibrating");
+        telemetry.update();
+        while (opModeIsActive() &&
+                Robot.Sensors.left_imu.sensor.isSystemCalibrated() &&
+                Robot.Sensors.right_imu.sensor.isSystemCalibrated()) {
+            idle();
+        }
     }
 
     @Override
@@ -64,6 +73,12 @@ public class Blue1 extends AutonomousStandard {
 //        Switch the detector to deployed detection
         mineralDetector.switchToDeployed(); // FIXME: 28/02/2019 maybe move this earlier
 
+
+        while (opModeIsActive()) {
+            telemetryManager.cycle();
+        }
+        if (true)
+        return;
 
 //        Create the sampling task, start it and wait for it to finish
         BackgroundTask mineralSamplingBackgroundTask = mineralSampler.sample(mineralDetector);

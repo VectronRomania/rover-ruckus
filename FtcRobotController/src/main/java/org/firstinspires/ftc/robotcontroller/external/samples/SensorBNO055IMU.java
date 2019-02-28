@@ -117,7 +117,7 @@ public class SensorBNO055IMU extends LinearOpMode
         // from the IMU that we will then display in separate lines.
         telemetry.addAction(new Runnable() { @Override public void run()
                 {
-                // Acquiring the angles is relatively expensive; we don't want
+                // Acquiring the angles_left is relatively expensive; we don't want
                 // to do that in each of the three items that need that info, as that's
                 // three times the necessary expense.
                 angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
