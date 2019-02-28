@@ -22,81 +22,25 @@ import org.firstinspires.ftc.teamcode.systems.util.Checkable;
  */
 public class LiftDeploy {
 
-//    distance: 135 mm +- 5mm
-//    yaw 77 pitch 1
-
     /**
-     * Checkable that checks if the robot is in a certain pitch radius.
+     * LiftEncoderCheckableGroup for checking encoder values in the lift
      */
-    public class RevYawCheckable implements Checkable {
-
-        final double yaw;
-        final double bias;
-        final REVImu left;
-        final REVImu right;
-
-        public RevYawCheckable(double yaw, double bias, REVImu left, REVImu right) {
-            this.yaw = yaw;
-            this.bias = bias;
-            this.left = left;
-            this.right = right;
-        }
-
-        public double getMedianAngle() {
-            return (left.getRoll() + right.getRoll()) / 2;
-        }
-
-        @Override
-        public synchronized Boolean check() {
-                return yaw < getMedianAngle() ?
-                        yaw > getMedianAngle() - bias :
-                        yaw < getMedianAngle() + bias;
-        }
-    }
-
-    /**
-     * Checkable for checking the height reported by the distance sensors.
-     */
-    public class LiftHeightCheckable implements Checkable {
-
-        private final Integer minHeightMM;
-
-        public LiftHeightCheckable(Integer minHeightMM) {
-            this.minHeightMM = minHeightMM;
-        }
-
-        @Override
-        public Boolean check() {
-            final double distanceLeft, distanceRight;
-            synchronized (Robot.Lift.distance_left) {
-                distanceLeft = Robot.Lift.distance_left.getDistance(DistanceUnit.MM);
-            }
-            synchronized (Robot.Lift.distance_right) {
-                distanceRight = Robot.Lift.distance_right.getDistance(DistanceUnit.MM);
-            }
-            return (distanceLeft + distanceRight) / 2 < minHeightMM;
-        }
-    }
-
-    /**
-     * DrivetrainCheckableGroup for checking encoder values in the lift
-     */
-    public class LiftEncoderCheckableGroup extends CheckableGroup {
-        public LiftEncoderCheckableGroup(Integer ticksLeft, Integer ticksRight, Integer bias) {
-            items.add(
-                    new Pair<Checkable, Operation>(
-                        new MotorEncoderCheckable(Robot.Lift.left_lift, ticksLeft, bias),
-                        Operation.AND
-                    )
-            );
-            items.add(
-                    new Pair<Checkable, Operation>(
-                            new MotorEncoderCheckable(Robot.Lift.right_lift, ticksRight, bias),
-                            Operation.AND
-                    )
-            );
-        }
-    }
+//    public class LiftEncoderCheckableGroup extends CheckableGroup {
+//        public LiftEncoderCheckableGroup(Integer ticksLeft, Integer ticksRight, Integer bias) {
+//            items.add(
+//                    new Pair<Checkable, Operation>(
+//                        new MotorEncoderCheckable(Robot.Lift.left_lift, ticksLeft, bias),
+//                        Operation.AND
+//                    )
+//            );
+//            items.add(
+//                    new Pair<Checkable, Operation>(
+//                            new MotorEncoderCheckable(Robot.Lift.right_lift, ticksRight, bias),
+//                            Operation.AND
+//                    )
+//            );
+//        }
+//    }
 
     private final Lift lift;
     private final AutonomousDrivetrain autonomousDrivetrain;
@@ -131,61 +75,24 @@ public class LiftDeploy {
                 }
                 super.telemetryItem.set(0);
                 result = 1;
+
+                Robot.Lift.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                Robot.Lift.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
 
             @Override
             public void run() {
-//                Drop down reading distance
-                super.telemetryItem.set(1);
-                LiftHeightCheckable heightCheckable = new LiftHeightCheckable(138);
-                if (!heightCheckable.check()) {
-                    lift.move(Lift.Direction.DOWN, 0.75);
-                }
-                while (!heightCheckable.check() && !super.isStopRequested) {
-                    // FIXME: 27/02/2019 test using sleep
-//                    try {
-//                        this.sleep(5);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                        return;
-//                    }
-                }
+
+                Checkable liftEncoderCheckable;
+                super.telemetryItem.set(0);
+                liftEncoderCheckable = lift.move(Lift.Direction.DOWN, Robot.ENCODER_TICKS_60_1 * 11 / 2, 0.75);
+                while (!liftEncoderCheckable.check() && !super.isStopRequested) {}
                 lift.stop();
-                if (isStopRequested) {
-                    return;
-                }
 
-//                Normalize robot pitch
-                super.telemetryItem.set(2);
-                RevYawCheckable revYawCheckable = new RevYawCheckable(77, 5, Robot.Sensors.left_imu, Robot.Sensors.right_imu);
-//                if (Robot.Sensors.left_imu.sensor)
-                if (!revYawCheckable.check()) {
-                    lift.move(Lift.Direction.DOWN, 0.2);
-                    autonomousDrivetrain.move(Controller.Direction.N, Robot.ENCODER_TICKS_40_1, 0.1);
-                }
-                while (!revYawCheckable.check() && !super.isStopRequested) {
-//                    try {
-//                        this.sleep(5);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                        return;
-//                    }
-                }
-                autonomousDrivetrain.stop();
-                lift.stop();
-                if (isStopRequested) {
-                    return;
-                }
-
-                if (true)
-                    return;
-
-                Robot.Lift.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                Robot.Lift.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
 //                Elevate the lift a tiny bit
                 super.telemetryItem.set(3);
                 // FIXME: 27/02/2019 test necessary ticks
-                Checkable liftEncoderCheckable = lift.move(Lift.Direction.UP, Robot.ENCODER_TICKS_60_1  / 3, 0.75);
+                liftEncoderCheckable = lift.move(Lift.Direction.UP, Robot.ENCODER_TICKS_60_1  / 3, 0.75);
                 while (!liftEncoderCheckable.check() && !super.isStopRequested) {}
                 lift.stop();
 
