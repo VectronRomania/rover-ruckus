@@ -258,27 +258,36 @@ public class MineralDetector {
 //        Two minerals detected
         if (size == 2) {
             int k = 2;
+            int silverDetected = 0;
             for (Recognition recognition : updatedRecognitions) {
-                if (MineralType.get(recognition) != MineralType.GOLD) {
-                    k++;
+                if (MineralType.get(recognition) == MineralType.GOLD) {
+                    this.deploymentGoldDetected = true;
+                    this.deploymentGoldPosition2 = Position.get(k);
                     continue;
                 }
-                this.deploymentGoldDetected = true;
-                this.deploymentGoldPosition2 = Position.get(k);
+                if (MineralType.get(recognition) == MineralType.SILVER) {
+                    silverDetected++;
+                }
+//                if 2 silver were detected then the gold mineral is in the left position
+                if (silverDetected == 2) {
+                    this.deploymentGoldDetected = true;
+                    this.deploymentGoldPosition2 = Position.LEFT;
+                }
+                k++;
             }
-            return;
+//            return;
         }
 
-//        Three minerals detected
-        int k = 1;
-        for (Recognition recognition : updatedRecognitions) {
-            if (MineralType.get(recognition) != MineralType.GOLD) {
-                k++;
-                continue;
-            }
-            this.deploymentGoldDetected = true;
-            this.deploymentGoldPosition2 = Position.get(k);
-        }
+////        Three minerals detected
+//        int k = 1;
+//        for (Recognition recognition : updatedRecognitions) {
+//            if (MineralType.get(recognition) != MineralType.GOLD) {
+//                k++;
+//                continue;
+//            }
+//            this.deploymentGoldDetected = true;
+//            this.deploymentGoldPosition2 = Position.get(k);
+//        }
 
 //        More objects detected
 
