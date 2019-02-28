@@ -43,11 +43,11 @@ public class LiftDeploy {
         }
 
         public double getMedianAngle() {
-            return (left.getRoll() + right.getRoll()) / 2;
+            return (left.getPitch() + right.getPitch()) / 2;
         }
 
         @Override
-        public synchronized Boolean check() {
+        public Boolean check() {
                 return yaw < getMedianAngle() ?
                         yaw > getMedianAngle() - bias :
                         yaw < getMedianAngle() + bias;
@@ -68,12 +68,8 @@ public class LiftDeploy {
         @Override
         public Boolean check() {
             final double distanceLeft, distanceRight;
-            synchronized (Robot.Lift.distance_left) {
-                distanceLeft = Robot.Lift.distance_left.getDistance(DistanceUnit.MM);
-            }
-            synchronized (Robot.Lift.distance_right) {
-                distanceRight = Robot.Lift.distance_right.getDistance(DistanceUnit.MM);
-            }
+            distanceLeft = Robot.Lift.distance_left.getDistance(DistanceUnit.MM);
+            distanceRight = Robot.Lift.distance_right.getDistance(DistanceUnit.MM);
             return (distanceLeft + distanceRight) / 2 < minHeightMM;
         }
     }
@@ -141,15 +137,7 @@ public class LiftDeploy {
                 if (!heightCheckable.check()) {
                     lift.move(Lift.Direction.DOWN, 0.75);
                 }
-                while (!heightCheckable.check() && !super.isStopRequested) {
-                    // FIXME: 27/02/2019 test using sleep
-//                    try {
-//                        this.sleep(5);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                        return;
-//                    }
-                }
+                while (!heightCheckable.check() && !super.isStopRequested) {}
                 lift.stop();
                 if (isStopRequested) {
                     return;
@@ -157,60 +145,37 @@ public class LiftDeploy {
 
 //                Normalize robot pitch
                 super.telemetryItem.set(2);
-                RevYawCheckable revYawCheckable = new RevYawCheckable(77, 5, Robot.Sensors.left_imu, Robot.Sensors.right_imu);
+                RevYawCheckable revYawCheckable = new RevYawCheckable(-78, 3, Robot.Sensors.left_imu, Robot.Sensors.right_imu);
 //                if (Robot.Sensors.left_imu.sensor)
                 if (!revYawCheckable.check()) {
-                    lift.move(Lift.Direction.DOWN, 0.2);
+                    lift.move(Lift.Direction.DOWN, 0.3);
                     autonomousDrivetrain.move(Controller.Direction.N, Robot.ENCODER_TICKS_40_1, 0.1);
                 }
-                while (!revYawCheckable.check() && !super.isStopRequested) {
-//                    try {
-//                        this.sleep(5);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                        return;
-//                    }
-                }
+                while (!revYawCheckable.check() && !super.isStopRequested) {}
                 autonomousDrivetrain.stop();
                 lift.stop();
                 if (isStopRequested) {
                     return;
                 }
 
-                if (true)
-                    return;
-
+//                Elevate the lift a tiny bit
                 Robot.Lift.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 Robot.Lift.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                Elevate the lift a tiny bit
+
                 super.telemetryItem.set(3);
-                // FIXME: 27/02/2019 test necessary ticks
-                Checkable liftEncoderCheckable = lift.move(Lift.Direction.UP, Robot.ENCODER_TICKS_60_1  / 3, 0.75);
+                Checkable liftEncoderCheckable = lift.move(Lift.Direction.DOWN, Robot.ENCODER_TICKS_60_1 , 0.5);
                 while (!liftEncoderCheckable.check() && !super.isStopRequested) {}
                 lift.stop();
 
-
-
-//                Move the robot to unlatch and retract the lift
+//                Move the robot to unlatch
                 super.telemetryItem.set(4);
-                Checkable drivetrainEncoderCheckableGroup = autonomousDrivetrain.move(
-                        Controller.Direction.W,
-                        Robot.ENCODER_TICKS_40_1 / 2, // FIXME: 27/02/2019 test correct ticks
-                        0.25);
-                liftEncoderCheckable = lift.move(Lift.Direction.DOWN, 3 * Robot.ENCODER_TICKS_60_1, 0.75);
-                while (! (drivetrainEncoderCheckableGroup.check() && liftEncoderCheckable.check() )
-                        && !super.isStopRequested ) {
-//                    try {
-//                        this.sleep(10);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                        return;
-//                    }
-                }
-                if (isStopRequested) {
-                    return;
-                }
+                Checkable drivetrainEncoderCheckableGroup = autonomousDrivetrain.move(Controller.Direction.W, Robot.ENCODER_TICKS_40_1,0.25);
+                while (!drivetrainEncoderCheckableGroup.check() && !super.isStopRequested) {}
                 autonomousDrivetrain.stop();
+
+//                Retract the lift
+                liftEncoderCheckable = lift.move(Lift.Direction.DOWN, 3 * Robot.ENCODER_TICKS_60_1, 0.4);
+                while (!liftEncoderCheckable.check() && !super.isStopRequested ) {}
                 lift.stop();
             }
         }, "Lift deploy", BackgroundTask.Type.ONE_TIME, opMode);
