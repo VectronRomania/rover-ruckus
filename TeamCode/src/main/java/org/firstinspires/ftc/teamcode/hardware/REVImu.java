@@ -16,7 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
  */
 public class REVImu {
 
-    private BNO055IMU sensor;
+    public BNO055IMU sensor;
 
     public REVImu(){}
 
@@ -39,6 +39,7 @@ public class REVImu {
         parameters.loggingEnabled      = true;
         parameters.loggingTag          = "IMU-" + name;
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+//        parameters.mode = BNO055IMU.SensorMode
 
         imu.sensor.initialize(parameters);
         return imu;
@@ -57,26 +58,26 @@ public class REVImu {
     }
 
     /**
-     * Get the roll(Y axis).
+     * Get the roll(X axis).
      * @return
      */
     public double getRoll() {
         return AngleUnit.normalizeDegrees(
                 AngleUnit.DEGREES.fromUnit(
                         getOrientation().angleUnit,
-                        getOrientation().secondAngle)
+                        getOrientation().thirdAngle)
         );
     }
 
     /**
-     * Get the pitch(X) axis.
+     * Get the pitch(Y) axis.
      * @return
      */
     public double getPitch() {
         return AngleUnit.normalizeDegrees(
                 AngleUnit.DEGREES.fromUnit(
                         getOrientation().angleUnit,
-                        getOrientation().thirdAngle)
+                        getOrientation().secondAngle)
         );
     }
 

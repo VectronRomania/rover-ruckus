@@ -236,7 +236,7 @@ public class ConceptVuforiaNavRoverRuckus extends LinearOpMode {
          *
          * The phone starts out lying flat, with the screen facing Up and with the physical top of the phone
          * pointing to the LEFT side of the Robot.  It's very important when you test this code that the top of the
-         * camera is pointing to the left side of the  robot.  The rotation angles don't work if you flip the phone.
+         * camera is pointing to the left side of the  robot.  The rotation angles_left don't work if you flip the phone.
          *
          * If using the rear (High Res) camera:
          * We need to rotate the camera around it's long axis to bring the rear camera forward.

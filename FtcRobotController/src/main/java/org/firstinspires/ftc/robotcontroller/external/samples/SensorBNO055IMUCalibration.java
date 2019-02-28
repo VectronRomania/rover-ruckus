@@ -109,7 +109,8 @@ public class SensorBNO055IMUCalibration extends LinearOpMode
     BNO055IMU imu_right;
 
     // State used for updating telemetry
-    Orientation angles;
+    Orientation angles_left;
+    Orientation angles_right;
 
     //----------------------------------------------------------------------------------------------
     // Main logic
@@ -189,10 +190,11 @@ public class SensorBNO055IMUCalibration extends LinearOpMode
         // from the IMU that we will then display in separate lines.
         telemetry.addAction(new Runnable() { @Override public void run()
                 {
-                // Acquiring the angles is relatively expensive; we don't want
+                // Acquiring the angles_left is relatively expensive; we don't want
                 // to do that in each of the three items that need that info, as that's
                 // three times the necessary expense.
-                angles   = imu_left.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+                angles_left = imu_left.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+                angles_right = imu_right.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
                 }
             });
 
@@ -211,17 +213,57 @@ public class SensorBNO055IMUCalibration extends LinearOpMode
         telemetry.addLine()
             .addData("heading", new Func<String>() {
                 @Override public String value() {
-                    return formatAngle(angles.angleUnit, angles.firstAngle);
+                    return formatAngle(angles_left.angleUnit, angles_left.firstAngle);
                     }
                 })
             .addData("roll", new Func<String>() {
                 @Override public String value() {
-                    return formatAngle(angles.angleUnit, angles.secondAngle);
+                    return formatAngle(angles_left.angleUnit, angles_left.secondAngle);
                     }
                 })
             .addData("pitch", new Func<String>() {
                 @Override public String value() {
-                    return formatAngle(angles.angleUnit, angles.thirdAngle);
+                    return formatAngle(angles_left.angleUnit, angles_left.thirdAngle);
+                    }
+                });
+
+        telemetry.addLine("-------------");
+
+        telemetry.addAction(new Runnable() { @Override public void run()
+        {
+            // Acquiring the angles_left is relatively expensive; we don't want
+            // to do that in each of the three items that need that info, as that's
+            // three times the necessary expense.
+            angles_left = imu_right.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        }
+        });
+
+        telemetry.addLine()
+                .addData("status", new Func<String>() {
+                    @Override public String value() {
+                        return imu_right.getSystemStatus().toShortString();
+                    }
+                })
+                .addData("calib", new Func<String>() {
+                    @Override public String value() {
+                        return imu_right.getCalibrationStatus().toString();
+                    }
+                });
+
+        telemetry.addLine()
+                .addData("heading", new Func<String>() {
+                    @Override public String value() {
+                        return formatAngle(angles_right.angleUnit, angles_right.firstAngle);
+                    }
+                })
+                .addData("roll", new Func<String>() {
+                    @Override public String value() {
+                        return formatAngle(angles_right.angleUnit, angles_right.secondAngle);
+                    }
+                })
+                .addData("pitch", new Func<String>() {
+                    @Override public String value() {
+                        return formatAngle(angles_right.angleUnit, angles_right.thirdAngle);
                     }
                 });
     }

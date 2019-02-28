@@ -37,7 +37,7 @@ public class Collector {
 
 //        Servos
         if (gamepad.y) {
-            servoPosition = 0.75;
+            servoPosition = 0.85;
         }
         if (gamepad.b) {
             servoPosition = 0.5;

@@ -8,16 +8,16 @@ public final class RevImuOrientationTelemetryItem extends TelemetryItem<String> 
     private REVImu imu;
 
     public RevImuOrientationTelemetryItem(String tag, REVImu imu) {
-        super(tag + "/Z-Y-X");
+        super(tag + imu.sensor.getSystemStatus() + ":" + "Z-Y-X");
         this.imu = imu;
     }
 
     @Override
     public void update() {
         String builder = String.valueOf(imu.getHeading()) +
-                "-" +
+                " / " +
                 imu.getRoll() +
-                "-" +
+                " / " +
                 imu.getPitch();
         set(builder);
     }

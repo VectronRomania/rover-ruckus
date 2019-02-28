@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.systems.autonomous;
 import android.util.Pair;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.hardware.REVImu;
@@ -22,34 +23,34 @@ import org.firstinspires.ftc.teamcode.systems.util.Checkable;
 public class LiftDeploy {
 
 //    distance: 135 mm +- 5mm
-//    yaw 77 pitch 0
+//    yaw 77 pitch 1
 
     /**
      * Checkable that checks if the robot is in a certain pitch radius.
      */
-    public class RevPitchCheckable implements Checkable {
+    public class RevYawCheckable implements Checkable {
 
-        final double pitch;
+        final double yaw;
         final double bias;
         final REVImu left;
         final REVImu right;
 
-        public RevPitchCheckable(double pitch, double bias, REVImu left, REVImu right) {
-            this.pitch = pitch;
+        public RevYawCheckable(double yaw, double bias, REVImu left, REVImu right) {
+            this.yaw = yaw;
             this.bias = bias;
             this.left = left;
             this.right = right;
         }
 
         public double getMedianAngle() {
-            return (left.getPitch() + right.getPitch()) / 2;
+            return (left.getRoll() + right.getRoll()) / 2;
         }
 
         @Override
         public synchronized Boolean check() {
-                return pitch < getMedianAngle() ?
-                        pitch > getMedianAngle() - bias :
-                        pitch < getMedianAngle() + bias;
+                return yaw < getMedianAngle() ?
+                        yaw > getMedianAngle() - bias :
+                        yaw < getMedianAngle() + bias;
         }
     }
 
@@ -156,12 +157,13 @@ public class LiftDeploy {
 
 //                Normalize robot pitch
                 super.telemetryItem.set(2);
-                RevPitchCheckable revPitchCheckable = new RevPitchCheckable(77, 5, Robot.Sensors.left_imu, Robot.Sensors.right_imu);
-                if (!revPitchCheckable.check()) {
-                    lift.move(Lift.Direction.DOWN, 0.5);
-                    autonomousDrivetrain.move(Controller.Direction.N, Robot.ENCODER_TICKS_40_1, 0.2);
+                RevYawCheckable revYawCheckable = new RevYawCheckable(77, 5, Robot.Sensors.left_imu, Robot.Sensors.right_imu);
+//                if (Robot.Sensors.left_imu.sensor)
+                if (!revYawCheckable.check()) {
+                    lift.move(Lift.Direction.DOWN, 0.2);
+                    autonomousDrivetrain.move(Controller.Direction.N, Robot.ENCODER_TICKS_40_1, 0.1);
                 }
-                while (!revPitchCheckable.check() && !super.isStopRequested) {
+                while (!revYawCheckable.check() && !super.isStopRequested) {
 //                    try {
 //                        this.sleep(5);
 //                    } catch (InterruptedException e) {
@@ -175,15 +177,19 @@ public class LiftDeploy {
                     return;
                 }
 
+                if (true)
+                    return;
+
+                Robot.Lift.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                Robot.Lift.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
 //                Elevate the lift a tiny bit
                 super.telemetryItem.set(3);
                 // FIXME: 27/02/2019 test necessary ticks
-                Checkable liftEncoderCheckable = lift.move(Lift.Direction.UP, Robot.ENCODER_TICKS_60_1  / 2, 0.75);
+                Checkable liftEncoderCheckable = lift.move(Lift.Direction.UP, Robot.ENCODER_TICKS_60_1  / 3, 0.75);
                 while (!liftEncoderCheckable.check() && !super.isStopRequested) {}
                 lift.stop();
 
-                if (true)
-                    return;
+
 
 //                Move the robot to unlatch and retract the lift
                 super.telemetryItem.set(4);

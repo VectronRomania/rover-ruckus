@@ -58,7 +58,7 @@ import com.qualcomm.robotcore.util.Range;
  *  This code assumes that the robot is stationary when the INIT button is pressed.
  *  If this is not the case, then the INIT should be performed again.
  *
- *  Note: in this example, all angles are referenced to the initial coordinate frame set during the
+ *  Note: in this example, all angles_left are referenced to the initial coordinate frame set during the
  *  the Gyro Calibration process, or whenever the program issues a resetZAxisIntegrator() call on the Gyro.
  *
  *  The angle of movement/rotation is assumed to be a standardized rotation around the robot Z axis,

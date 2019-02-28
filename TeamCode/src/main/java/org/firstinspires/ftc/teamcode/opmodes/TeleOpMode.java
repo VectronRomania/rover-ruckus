@@ -34,55 +34,57 @@ public class TeleOpMode extends TeleOpStandard {
         lift = new Lift();
         extender = new Extender();
         collector = new Collector();
-        scoop = new Scoop();
+//        scoop = new Scoop();
 
-        telemetryManager.add(scoop.getTelemetryItem());
-//        heightChecking = new BackgroundTask<>(new BackgroundTaskRunnable<Double>() {
-//            @Override
-//            protected void initialize() {
-//                this.telemetryItem = new TelemetryGroup<Double>("height readings") {}
-//                        .add(new TelemetryItem<Double>("Left") {
-//                            @Override
-//                            public void update() {
-//                                super.set(Robot.Lift.distance_left.getDistance(DistanceUnit.MM));
-//                            }
-//                        })
-//                        .add(new TelemetryItem<Double>("Right") {
-//                            @Override
-//                            public void update() {
-//                                super.set(Robot.Lift.distance_right.getDistance(DistanceUnit.MM));
-//                            }
-//                        });
-//            }
-//
-//            @Override
-//            protected void shutdown() {}
-//
-//            @Override
-//            public void run() {
+//        telemetryManager.add(scoop.getTelemetryItem());
+
+
+        heightChecking = new BackgroundTask<>(new BackgroundTaskRunnable<Double>() {
+            @Override
+            protected void initialize() {
+                this.telemetryItem = new TelemetryGroup<Double>("height readings") {}
+                        .add(new TelemetryItem<Double>("Left") {
+                            @Override
+                            public void update() {
+                                super.set(Robot.Lift.distance_left.getDistance(DistanceUnit.MM));
+                            }
+                        })
+                        .add(new TelemetryItem<Double>("Right") {
+                            @Override
+                            public void update() {
+                                super.set(Robot.Lift.distance_right.getDistance(DistanceUnit.MM));
+                            }
+                        });
+            }
+
+            @Override
+            protected void shutdown() {}
+
+            @Override
+            public void run() {
+                this.telemetryItem.update();
+            }
+        }, "Height checking", BackgroundTask.Type.LOOP, this);
+        heightChecking.start();
+
+        imuChecking = new BackgroundTask<>(new BackgroundTaskRunnable<String>() {
+            @Override
+            protected void initialize() {
+                this.telemetryItem = new RevImuOrientationTelemetryGroup("imu readings");
+            }
+
+            @Override
+            protected void shutdown() {}
+
+            @Override
+            public void run() {
 //                this.telemetryItem.update();
-//            }
-//        }, "Height checking", BackgroundTask.Type.LOOP, this);
-//        heightChecking.start();
-//
-//        imuChecking = new BackgroundTask<>(new BackgroundTaskRunnable<String>() {
-//            @Override
-//            protected void initialize() {
-//                this.telemetryItem = new RevImuOrientationTelemetryGroup("imu readings");
-//            }
-//
-//            @Override
-//            protected void shutdown() {}
-//
-//            @Override
-//            public void run() {
-////                this.telemetryItem.update();
-//            }
-//        }, "IMU Checking", BackgroundTask.Type.LOOP, this);
-//        imuChecking.start();
-//
-//        telemetryManager.add(heightChecking.getRunnableTelemetryItem());
-//        telemetryManager.add(imuChecking.getRunnableTelemetryItem());
+            }
+        }, "IMU Checking", BackgroundTask.Type.LOOP, this);
+        imuChecking.start();
+
+        telemetryManager.add(heightChecking.getRunnableTelemetryItem());
+        telemetryManager.add(imuChecking.getRunnableTelemetryItem());
     }
 
     @Override
@@ -92,9 +94,9 @@ public class TeleOpMode extends TeleOpStandard {
         extender.manual(gamepad2);
         collector.manual(gamepad2);
 //        scoop.manual(gamepad1);
-//        if (!opModeIsActive()) {
-//            heightChecking.stopTask();
-//            imuChecking.stopTask();
-//        }
+        if (!opModeIsActive()) {
+            heightChecking.stopTask();
+            imuChecking.stopTask();
+        }
     }
 }
