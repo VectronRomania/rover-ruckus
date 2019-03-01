@@ -63,7 +63,7 @@ public class LiftDeploy {
             @Override
             protected void initialize() {
                 super.telemetryItem.set(-1);
-                lift.stop();
+//                lift.stop();
                 result = 0;
             }
 
@@ -98,12 +98,12 @@ public class LiftDeploy {
 
 //                Move the robot to unlatch
                 super.telemetryItem.set(4);
-                Checkable drivetrainEncoderCheckableGroup = autonomousDrivetrain.move(Controller.Direction.W, Robot.ENCODER_TICKS_40_1,0.25);
+                Checkable drivetrainEncoderCheckableGroup = autonomousDrivetrain.move(Controller.Direction.W, Robot.ENCODER_TICKS_40_1 * 1 / 4,0.3);
                 while (!drivetrainEncoderCheckableGroup.check() && !super.isStopRequested) {}
                 autonomousDrivetrain.stop();
 
 //                Retract the lift
-                liftEncoderCheckable = lift.move(Lift.Direction.DOWN, 3 * Robot.ENCODER_TICKS_60_1, 0.4);
+                liftEncoderCheckable = lift.move(Lift.Direction.DOWN, Robot.ENCODER_TICKS_60_1 * 3, 0.4);
                 while (!liftEncoderCheckable.check() && !super.isStopRequested ) {}
                 lift.stop();
             }

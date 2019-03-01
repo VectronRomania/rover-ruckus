@@ -13,6 +13,8 @@ import org.firstinspires.ftc.teamcode.systems.drivetrain.WheelBase;
 import org.firstinspires.ftc.teamcode.systems.opmode.TeleOpStandard;
 import org.firstinspires.ftc.teamcode.systems.telemetry.TelemetryGroup;
 import org.firstinspires.ftc.teamcode.systems.telemetry.TelemetryItem;
+import org.firstinspires.ftc.teamcode.systems.telemetry.items.DrivetrainPowerTelemetryGroup;
+import org.firstinspires.ftc.teamcode.systems.telemetry.items.MotorPowerTelemetryItem;
 import org.firstinspires.ftc.teamcode.systems.telemetry.items.RevImuOrientationTelemetryGroup;
 import org.firstinspires.ftc.teamcode.systems.util.BackgroundTask;
 import org.firstinspires.ftc.teamcode.systems.util.BackgroundTaskRunnable;
