@@ -31,7 +31,7 @@ public class TeleOpMode extends TeleOpStandard {
     @Override
     public void initialize() {
         drivetrain = new HumanControlledDrivetrain(WheelBase.MECANUM);
-        lift = new Lift();
+        lift = new Lift(false);
         extender = new Extender();
         collector = new Collector();
         scoop = new Scoop();
