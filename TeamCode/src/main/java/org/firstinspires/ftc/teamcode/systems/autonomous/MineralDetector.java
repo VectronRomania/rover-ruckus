@@ -327,15 +327,24 @@ public class MineralDetector {
             return;
         }
 
-//        Three minerals detected
-        int k = 1;
+//        two minerals detected
+        int k = 0;
+        int silverCount = 0;
         for (Recognition recognition : this.updatedRecognitions) {
-            if (MineralType.get(recognition) != MineralType.GOLD) {
-                k++;
-                continue;
+            if (MineralType.get(recognition) == MineralType.GOLD) {
+                this.samplingGoldDetected = true;
+                this.samplingGoldPosition2 = Position.get(k);
             }
-            this.samplingGoldDetected = true;
-            this.samplingGoldPosition2 = Position.get(k);
+            if (MineralType.get(recognition) == MineralType.SILVER) {
+                silverCount++;
+            }
+            if (silverCount == 2) {
+                this.samplingGoldDetected = true;
+                this.samplingGoldPosition2 = Position.RIGHT;
+            }
+            k++;
+            continue;
+
         }
     }
 

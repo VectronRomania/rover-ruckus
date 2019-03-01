@@ -110,13 +110,12 @@ public class LiftDeploy {
      * Return a task that executes the entire deployment process.
      * @return
      */
-    public BackgroundTask getDeployTask() {
+    public BackgroundTask<Integer> getDeployTask() {
         return new BackgroundTask<>(new BackgroundTaskRunnable<Integer>() {
             @Override
             protected void initialize() {
-                super.telemetryItem.set(-1);
-//                lift.stop();
-                result = 0;
+                result = -1;
+                super.telemetryItem.set(result);
             }
 
             @Override
@@ -125,14 +124,15 @@ public class LiftDeploy {
                 if (isStopRequested) {
                     return;
                 }
-                super.telemetryItem.set(0);
-                result = 1;
+                result = 0;
+                super.telemetryItem.set(result);
             }
 
             @Override
             public void run() {
 //                Drop down reading distance
-                super.telemetryItem.set(1);
+                result = 1;
+                super.telemetryItem.set(result);
                 LiftHeightCheckable heightCheckable = new LiftHeightCheckable(138);
                 if (!heightCheckable.check()) {
                     lift.move(Lift.Direction.UP, 0.75);
@@ -144,7 +144,8 @@ public class LiftDeploy {
                 }
 
 //                Normalize robot pitch
-                super.telemetryItem.set(2);
+                result = 2;
+                super.telemetryItem.set(result);
                 RevYawCheckable revYawCheckable = new RevYawCheckable(-78, 3, Robot.Sensors.left_imu, Robot.Sensors.right_imu);
 //                if (Robot.Sensors.left_imu.sensor)
                 if (!revYawCheckable.check()) {
@@ -162,14 +163,16 @@ public class LiftDeploy {
                 Robot.Lift.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 Robot.Lift.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                super.telemetryItem.set(3);
+                result = 3;
+                super.telemetryItem.set(result);
                 Checkable liftEncoderCheckable = lift.move(Lift.Direction.UP, Robot.ENCODER_TICKS_60_1 * 4 / 3 , 0.5);
                 while (!liftEncoderCheckable.check() && !super.isStopRequested) {}
                 lift.stop();
 
 //                Move the robot to unlatch
-                super.telemetryItem.set(4);
-                Checkable drivetrainEncoderCheckableGroup = autonomousDrivetrain.move(Controller.Direction.W, Robot.ENCODER_TICKS_40_1 * 1 / 4,0.3);
+                result = 4;
+                super.telemetryItem.set(result);
+                Checkable drivetrainEncoderCheckableGroup = autonomousDrivetrain.move(Controller.Direction.W, Robot.ENCODER_TICKS_40_1 / 4,0.3);
                 while (!drivetrainEncoderCheckableGroup.check() && !super.isStopRequested) {}
                 autonomousDrivetrain.stop();
 
