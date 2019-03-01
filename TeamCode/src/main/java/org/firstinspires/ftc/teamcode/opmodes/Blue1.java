@@ -44,8 +44,6 @@ public class Blue1 extends AutonomousStandard {
                 Robot.Sensors.right_imu.sensor.isGyroCalibrated()) {
             idle();
         }
-
-        Robot.Lift.setPower(0.1, -0.1);
     }
 
     @Override
@@ -57,13 +55,17 @@ public class Blue1 extends AutonomousStandard {
 
 
 //        Start the deployment task and wait for it to finish
-        BackgroundTask dropDownBackgroundTask = liftDeploy.getDeployTask();
+        BackgroundTask<Integer> dropDownBackgroundTask = liftDeploy.getDeployTask();
         int liftdeploy_index1 = telemetryManager.add(dropDownBackgroundTask.getStatusTelemetryItem());
         int liftdeploy_index2 = telemetryManager.add(dropDownBackgroundTask.getRunnableTelemetryItem());
 
         dropDownBackgroundTask.start();
         while(opModeIsActive() && !dropDownBackgroundTask.isFinished()) {
             telemetryManager.cycle();
+//            if fully landed and ready to move, switch to deployed
+            if (dropDownBackgroundTask.getResult() == 4) {
+                mineralDetector.switchToDeployed();
+            }
             idle();
         }
         if (!opModeIsActive()) {
@@ -98,16 +100,5 @@ public class Blue1 extends AutonomousStandard {
         }
         telemetryManager.remove(sampling_index1);
         telemetryManager.remove(sampling_index2);
-
-//        drivetrain.move(Controller.Direction.N, 500, 0.5);
-//        drivetrain.move(Controller.Direction.ROTATE_LEFT, 340, 0.5);
-//        drivetrain.move(Controller.Direction.N, 3000, 0.5);
-//        drivetrain.move(Controller.Direction.ROTATE_LEFT, 420, 0.5);
-//        drivetrain.move(Controller.Direction.N, 1000, 0.5);
-//
-//        // drop team marker
-//
-//        drivetrain.move(Controller.Direction.ROTATE_LEFT, 1444, 0.5);
-//        drivetrain.move(Controller.Direction.N, 6000, 0.5);
     }
 }

@@ -58,13 +58,12 @@ public class LiftDeploy {
      * Return a task that executes the entire deployment process.
      * @return
      */
-    public BackgroundTask getDeployTask() {
+    public BackgroundTask<Integer> getDeployTask() {
         return new BackgroundTask<>(new BackgroundTaskRunnable<Integer>() {
             @Override
             protected void initialize() {
-                super.telemetryItem.set(-1);
-//                lift.stop();
-                result = 0;
+                result = -1;
+                super.telemetryItem.set(result);
             }
 
             @Override
@@ -97,8 +96,9 @@ public class LiftDeploy {
                 lift.stop();
 
 //                Move the robot to unlatch
-                super.telemetryItem.set(4);
-                Checkable drivetrainEncoderCheckableGroup = autonomousDrivetrain.move(Controller.Direction.W, Robot.ENCODER_TICKS_40_1 * 1 / 4,0.3);
+                result = 4;
+                super.telemetryItem.set(result);
+                Checkable drivetrainEncoderCheckableGroup = autonomousDrivetrain.move(Controller.Direction.W, Robot.ENCODER_TICKS_40_1 / 4,0.3);
                 while (!drivetrainEncoderCheckableGroup.check() && !super.isStopRequested) {}
                 autonomousDrivetrain.stop();
 
