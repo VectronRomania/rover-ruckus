@@ -13,14 +13,11 @@ import org.firstinspires.ftc.teamcode.systems.telemetry.TelemetryItem;
 
 public class Scoop {
 
-    private double scoopPosition = 0.5;
+    private double scoopPosition = 0;
     private double scoopHighPosition = 0.5;
 
     private boolean manualButtonLock = false;
     private boolean manualButtonLockHigh = false;
-
-//    private boolean mechanismLock = true;
-//    private boolean mechanismButtonLock = false;
 
     public Scoop() {
         Robot.Servos.scoopLeft.setDirection(Servo.Direction.FORWARD);
@@ -58,26 +55,25 @@ public class Scoop {
 //        }
 //        MACROS
         if (gamepad.right_bumper) {
-            scoopPosition = 1;
+            scoopPosition = 0;
             scoopHighPosition = 1;
         }
 
         if (gamepad.left_bumper) {
-            moveScoop(1);
-            scoopPosition = 0;
+            scoopPosition = 1;
             scoopHighPosition = 0;
         }
 
 //        Manual
         if (gamepad.dpad_up && !manualButtonLock) {
-            if (scoopPosition < 1) {
-                scoopPosition += 0.1;
+            if (scoopPosition > 0) {
+                scoopPosition -= 0.1;
             }
             manualButtonLock = true;
         }
         if (gamepad.dpad_down && !manualButtonLock) {
-            if (scoopPosition > 0) {
-                scoopPosition -= 0.1;
+            if (scoopPosition < 1) {
+                scoopPosition += 0.1;
             }
             manualButtonLock = true;
         }

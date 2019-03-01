@@ -19,8 +19,8 @@ public class Lift {
      * The direction of movement of the lift.
      */
     public enum Direction {
-        UP,
-        DOWN
+        DOWN,
+        UP
     }
 
     public Lift(boolean runToPosition) {
@@ -68,11 +68,11 @@ public class Lift {
         int right = 0;
 
         switch (direction) {
-            case UP:
+            case DOWN:
                 left = Robot.Lift.left_lift.getCurrentPosition() + ticks;
                 right = Robot.Lift.left_lift.getCurrentPosition() - ticks;
                 break;
-            case DOWN:
+            case UP:
                 left = Robot.Lift.left_lift.getCurrentPosition() - ticks;
                 right = Robot.Lift.left_lift.getCurrentPosition() + ticks;
                 break;
@@ -97,13 +97,13 @@ public class Lift {
     public void move(@NonNull Direction direction, @NonNull Double power) {
         Robot.Lift.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
         switch (direction) {
-            case UP:
+            case DOWN:
                 Robot.Lift.setPower(
                         power,
                         -power
                 );
                 break;
-            case DOWN:
+            case UP:
                 Robot.Lift.setPower(
                         -power,
                         power

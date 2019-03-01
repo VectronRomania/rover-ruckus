@@ -25,6 +25,7 @@ public class Blue1 extends AutonomousStandard {
 
     @Override
     protected void initialize() {
+        Robot.Lift.setPower(0.1, -0.1);
         drivetrain = new AutonomousDrivetrain(WheelBase.MECANUM);
         drivetrain.init();
 
@@ -32,7 +33,7 @@ public class Blue1 extends AutonomousStandard {
         mineralDetectorTask = mineralDetector.getDetector();
         mineralDetectorTask.runInitialize();
 
-        liftDeploy = new LiftDeploy(new Lift(), drivetrain, this);
+        liftDeploy = new LiftDeploy(new Lift(false), drivetrain, this);
 
         mineralSampler = new MineralSampler(drivetrain, this);
 
@@ -43,6 +44,8 @@ public class Blue1 extends AutonomousStandard {
                 Robot.Sensors.right_imu.sensor.isGyroCalibrated()) {
             idle();
         }
+
+        Robot.Lift.setPower(0.1, -0.1);
     }
 
     @Override
@@ -71,14 +74,14 @@ public class Blue1 extends AutonomousStandard {
 
 
 //        Switch the detector to deployed detection
-        mineralDetector.switchToDeployed(); // FIXME: 28/02/2019 maybe move this earlier
+        mineralDetector.switchToDeployed();
 
 
         while (opModeIsActive()) {
             telemetryManager.cycle();
         }
         if (true)
-        return;
+            return;
 
 //        Create the sampling task, start it and wait for it to finish
         BackgroundTask mineralSamplingBackgroundTask = mineralSampler.sample(mineralDetector);
