@@ -29,7 +29,7 @@ public class ClaimerParker {
         this.extender = extender;
     }
 
-    public BackgroundTask<Integer> getBackGroundTask(final boolean facingDepot) {
+    public BackgroundTask<Integer> getBackgroundTask(final boolean facingDepot) {
         return new BackgroundTask<Integer>(new BackgroundTaskRunnable<Integer>() {
             @Override
             protected void initialize() {

@@ -98,14 +98,19 @@ public class LiftDeploy {
 //                Move the robot to unlatch
                 result = 4;
                 super.telemetryItem.set(result);
-                Checkable drivetrainEncoderCheckableGroup = autonomousDrivetrain.move(Controller.Direction.W, Robot.ENCODER_TICKS_40_1 / 4,0.3);
+                Checkable drivetrainEncoderCheckableGroup = autonomousDrivetrain.move(Controller.Direction.W, Robot.ENCODER_TICKS_40_1 * 3 / 4 ,0.3);
                 while (!drivetrainEncoderCheckableGroup.check() && !super.isStopRequested) {}
                 autonomousDrivetrain.stop();
 
+                result = 4;
+                super.telemetryItem.set(result);
+                this.finished = true;
+                return;
+
 //                Retract the lift
-                liftEncoderCheckable = lift.move(Lift.Direction.DOWN, Robot.ENCODER_TICKS_60_1 * 3, 0.4);
-                while (!liftEncoderCheckable.check() && !super.isStopRequested ) {}
-                lift.stop();
+//                liftEncoderCheckable = lift.move(Lift.Direction.DOWN, Robot.ENCODER_TICKS_60_1 * 2, 0.4);
+//                while (!liftEncoderCheckable.check() && !super.isStopRequested ) {}
+//                lift.stop();
             }
         }, "Lift deploy", BackgroundTask.Type.ONE_TIME, opMode);
     }
