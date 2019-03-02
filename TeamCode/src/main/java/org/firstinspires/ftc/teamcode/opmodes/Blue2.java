@@ -30,7 +30,7 @@ public class Blue2 extends AutonomousStandard {
 
     @Override
     protected void initialize() {
-        Robot.Lift.setPower(0.1, -0.1);
+        Robot.Lift.setPower(0.15, -0.15);
         drivetrain = new AutonomousDrivetrain(WheelBase.MECANUM);
         drivetrain.init();
 
@@ -100,7 +100,7 @@ public class Blue2 extends AutonomousStandard {
 
 //        park
 
-        BackgroundTask<Integer> claimingParkingTask = claimerParker.getBackGroundTask(false);
+        BackgroundTask<Integer> claimingParkingTask = claimerParker.getBackgroundTask(false);
         claimingParkingTask.start();
         telemetryManager.add(claimingParkingTask.getStatusTelemetryItem());
         telemetryManager.add(claimingParkingTask.getRunnableTelemetryItem());

@@ -25,7 +25,7 @@ public class Blue1 extends AutonomousStandard {
 
     @Override
     protected void initialize() {
-        Robot.Lift.setPower(0.1, -0.1);
+        Robot.Lift.setPower(0.15, -0.15);
         drivetrain = new AutonomousDrivetrain(WheelBase.MECANUM);
         drivetrain.init();
 

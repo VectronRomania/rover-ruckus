@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.systems.telemetry.TelemetryItem;
 
 public class Scoop {
 
-    private double scoopPosition = 0;
+    private double scoopPosition = 1;
     private double scoopHighPosition = 0.5;
 
     private boolean manualButtonLock = false;
