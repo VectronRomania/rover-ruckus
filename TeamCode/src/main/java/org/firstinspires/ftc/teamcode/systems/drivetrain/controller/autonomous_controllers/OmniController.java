@@ -13,7 +13,12 @@ public final class OmniController extends Controller implements AutonomousContro
     }
 
     @Override
-    public DrivetrainCheckableGroup move(Direction direction, Integer ticks, Double power) {
+    public DrivetrainCheckableGroup move(Direction direction, int ticks, double power) {
         return null;
+    }
+
+    @Override
+    public void move(Direction direction, double power) {
+
     }
 }

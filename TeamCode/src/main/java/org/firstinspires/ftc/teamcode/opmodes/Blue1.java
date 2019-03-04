@@ -10,7 +10,6 @@ import org.firstinspires.ftc.teamcode.systems.autonomous.MineralSampler;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.AutonomousDrivetrain;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.WheelBase;
 import org.firstinspires.ftc.teamcode.systems.opmode.AutonomousStandard;
-import org.firstinspires.ftc.teamcode.systems.telemetry.items.DrivetrainEncoderTelemetryGroup;
 import org.firstinspires.ftc.teamcode.systems.util.BackgroundTask;
 
 @Autonomous(name = "Deploy+sample", group = "autonomous")
@@ -27,7 +26,7 @@ public class Blue1 extends AutonomousStandard {
     protected void initialize() {
         Robot.Lift.setPower(0.15, -0.15);
         drivetrain = new AutonomousDrivetrain(WheelBase.MECANUM);
-        drivetrain.init();
+        drivetrain.initialize();
 
         mineralDetector = new MineralDetector(hardwareMap, this);
         mineralDetectorTask = mineralDetector.getDetector();

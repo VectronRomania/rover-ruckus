@@ -16,7 +16,7 @@ public class EncoderMoveForwardTest extends AutonomousStandard {
     @Override
     public void initialize() {
         drivetrain = new AutonomousDrivetrain(WheelBase.MECANUM);
-        drivetrain.init();
+        drivetrain.initialize();
 
         telemetryManager.cycle();
     }

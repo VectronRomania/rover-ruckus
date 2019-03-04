@@ -34,19 +34,17 @@ public class AutonomousDrivetrain extends Controller {
     /**
      * Initialize the drivetrain.
      */
-    public void init() {
+    public void initialize() {
         controller.init();
     }
 
-    /**
-     * Move the drivetrain.
-     * @param direction
-     * @param ticks
-     * @param power
-     */
     @NonNull
-    public Checkable move(@NonNull Direction direction, @NonNull Integer ticks, @NonNull Double power) {
+    public Checkable move(@NonNull Direction direction, int ticks, double power) {
         return controller.move(direction, ticks, power);
+    }
+
+    public void move(@NonNull Direction direction, double power) {
+        controller.move(direction, power);
     }
 }
 

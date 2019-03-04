@@ -13,7 +13,12 @@ public final class TankController implements AutonomousController {
     }
 
     @Override
-    public DrivetrainCheckableGroup move(Controller.Direction direction, Integer ticks, Double power) {
+    public DrivetrainCheckableGroup move(Controller.Direction direction, int ticks, double power) {
         return null;
+    }
+
+    @Override
+    public void move(Controller.Direction direction, double power) {
+
     }
 }
