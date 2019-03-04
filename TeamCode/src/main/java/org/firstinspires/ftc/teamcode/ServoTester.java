@@ -31,6 +31,7 @@ import java.util.ArrayList;
 @TeleOp(name = "Servo Tester", group = "test")
 public final class ServoTester extends LinearOpMode {
 
+
     public class ServoBean {
         Servo servo;
         double position = 0;
