@@ -23,7 +23,9 @@ public final class MecanumController extends Controller implements AutonomousCon
     }
 
     @Override
-    public Checkable move(Direction direction, Integer ticks, Double power) {
+    public Checkable move(Direction direction, int ticks, double power) {
+
+        Robot.Drivetrain.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         int a = 0;
         int b = 0;
@@ -44,9 +46,9 @@ public final class MecanumController extends Controller implements AutonomousCon
                 d = Robot.Drivetrain.left_back.getCurrentPosition();
                 break;
             case E:
-                a = Robot.Drivetrain.left_front.getCurrentPosition() - ticks;
+                a = Robot.Drivetrain.left_front.getCurrentPosition() + ticks;
                 b = Robot.Drivetrain.right_front.getCurrentPosition() - ticks;
-                c = Robot.Drivetrain.right_back.getCurrentPosition() - ticks;
+                c = Robot.Drivetrain.right_back.getCurrentPosition() + ticks;
                 d = Robot.Drivetrain.left_back.getCurrentPosition() - ticks;
                 break;
             case SE:
@@ -103,5 +105,44 @@ public final class MecanumController extends Controller implements AutonomousCon
                 new MotorEncoderCheckable(Robot.Drivetrain.right_back, c, 15),
                 new MotorEncoderCheckable(Robot.Drivetrain.left_back, d, 15)
         );
+    }
+
+    @Override
+    public void move(Direction direction, double power) {
+
+        Robot.Drivetrain.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        switch (direction) {
+            case N:
+                Robot.Drivetrain.setPower(-power, power);
+                break;
+            case NE:
+                Robot.Drivetrain.setPower(-power, 0, power, 0);
+                break;
+            case E:
+                Robot.Drivetrain.setPower(power, -power, power, -power);
+                break;
+            case SE:
+                Robot.Drivetrain.setPower(0, -power, 0, power);
+                break;
+            case S:
+                Robot.Drivetrain.setPower(power, -power);
+                break;
+            case SW:
+                Robot.Drivetrain.setPower(power, 0, -power, 0);
+                break;
+            case W:
+                Robot.Drivetrain.setPower(power, power, -power, -power);
+                break;
+            case NW:
+                Robot.Drivetrain.setPower(-power, 0, power, 0);
+                break;
+            case ROTATE_LEFT:
+                Robot.Drivetrain.setPower(power);
+                break;
+            case ROTATE_RIGHT:
+                Robot.Drivetrain.setPower(-power);
+                break;
+        }
     }
 }

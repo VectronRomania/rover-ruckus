@@ -40,6 +40,9 @@ public class CheckableGroup implements Checkable {
     @Override
     public synchronized Boolean check() {
         result = null;
+        if (items.size() == 0) {
+            return false;
+        }
         for (Pair<Checkable, Operation> checkable : items) {
             if (result == null) {
                 result = checkable.first.check();
