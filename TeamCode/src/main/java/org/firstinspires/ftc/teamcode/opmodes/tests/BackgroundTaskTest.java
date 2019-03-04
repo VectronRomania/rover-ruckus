@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.systems.opmode.AutonomousStandard;
 import org.firstinspires.ftc.teamcode.systems.util.BackgroundTask;
 import org.firstinspires.ftc.teamcode.systems.util.BackgroundTaskRunnable;
 
-@Disabled
+//@Disabled
 @Autonomous(name = "Background Task Test", group = "test")
 public class BackgroundTaskTest extends AutonomousStandard {
 
@@ -33,14 +33,14 @@ public class BackgroundTaskTest extends AutonomousStandard {
                     finished = true;
                     return;
                 }
-                result = result + 1;
+//                result = result + 1;
                 try {
                     this.sleep(25);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
-        }, "Background task test", BackgroundTask.Type.ONE_TIME, this);
+        }, "Background task test", BackgroundTask.Type.LOOP, this);
 
         telemetryManager.add(testTask.getStatusTelemetryItem());
     }

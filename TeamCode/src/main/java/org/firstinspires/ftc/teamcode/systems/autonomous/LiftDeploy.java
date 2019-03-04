@@ -100,6 +100,10 @@ public class LiftDeploy {
                 super.telemetryItem.set(result);
                 Checkable drivetrainEncoderCheckableGroup = autonomousDrivetrain.move(Controller.Direction.W, Robot.ENCODER_TICKS_40_1 * 3 / 4 ,0.3);
                 while (!drivetrainEncoderCheckableGroup.check() && !super.isStopRequested) {}
+                if (isStopRequested) {
+                    finished = true;
+                    return;
+                }
                 autonomousDrivetrain.stop();
 
                 result = 4;
