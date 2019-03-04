@@ -25,7 +25,7 @@ public class Blue1 extends AutonomousStandard {
 
     @Override
     protected void initialize() {
-        Robot.Lift.setPower(0.1, -0.1);
+        Robot.Lift.setPower(0.5, -0.5);
         drivetrain = new AutonomousDrivetrain(WheelBase.MECANUM);
         drivetrain.init();
 
@@ -56,49 +56,52 @@ public class Blue1 extends AutonomousStandard {
 
 //        Start the deployment task and wait for it to finish
         BackgroundTask<Integer> dropDownBackgroundTask = liftDeploy.getDeployTask();
-        int liftdeploy_index1 = telemetryManager.add(dropDownBackgroundTask.getStatusTelemetryItem());
-        int liftdeploy_index2 = telemetryManager.add(dropDownBackgroundTask.getRunnableTelemetryItem());
+//        int liftdeploy_index1 = telemetryManager.add(dropDownBackgroundTask.getStatusTelemetryItem());
+//        int liftdeploy_index2 = telemetryManager.add(dropDownBackgroundTask.getRunnableTelemetryItem());
 
-        dropDownBackgroundTask.start();
-        while(opModeIsActive() && !dropDownBackgroundTask.isFinished()) {
-            telemetryManager.cycle();
-//            if fully landed and ready to move, switch to deployed
-            if (dropDownBackgroundTask.getResult() == 4) {
-                mineralDetector.switchToDeployed();
-            }
-            idle();
-        }
-        if (!opModeIsActive()) {
-            return;
-        }
-        telemetryManager.remove(liftdeploy_index1);
-        telemetryManager.remove(liftdeploy_index2);
+        dropDownBackgroundTask.run();
+//        while(opModeIsActive() && !dropDownBackgroundTask.isFinished()) {
+//            telemetryManager.cycle();
+////            if fully landed and ready to move, switch to deployed
+//            if (dropDownBackgroundTask.getResult() == 4) {
+//                mineralDetector.switchToDeployed();
+//            }
+//            idle();
+//        }
+//        if (!opModeIsActive()) {
+//            dropDownBackgroundTask.stopTask();
+//            return;
+//        }
+//        telemetryManager.remove(liftdeploy_index1);
+//        telemetryManager.remove(liftdeploy_index2);
 
 
 //        Switch the detector to deployed detection
+        if (true)
+            return;
         mineralDetector.switchToDeployed();
 
 
-        while (opModeIsActive()) {
-            telemetryManager.cycle();
-        }
-        if (true)
-            return;
+//        while (opModeIsActive()) {
+//            telemetryManager.cycle();
+//        }
+//        if (true)
+//            return;
 
 //        Create the sampling task, start it and wait for it to finish
         BackgroundTask mineralSamplingBackgroundTask = mineralSampler.sample(mineralDetector);
-        int sampling_index1 = telemetryManager.add(mineralSamplingBackgroundTask.getStatusTelemetryItem());
-        int sampling_index2 = telemetryManager.add(mineralSamplingBackgroundTask.getRunnableTelemetryItem());
+//        int sampling_index1 = telemetryManager.add(mineralSamplingBackgroundTask.getStatusTelemetryItem());
+//        int sampling_index2 = telemetryManager.add(mineralSamplingBackgroundTask.getRunnableTelemetryItem());
 
-        mineralSamplingBackgroundTask.start();
-        while (opModeIsActive() && !mineralSamplingBackgroundTask.isFinished()) {
-            telemetryManager.cycle();
-            idle();
-        }
-        if (!opModeIsActive()) {
-            return;
-        }
-        telemetryManager.remove(sampling_index1);
-        telemetryManager.remove(sampling_index2);
+        mineralSamplingBackgroundTask.run();
+//        while (opModeIsActive() && !mineralSamplingBackgroundTask.isFinished()) {
+//            telemetryManager.cycle();
+//            idle();
+//        }
+//        if (!opModeIsActive()) {
+//            return;
+//        }
+//        telemetryManager.remove(sampling_index1);
+//        telemetryManager.remove(sampling_index2);
     }
 }
