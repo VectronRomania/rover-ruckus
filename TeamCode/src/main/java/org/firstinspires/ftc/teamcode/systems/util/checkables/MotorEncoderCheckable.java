@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.systems.util.Checkable;
 
 public class MotorEncoderCheckable implements Checkable {
 
-    private volatile DcMotor motor;
+    private final DcMotor motor;
 
     private final Integer bias;
 
