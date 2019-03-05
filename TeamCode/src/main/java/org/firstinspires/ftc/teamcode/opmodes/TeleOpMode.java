@@ -32,7 +32,7 @@ public class TeleOpMode extends TeleOpStandard {
 
     @Override
     public void initialize() {
-        drivetrain = new HumanControlledDrivetrain(WheelBase.MECANUM);
+        super.drivetrain = new HumanControlledDrivetrain(WheelBase.MECANUM);
         lift = new Lift(false);
         extender = new Extender();
         collector = new Collector();
@@ -91,7 +91,7 @@ public class TeleOpMode extends TeleOpStandard {
 
     @Override
     public void opModeLoop() {
-        drivetrain.drive(gamepad1);
+        super.drivetrain.drive(gamepad1);
         lift.manual(gamepad1);
         extender.manual(gamepad2);
         collector.manual(gamepad2);
