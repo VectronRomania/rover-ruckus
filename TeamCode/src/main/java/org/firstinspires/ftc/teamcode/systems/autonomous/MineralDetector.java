@@ -275,22 +275,7 @@ public class MineralDetector {
                 }
                 k++;
             }
-//            return;
         }
-
-////        Three minerals detected
-//        int k = 1;
-//        for (Recognition recognition : updatedRecognitions) {
-//            if (MineralType.get(recognition) != MineralType.GOLD) {
-//                k++;
-//                continue;
-//            }
-//            this.deploymentGoldDetected = true;
-//            this.deploymentGoldPosition2 = Position.get(k);
-//        }
-
-//        More objects detected
-
     }
 
     public synchronized boolean isDeploymentGoldDetected() {

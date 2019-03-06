@@ -224,13 +224,13 @@ extends <a href="../../../../../com/qualcomm/robotcore/eventloop/opmode/OpMode.h
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/qualcomm/robotcore/eventloop/opmode/LinearOpMode.html#isStarted--">isStarted</a></span>()</code>
-<div class="block">Has the opMode been started?</div>
+<div class="block">Has the parentOpMode been started?</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/qualcomm/robotcore/eventloop/opmode/LinearOpMode.html#isStopRequested--">isStopRequested</a></span>()</code>
-<div class="block">Has the the stopping of the opMode been requested?</div>
+<div class="block">Has the the stopping of the parentOpMode been requested?</div>
 </td>
 </tr>
 <tr id="i8" class="altColor">
@@ -242,7 +242,7 @@ extends <a href="../../../../../com/qualcomm/robotcore/eventloop/opmode/OpMode.h
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/qualcomm/robotcore/eventloop/opmode/LinearOpMode.html#opModeIsActive--">opModeIsActive</a></span>()</code>
-<div class="block">Answer as to whether this opMode is active and the robot should continue onwards.</div>
+<div class="block">Answer as to whether this parentOpMode is active and the robot should continue onwards.</div>
 </td>
 </tr>
 <tr id="i10" class="altColor">
@@ -484,8 +484,8 @@ public&nbsp;void&nbsp;waitForNextHardwareCycle()
 <li class="blockList">
 <h4>opModeIsActive</h4>
 <pre>public final&nbsp;boolean&nbsp;opModeIsActive()</pre>
-<div class="block">Answer as to whether this opMode is active and the robot should continue onwards. If the
- opMode is not active, the OpMode should terminate at its earliest convenience.
+<div class="block">Answer as to whether this parentOpMode is active and the robot should continue onwards. If the
+ parentOpMode is not active, the OpMode should terminate at its earliest convenience.
 
  <p>Note that internally this method calls <a href="../../../../../com/qualcomm/robotcore/eventloop/opmode/LinearOpMode.html#idle--"><code>idle()</code></a></p></div>
 <dl>
@@ -506,10 +506,10 @@ public&nbsp;void&nbsp;waitForNextHardwareCycle()
 <li class="blockList">
 <h4>isStarted</h4>
 <pre>public final&nbsp;boolean&nbsp;isStarted()</pre>
-<div class="block">Has the opMode been started?</div>
+<div class="block">Has the parentOpMode been started?</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>whether this opMode has been started or not</dd>
+<dd>whether this parentOpMode has been started or not</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="../../../../../com/qualcomm/robotcore/eventloop/opmode/LinearOpMode.html#opModeIsActive--"><code>opModeIsActive()</code></a>, 
 <a href="../../../../../com/qualcomm/robotcore/eventloop/opmode/LinearOpMode.html#isStopRequested--"><code>isStopRequested()</code></a></dd>
@@ -523,10 +523,10 @@ public&nbsp;void&nbsp;waitForNextHardwareCycle()
 <li class="blockList">
 <h4>isStopRequested</h4>
 <pre>public final&nbsp;boolean&nbsp;isStopRequested()</pre>
-<div class="block">Has the the stopping of the opMode been requested?</div>
+<div class="block">Has the the stopping of the parentOpMode been requested?</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>whether stopping opMode has been requested or not</dd>
+<dd>whether stopping parentOpMode has been requested or not</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="../../../../../com/qualcomm/robotcore/eventloop/opmode/LinearOpMode.html#opModeIsActive--"><code>opModeIsActive()</code></a>, 
 <a href="../../../../../com/qualcomm/robotcore/eventloop/opmode/LinearOpMode.html#isStarted--"><code>isStarted()</code></a></dd>
