@@ -125,8 +125,8 @@ extends java.lang.Enum&lt;<a href="../../../../../../org/firstinspires/ftc/robot
  <p>
  Angles can be distinguished along (at least) two axes:
   <ol>
-      <li>the fundamental unit (radians vs degrees)</li>
-      <li>whether the angular quantity is normalized or not to the range of [-180,+180) degrees</li>
+      <li>the fundamental unit (radians vs angle)</li>
+      <li>whether the angular quantity is normalized or not to the range of [-180,+180) angle</li>
   </ol>
   Normalized angles are of most utility when dealing with physical angles, as normalization
   removes ambiguity of representation. In particular, two angles can be compared for equality
@@ -201,11 +201,11 @@ extends java.lang.Enum&lt;<a href="../../../../../../org/firstinspires/ftc/robot
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>double</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/UnnormalizedAngleUnit.html#fromDegrees-double-">fromDegrees</a></span>(double&nbsp;degrees)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/UnnormalizedAngleUnit.html#fromDegrees-double-">fromDegrees</a></span>(double&nbsp;angle)</code>&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>float</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/UnnormalizedAngleUnit.html#fromDegrees-float-">fromDegrees</a></span>(float&nbsp;degrees)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/UnnormalizedAngleUnit.html#fromDegrees-float-">fromDegrees</a></span>(float&nbsp;angle)</code>&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>double</code></td>
@@ -378,7 +378,7 @@ not permitted.)</div>
 <ul class="blockList">
 <li class="blockList">
 <h4>fromDegrees</h4>
-<pre>public&nbsp;double&nbsp;fromDegrees(double&nbsp;degrees)</pre>
+<pre>public&nbsp;double&nbsp;fromDegrees(double&nbsp;angle)</pre>
 </li>
 </ul>
 <a name="fromDegrees-float-">
@@ -387,7 +387,7 @@ not permitted.)</div>
 <ul class="blockList">
 <li class="blockList">
 <h4>fromDegrees</h4>
-<pre>public&nbsp;float&nbsp;fromDegrees(float&nbsp;degrees)</pre>
+<pre>public&nbsp;float&nbsp;fromDegrees(float&nbsp;angle)</pre>
 </li>
 </ul>
 <a name="fromRadians-double-">

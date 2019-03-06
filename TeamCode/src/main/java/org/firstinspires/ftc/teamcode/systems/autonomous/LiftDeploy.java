@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.systems.util.BackgroundTask;
 import org.firstinspires.ftc.teamcode.systems.util.BackgroundTaskRunnable;
 import org.firstinspires.ftc.teamcode.systems.util.Checkable;
 import org.firstinspires.ftc.teamcode.systems.util.checkables.DistanceSensorCheckable;
+import org.firstinspires.ftc.teamcode.systems.util.checkables.ImuAxisCheckable;
 
 /**
  * Container for the Autonomous robot deployment system.
@@ -73,16 +74,38 @@ public class LiftDeploy implements Runnable {
                 135,
                 3
         );
+        if (!distanceCheckable.check()) {
+            this.lift.move(Lift.Direction.UP, 0.75);
+        }
         while (!distanceCheckable.check() && this.parentOpMode.opModeIsActive()) {
             this.telemetryManager.cycle();
             this.parentOpMode.idle();
         }
+        this.lift.stop();
         if (!this.parentOpMode.opModeIsActive()) {
             return;
         }
 
 //        dropping down using the rev imu
         telemetryItem.set("rev imu phase");
+        Checkable angleCheckable = ImuAxisCheckable.getGroup(
+                Robot.Sensors.left_imu,
+                Robot.Sensors.right_imu,
+                ImuAxisCheckable.Axis.X,
+                -78,
+                2
+        );
+        if (!angleCheckable.check()) {
+            this.lift.move(Lift.Direction.UP, 0.5);
+        }
+        while (!angleCheckable.check() && this.parentOpMode.opModeIsActive()) {
+            this.telemetryManager.cycle();
+            this.parentOpMode.idle();
+        }
+        this.lift.stop();
+        if (!this.parentOpMode.opModeIsActive()) {
+            return;
+        }
 
 //        unlatch
         telemetryItem.set("unlatching");

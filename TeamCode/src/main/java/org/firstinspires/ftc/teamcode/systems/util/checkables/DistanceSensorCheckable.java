@@ -29,14 +29,15 @@ public final class DistanceSensorCheckable implements Checkable {
         this.bias = bias;
     }
 
+    @Override
     public synchronized Boolean check() {
         double reportedDistance;
         synchronized (sensor) {
             reportedDistance = sensor.getDistance(this.distanceUnit);
         }
         return reportedDistance < this.distance ?
-                reportedDistance > this.distance - bias :
-                reportedDistance < this.distance + bias;
+                reportedDistance > this.distance - this.bias :
+                reportedDistance < this.distance + this.bias;
     }
 
     public static Checkable getGroup(final Rev2mDistanceSensor sensor1,
