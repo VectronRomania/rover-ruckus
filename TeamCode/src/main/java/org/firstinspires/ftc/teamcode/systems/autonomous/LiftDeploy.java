@@ -109,72 +109,35 @@ public class LiftDeploy implements Runnable {
 
 //        unlatch
         telemetryItem.set("unlatching");
+        this.mineralDetector.switchToDeployed();
+        Checkable drivetrainCheckable = this.autonomousDrivetrain.move(Controller.Direction.W, Robot.ENCODER_TICKS_40_1 * 3 / 4, 0.5);
+        while (!drivetrainCheckable.check() && this.parentOpMode.opModeIsActive()) {
+            this.telemetryManager.cycle();
+            this.parentOpMode.idle();
+        }
+        this.autonomousDrivetrain.stop();
+        if (!this.parentOpMode.opModeIsActive()) {
+            return;
+        }
 
 //        retracting the lift
         telemetryItem.set("retracting the lift");
+        Checkable liftEncoderCheckable = this.lift.move(Lift.Direction.DOWN, Robot.ENCODER_TICKS_60_1 * 2, 0.75);
+        while (!liftEncoderCheckable.check() && this.parentOpMode.opModeIsActive()) {
+            this.telemetryManager.cycle();
+            this.parentOpMode.idle();
+        }
+        this.lift.stop();
+        if (!this.parentOpMode.opModeIsActive()) {
+            return;
+        }
 
 //        terminating
         telemetryItem.set("terminating");
+        this.lift.stop();
+        this.autonomousDrivetrain.stop();
 
 //        finish
         telemetryItem.set("done");
-//        return new BackgroundTask<>(new BackgroundTaskRunnable<Integer>() {
-//            @Override
-//            protected void initialize() {
-//                result = -1;
-//                super.telemetryItem.set(result);
-//            }
-//
-//            @Override
-//            protected void shutdown() {
-//                lift.stop();
-//                if (isStopRequested) {
-//                    return;
-//                }
-//                super.telemetryItem.set(0);
-//                result = 1;
-//
-//                Robot.Lift.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//                Robot.Lift.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-//            }
-//
-//            @Override
-//            public void run() {
-//
-//                Checkable liftEncoderCheckable;
-//                super.telemetryItem.set(0);
-//                liftEncoderCheckable = lift.move(Lift.Direction.DOWN, Robot.ENCODER_TICKS_60_1 * 11 / 2, 0.75);
-//                while (!liftEncoderCheckable.check() && !super.isStopRequested) {}
-//                lift.stop();
-//
-////                Elevate the lift a tiny bit
-//                super.telemetryItem.set(3);
-//                // FIXME: 27/02/2019 test necessary ticks
-//                liftEncoderCheckable = lift.move(Lift.Direction.UP, Robot.ENCODER_TICKS_60_1  / 3, 0.75);
-//                while (!liftEncoderCheckable.check() && !super.isStopRequested) {}
-//                lift.stop();
-//
-////                Move the robot to unlatch
-//                result = 4;
-//                super.telemetryItem.set(result);
-//                Checkable drivetrainEncoderCheckableGroup = autonomousDrivetrain.move(Controller.Direction.W, Robot.ENCODER_TICKS_40_1 * 3 / 4 ,0.3);
-//                while (!drivetrainEncoderCheckableGroup.check() && !super.isStopRequested) {}
-//                if (isStopRequested) {
-//                    finished = true;
-//                    return;
-//                }
-//                autonomousDrivetrain.stop();
-//
-//                result = 4;
-//                super.telemetryItem.set(result);
-//                this.finished = true;
-//                return;
-//
-////                Retract the lift
-////                liftEncoderCheckable = lift.move(Lift.Direction.DOWN, Robot.ENCODER_TICKS_60_1 * 2, 0.4);
-////                while (!liftEncoderCheckable.check() && !super.isStopRequested ) {}
-////                lift.stop();
-//            }
-//        }, "Lift deploy", BackgroundTask.Type.ONE_TIME, parentOpMode);
     }
 }

@@ -23,18 +23,14 @@ public class Lift {
         UP
     }
 
-    public Lift(boolean runToPosition) {
+    public Lift() {
         Robot.Lift.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
 
         Robot.Lift.setDirection(DcMotor.Direction.FORWARD);
 
         Robot.Lift.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        if (runToPosition) {
-            Robot.Lift.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-        } else {
-            Robot.Lift.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        }
+        Robot.Lift.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         Robot.Lift.setPower(0);
     }
