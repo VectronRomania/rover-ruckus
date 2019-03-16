@@ -2,10 +2,12 @@ package org.firstinspires.ftc.teamcode.hardware;
 
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Constants;
+import org.firstinspires.ftc.teamcode.systems.util.DcMotorServo;
 
 /**
  * The robot hardware.
@@ -93,56 +95,43 @@ public class Robot {
      */
     public static class Lift {
 
-        public static volatile DcMotor               left_lift;
-
-        public static volatile DcMotor               right_lift;
+        public static volatile DcMotor motor;
 
         public static volatile Rev2mDistanceSensor   distance_left;
 
         public static volatile Rev2mDistanceSensor   distance_right;
 
         public static void setPower(double power) {
-            left_lift.setPower(power);
-            right_lift.setPower(power);
+            motor.setPower(power);
         }
 
-        public static void setPower(double left, double right) {
-            left_lift.setPower(left);
-            right_lift.setPower(right);
-        }
-
-        public static void setTargetPosition(Integer left, Integer right) {
-            left_lift.setTargetPosition(left);
-            right_lift.setTargetPosition(right);
+        public static void setTargetPosition(Integer ticks) {
+            motor.setTargetPosition(ticks);
         }
 
         public static void setDirection(DcMotor.Direction direction) {
-            left_lift.setDirection(direction);
-            right_lift.setDirection(direction);
-        }
-
-        public static void setDirection(DcMotor.Direction left, DcMotor.Direction right) {
-            left_lift.setDirection(left);
-            right_lift.setDirection(right);
+            motor.setDirection(direction);
         }
 
         public static void setRunMode(DcMotor.RunMode runMode) {
-            left_lift.setMode(runMode);
-            right_lift.setMode(runMode);
+            motor.setMode(runMode);
         }
 
         public static void setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior zeroPowerBehaviour) {
-            left_lift.setZeroPowerBehavior(zeroPowerBehaviour);
-            right_lift.setZeroPowerBehavior(zeroPowerBehaviour);
+            motor.setZeroPowerBehavior(zeroPowerBehaviour);
         }
     }
 
     /**
-     * Extender hardware
+     * RoboticArm hardware
      */
-    public static class Extender {
+    public static class RoboticArm {
 
-        public static volatile DcMotor extender;
+        public static volatile DcMotorServo arm_left;
+
+        public static volatile DcMotorServo arm_right;
+
+        public static volatile DcMotor      extender;
 
         public static void setPower(double a) {
             extender.setPower(a);
@@ -162,6 +151,16 @@ public class Robot {
 
         public static void setTargetPosition(int a) {
             extender.setTargetPosition(a);
+        }
+
+        public static void setServoPosition(double position, double power) {
+            arm_left.setPosition(position, power);
+            arm_right.setPosition(position, power);
+        }
+
+        public static void setServoPosition(double position) {
+            arm_left.setPosition(position);
+            arm_right.setPosition(position);
         }
 
     }
@@ -223,16 +222,6 @@ public class Robot {
      */
     public static class Servos {
 
-        public static volatile Servo scoopLeft;
-
-        public static volatile Servo scoopRight;
-
-        public static volatile Servo scoopLeftHigh;
-
-        public static volatile Servo scoopRightHigh;
-
-//        public static Servo phone_servo;
-
     }
 
     /**
@@ -255,23 +244,33 @@ public class Robot {
         Drivetrain.left_back    = hw.get(DcMotor.class, "left_back");
         Drivetrain.right_back   = hw.get(DcMotor.class, "right_back");
 
-        Lift.left_lift      = hw.get(DcMotor.class, "left_lift");
-        Lift.right_lift     = hw.get(DcMotor.class, "right_lift");
+        Lift.motor = hw.get(DcMotor.class, "motor");
         Lift.distance_left = hw.get(Rev2mDistanceSensor.class, "lift_distance_left");
         Lift.distance_right = hw.get(Rev2mDistanceSensor.class, "lift_distance_right");
 
-        Extender.extender = hw.get(DcMotor.class, "extender");
+        RoboticArm.arm_left = new DcMotorServo(
+                hw.get(DcMotor.class, "arm_left"),
+                DcMotor.Direction.REVERSE,
+                -2100,
+                0,
+                0.15,
+                0
+        );
+        RoboticArm.arm_right = new DcMotorServo(
+                hw.get(DcMotor.class, "arm_right"),
+                DcMotor.Direction.FORWARD,
+                0,
+                2100,
+                0.15,
+                0
+        );
+//        RoboticArm.extender = hw.get(DcMotor.class, "arm_extender");
 
-        Collector.collector     = hw.get(DcMotor.class, "collector");
-        Collector.servoLeft     = hw.get(Servo.class, "collector_servo_left");
-        Collector.servoRight    = hw.get(Servo.class, "collector_servo_right");
-
-        Servos.scoopLeft        = hw.get(Servo.class, "scoop_left");
-        Servos.scoopRight       = hw.get(Servo.class, "scoop_right");
-        Servos.scoopLeftHigh    = hw.get(Servo.class, "scoop_left_high");
-        Servos.scoopRightHigh   = hw.get(Servo.class, "scoop_right_high");
-
-        Sensors.left_imu = REVImu.get(hw, "left_imu", Constants.LEFT_IMU_CONFIG_FILE_NAME);
-        Sensors.right_imu = REVImu.get(hw, "right_imu", Constants.RIGHT_IMU_CONFIG_FILE_NAME);
+//        Collector.collector     = hw.get(DcMotor.class, "collector");
+//        Collector.servoLeft     = hw.get(Servo.class, "collector_servo_left");
+//        Collector.servoRight    = hw.get(Servo.class, "collector_servo_right");
+//
+//        Sensors.left_imu = REVImu.get(hw, "left_imu", Constants.LEFT_IMU_CONFIG_FILE_NAME);
+//        Sensors.right_imu = REVImu.get(hw, "right_imu", Constants.RIGHT_IMU_CONFIG_FILE_NAME);
     }
 }
