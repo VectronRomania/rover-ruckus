@@ -52,16 +52,16 @@ public class Blue1 extends AutonomousStandard {
 
     @Override
     protected void opModeLoop() {
-//        Start the mineral detector
-        mineralDetectorTask.start();
-        telemetryManager.add(mineralDetectorTask.getStatusTelemetryItem());
-        telemetryManager.add(mineralDetectorTask.getRunnableTelemetryItem());
-
-//        deploy
-        liftDeploy.run();
-
-//        sample
-//        mineralSampler.run();
+////        Start the mineral detector
+//        mineralDetectorTask.start();
+//        telemetryManager.add(mineralDetectorTask.getStatusTelemetryItem());
+//        telemetryManager.add(mineralDetectorTask.getRunnableTelemetryItem());
+//
+////        deploy
+//        liftDeploy.run();
+//
+////        sample
+////        mineralSampler.run();
 
 //        claim and park
         claimerParker.run();

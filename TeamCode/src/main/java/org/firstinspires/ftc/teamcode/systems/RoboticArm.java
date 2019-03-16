@@ -48,14 +48,14 @@ public class RoboticArm {
 
         this.left = new IntervalDcMotor(
                 Robot.RoboticArm.arm_left,
-                DcMotor.Direction.FORWARD,
+                DcMotor.Direction.REVERSE,
                 leftLow,
                 leftHigh,
                 defaultPower
         );
         this.right = new IntervalDcMotor(
                 Robot.RoboticArm.arm_right,
-                DcMotor.Direction.REVERSE,
+                DcMotor.Direction.FORWARD,
                 rightLow,
                 rightHigh,
                 defaultPower
@@ -64,15 +64,14 @@ public class RoboticArm {
                 Robot.RoboticArm.extender,
                 DcMotorSimple.Direction.FORWARD,
                 0,
-                Robot.ENCODER_TICKS_20_1 * 8,
+                Robot.ENCODER_TICKS_20_1 * 6,
                 1
         );
     }
 
     /**
      * Control the extender manually.
-     *
-     * @param gamepad
+     * @param gamepad the gamepad to use.
      */
 
     public void manual(Gamepad gamepad) {

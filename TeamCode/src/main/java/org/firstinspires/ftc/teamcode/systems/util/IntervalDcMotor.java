@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.systems.util;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 /**
  * IntervalDcMotor is a DC Motor that can run like a motor between certain bounds or like a servo.
@@ -29,7 +28,7 @@ public class IntervalDcMotor {
     private final DcMotor.Direction direction;
 
     /**
-     * The default power used for controlling the motor.
+     * The default power used for controlling the motor as a servo.
      */
     private final double defaultPower;
 
@@ -47,8 +46,8 @@ public class IntervalDcMotor {
                            final double defaultPower) {
         this.motor = motor;
         this.direction = direction;
-        this.lowerBound = lowerBound;
-        this.upperBound = upperBound;
+        this.lowerBound = lowerBound + 50;
+        this.upperBound = upperBound - 50;
         this.defaultPower = defaultPower;
 
         this.motor.setDirection(DcMotor.Direction.FORWARD);
@@ -71,12 +70,11 @@ public class IntervalDcMotor {
             this.motor.setPower(0);
         }
 
-        this.motor.getCurrentPosition();
         int targetTicks;
 
         /*if the power is negative, simulate backward movement*/
         if (power < 0) {
-            if (direction == DcMotorSimple.Direction.FORWARD) {
+            if (direction == DcMotor.Direction.FORWARD) {
                 targetTicks = lowerBound;
             } else {
                 targetTicks = upperBound;

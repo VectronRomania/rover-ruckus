@@ -45,11 +45,16 @@ public class ClaimerParker {
                 2
         );
 
+        if (degrees > 0) {
+            this.drivetrain.move(Controller.Direction.ROTATE_LEFT, 0.5);
+        } else {
+            this.drivetrain.move(Controller.Direction.ROTATE_RIGHT, 0.5);
+        }
         while (parentOpMode.opModeIsActive() && !headingCheckable.check()) {
             telemetryManager.cycle();
             parentOpMode.idle();
         }
-
+        this.drivetrain.stop();
     }
 
     public void run() {
