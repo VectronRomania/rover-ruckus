@@ -1,20 +1,19 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Constants;
-import org.firstinspires.ftc.teamcode.systems.util.DcMotorServo;
 
 /**
  * The robot hardware.
  */
 public class Robot {
 
-    public static final Integer ENCODER_TICKS_20_1 = 1440; // FIXME: 20/02/2019
+    public static final Integer ENCODER_TICKS_20_1 = 560;
 
     public static final Integer ENCODER_TICKS_40_1 = 1120;
 
@@ -127,11 +126,11 @@ public class Robot {
      */
     public static class RoboticArm {
 
-        public static volatile DcMotorServo arm_left;
+        public static volatile DcMotor arm_left;
 
-        public static volatile DcMotorServo arm_right;
+        public static volatile DcMotor arm_right;
 
-        public static volatile DcMotor      extender;
+        public static volatile DcMotor extender;
 
         public static void setPower(double a) {
             extender.setPower(a);
@@ -153,16 +152,6 @@ public class Robot {
             extender.setTargetPosition(a);
         }
 
-        public static void setServoPosition(double position, double power) {
-            arm_left.setPosition(position, power);
-            arm_right.setPosition(position, power);
-        }
-
-        public static void setServoPosition(double position) {
-            arm_left.setPosition(position);
-            arm_right.setPosition(position);
-        }
-
     }
 
     /**
@@ -170,26 +159,14 @@ public class Robot {
      */
     public static class Collector {
 
-        public static volatile DcMotor collector;
+        public static volatile CRServo collector;
 
         public static void setPower(double a) {
             collector.setPower(a);
         }
 
-        public static void setRunMode(DcMotor.RunMode runMode) {
-            collector.setMode(runMode);
-        }
-
         public static void setDirection(DcMotor.Direction direction) {
             collector.setDirection(direction);
-        }
-
-        public static void setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior zeroPowerBehaviour) {
-            collector.setZeroPowerBehavior(zeroPowerBehaviour);
-        }
-
-        public static void setTargetPosition(int a) {
-            collector.setTargetPosition(a);
         }
 
         public static volatile Servo servoLeft;
@@ -222,6 +199,8 @@ public class Robot {
      */
     public static class Servos {
 
+        public static volatile Servo teamMarkerServo;
+
     }
 
     /**
@@ -244,33 +223,25 @@ public class Robot {
         Drivetrain.left_back    = hw.get(DcMotor.class, "left_back");
         Drivetrain.right_back   = hw.get(DcMotor.class, "right_back");
 
-        Lift.motor = hw.get(DcMotor.class, "motor");
-        Lift.distance_left = hw.get(Rev2mDistanceSensor.class, "lift_distance_left");
-        Lift.distance_right = hw.get(Rev2mDistanceSensor.class, "lift_distance_right");
+        Lift.motor = hw.get(DcMotor.class, "lift");
+        Lift.distance_left = hw.get(Rev2mDistanceSensor.class, "left_distance_sensor");
+        Lift.distance_right = hw.get(Rev2mDistanceSensor.class, "right_distance_sensor");
 
-        RoboticArm.arm_left = new DcMotorServo(
-                hw.get(DcMotor.class, "arm_left"),
-                DcMotor.Direction.REVERSE,
-                -2100,
-                0,
-                0.15,
-                0
-        );
-        RoboticArm.arm_right = new DcMotorServo(
-                hw.get(DcMotor.class, "arm_right"),
-                DcMotor.Direction.FORWARD,
-                0,
-                2100,
-                0.15,
-                0
-        );
-//        RoboticArm.extender = hw.get(DcMotor.class, "arm_extender");
+        RoboticArm.arm_left = hw.get(DcMotor.class, "left_arm");
+        RoboticArm.arm_right = hw.get(DcMotor.class, "right_arm");
+        RoboticArm.extender = hw.get(DcMotor.class, "arm_extender");
 
-//        Collector.collector     = hw.get(DcMotor.class, "collector");
-//        Collector.servoLeft     = hw.get(Servo.class, "collector_servo_left");
-//        Collector.servoRight    = hw.get(Servo.class, "collector_servo_right");
-//
-//        Sensors.left_imu = REVImu.get(hw, "left_imu", Constants.LEFT_IMU_CONFIG_FILE_NAME);
-//        Sensors.right_imu = REVImu.get(hw, "right_imu", Constants.RIGHT_IMU_CONFIG_FILE_NAME);
+        Collector.collector     = hw.get(CRServo.class, "collector");
+        Collector.servoLeft     = hw.get(Servo.class, "collector_servo_left");
+        Collector.servoRight    = hw.get(Servo.class, "collector_servo_right");
+
+        Servos.teamMarkerServo = hw.get(Servo.class, "team_marker_servo");
+
+        Sensors.left_imu = REVImu.get(hw, "left_imu", Constants.LEFT_IMU_CONFIG_FILE_NAME);
+        Sensors.right_imu = REVImu.get(hw, "right_imu", Constants.RIGHT_IMU_CONFIG_FILE_NAME);
+    }
+
+    public static int convertGoldToTicks(double golds) {
+        return Robot.ENCODER_TICKS_40_1 * Double.valueOf( golds / (4 * Math.PI) ).intValue();
     }
 }

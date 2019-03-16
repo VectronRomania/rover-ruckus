@@ -27,7 +27,7 @@ public class Lift {
     public Lift() {
         Robot.Lift.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        Robot.Lift.setDirection(DcMotor.Direction.REVERSE);
+        Robot.Lift.setDirection(DcMotor.Direction.FORWARD);
 
         Robot.Lift.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.systems.Collector;
 import org.firstinspires.ftc.teamcode.systems.RoboticArm;
 import org.firstinspires.ftc.teamcode.systems.Lift;
@@ -20,7 +21,10 @@ public class TeleOpMode extends TeleOpStandard {
     public void initialize() {
         super.drivetrain = new HumanControlledDrivetrain(WheelBase.MECANUM);
         lift = new Lift();
-        roboticArm = new RoboticArm();
+        roboticArm = new RoboticArm(
+                true,
+                0.45
+        );
 //        collector = new Collector();
     }
     @Override

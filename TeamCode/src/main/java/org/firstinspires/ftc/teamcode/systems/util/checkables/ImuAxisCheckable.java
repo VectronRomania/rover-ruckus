@@ -57,10 +57,10 @@ public final class ImuAxisCheckable implements Checkable {
     public static Checkable getGroup(final REVImu sensor1,
                                      final REVImu sensor2,
                                      final Axis axis,
-                                     final double distance,
+                                     final double angle,
                                      final double bias) {
         return new CheckableGroup()
-                .add(new ImuAxisCheckable(sensor1, axis, distance, bias), CheckableGroup.Operation.AND)
-                .add(new ImuAxisCheckable(sensor2, axis, distance, bias), CheckableGroup.Operation.AND);
+                .add(new ImuAxisCheckable(sensor1, axis, angle, bias), CheckableGroup.Operation.AND)
+                .add(new ImuAxisCheckable(sensor2, axis, angle, bias), CheckableGroup.Operation.AND);
     }
 }

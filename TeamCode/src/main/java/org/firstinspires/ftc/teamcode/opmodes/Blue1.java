@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.systems.Lift;
+import org.firstinspires.ftc.teamcode.systems.RoboticArm;
+import org.firstinspires.ftc.teamcode.systems.autonomous.ClaimerParker;
 import org.firstinspires.ftc.teamcode.systems.autonomous.LiftDeploy;
 import org.firstinspires.ftc.teamcode.systems.autonomous.MineralDetector;
 import org.firstinspires.ftc.teamcode.systems.autonomous.MineralSampler;
@@ -22,6 +24,8 @@ public class Blue1 extends AutonomousStandard {
 
     private LiftDeploy liftDeploy;
 
+    private ClaimerParker claimerParker;
+
     @Override
     protected void initialize() {
         drivetrain = new AutonomousDrivetrain(WheelBase.MECANUM);
@@ -34,6 +38,8 @@ public class Blue1 extends AutonomousStandard {
         liftDeploy = new LiftDeploy(new Lift(), this.drivetrain, this, this.telemetryManager, this.mineralDetector);
 
 //        mineralSampler = new MineralSampler(drivetrain, this);
+
+        claimerParker = new ClaimerParker(this, this.telemetryManager, this.drivetrain, new RoboticArm(false, 0.3),true);
 
         telemetry.addData("imu", "calibrating");
         telemetry.update();
@@ -55,9 +61,9 @@ public class Blue1 extends AutonomousStandard {
         liftDeploy.run();
 
 //        sample
-//        some code
+//        mineralSampler.run();
 
 //        claim and park
-//        some other code
+        claimerParker.run();
     }
 }

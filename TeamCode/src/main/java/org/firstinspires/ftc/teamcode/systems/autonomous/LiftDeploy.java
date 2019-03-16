@@ -71,7 +71,7 @@ public class LiftDeploy implements Runnable {
                 Robot.Lift.distance_left,
                 Robot.Lift.distance_right,
                 DistanceUnit.MM,
-                135,
+                84,
                 3
         );
         if (!distanceCheckable.check()) {
@@ -86,10 +86,12 @@ public class LiftDeploy implements Runnable {
             return;
         }
 
+        // FIXME: 16/03/2019 elevate the lift a TINY bit
+
 //        unlatch
         telemetryItem.set("unlatching");
         this.mineralDetector.switchToDeployed();
-        Checkable drivetrainCheckable = this.autonomousDrivetrain.move(Controller.Direction.W, Robot.ENCODER_TICKS_40_1 * 3 / 4, 0.5);
+        Checkable drivetrainCheckable = this.autonomousDrivetrain.move(Controller.Direction.W, Robot.convertGoldToTicks(3.25), 0.5);
         while (!drivetrainCheckable.check() && this.parentOpMode.opModeIsActive()) {
             this.telemetryManager.cycle();
             this.parentOpMode.idle();
