@@ -57,7 +57,8 @@ public class ClaimerParker {
         this.drivetrain.stop();
     }
 
-    public void run() {
+    public void run() { // FIXME: 17/03/2019 red / blue and crater / depot have different paths along the perimeter
+        // FIXME: 17/03/2019 2 variables: tiles back(claiming), tiles forward(parking)
 
         TelemetryItem<String> telemetryItem = new TelemetryItem<String>("ClaimerParker") {
             @Override

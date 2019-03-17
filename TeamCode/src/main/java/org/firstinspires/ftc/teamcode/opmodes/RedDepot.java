@@ -15,8 +15,8 @@ import org.firstinspires.ftc.teamcode.systems.drivetrain.WheelBase;
 import org.firstinspires.ftc.teamcode.systems.opmode.AutonomousStandard;
 import org.firstinspires.ftc.teamcode.systems.util.BackgroundTask;
 
-@Autonomous(name = "Deploy+sample", group = "autonomous")
-public class Blue1 extends AutonomousStandard {
+@Autonomous(name = "Red depot", group = "autonomous")
+public class RedDepot extends AutonomousStandard {
 
     private MineralDetector mineralDetector;
     private BackgroundTask<String> mineralDetectorTask;
@@ -71,7 +71,7 @@ public class Blue1 extends AutonomousStandard {
         }
 
 //        sample
-        mineralSampler.run(MineralDetector.Position.NOT_DETECTED);
+        mineralSampler.run(mineralDetector.getDeploymentGoldPosition());
         if (!opModeIsActive()) {
             return;
         }

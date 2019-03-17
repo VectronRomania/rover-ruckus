@@ -63,7 +63,7 @@ public class IntervalDcMotor {
      * Make the motor move in a certain direction with the given power.
      * @param power the power to use.
      */
-    public void setPower(double power) {
+    public void setPower(double power) { // FIXME: 17/03/2019 TEST TEST TEST
         /*if the power is 0, stop the motor entirely*/
         if (power == 0) {
             this.motor.setTargetPosition(this.motor.getTargetPosition());
