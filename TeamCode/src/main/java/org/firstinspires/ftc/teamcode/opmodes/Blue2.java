@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.systems.opmode.AutonomousStandard;
 import org.firstinspires.ftc.teamcode.systems.util.BackgroundTask;
 
 @Autonomous(name = "Deploy+sample", group = "autonomous")
-public class Blue1 extends AutonomousStandard {
+public class Blue2 extends AutonomousStandard {
 
     private MineralDetector mineralDetector;
     private BackgroundTask<String> mineralDetectorTask;

@@ -86,7 +86,17 @@ public class LiftDeploy implements Runnable {
             return;
         }
 
-        // FIXME: 16/03/2019 elevate the lift a TINY bit
+        /*elevate the lift a tiny bit to be able to unlatch*/
+        telemetryItem.set("elevating the lift a tiny bit to be able to unlatch");
+        Checkable liftCheckable = this.lift.move(Lift.Direction.UP, Robot.ENCODER_TICKS_60_1 / 2, 0.5);
+        while (!liftCheckable.check() && this.parentOpMode.opModeIsActive()) {
+            this.telemetryManager.cycle();
+            this.parentOpMode.idle();
+        }
+        this.lift.stop();
+        if (!this.parentOpMode.opModeIsActive()) {
+            return;
+        }
 
 //        unlatch
         telemetryItem.set("unlatching");
@@ -103,7 +113,7 @@ public class LiftDeploy implements Runnable {
 
 //        retracting the lift
         telemetryItem.set("retracting the lift");
-        Checkable liftEncoderCheckable = this.lift.move(Lift.Direction.DOWN, Robot.ENCODER_TICKS_60_1 * 2, 0.75);
+        Checkable liftEncoderCheckable = this.lift.move(Lift.Direction.DOWN, Robot.ENCODER_TICKS_60_1 * 5, 0.75); // FIXME: 17/03/2019 test encoder value
         while (!liftEncoderCheckable.check() && this.parentOpMode.opModeIsActive()) {
             this.telemetryManager.cycle();
             this.parentOpMode.idle();

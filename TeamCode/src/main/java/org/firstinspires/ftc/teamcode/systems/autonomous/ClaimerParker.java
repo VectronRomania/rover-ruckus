@@ -114,8 +114,8 @@ public class ClaimerParker {
 
         /*claim the depot*/
         telemetryItem.set("claiming");
-        Robot.Servos.teamMarkerServo.setPosition(0.5); // FIXME: 16/03/2019 servo positions
-        this.parentOpMode.sleep(250);
+        Robot.Servos.teamMarkerServo.setPosition(1);
+        this.parentOpMode.sleep(750);
         Robot.Servos.teamMarkerServo.setPosition(0);
         if (!this.parentOpMode.opModeIsActive()) {
             return;
