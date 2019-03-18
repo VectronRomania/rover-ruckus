@@ -82,7 +82,7 @@ public class MineralSampler {
     /*check whether the color sensor detects the gold mineral or not*/
     private boolean isGoldColourDetected() {
         return false;
-    }
+    } // FIXME: 18/03/2019 actual functionality
 
     /*sample the mineral then go to the final position*/
     private void finish(final TelemetryItem<String> telemetryItem, final MineralDetector.Position position) {

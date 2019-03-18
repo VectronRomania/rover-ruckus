@@ -46,9 +46,9 @@ public class ClaimerParker {
         );
 
         if (degrees > 0) {
-            this.drivetrain.move(Controller.Direction.ROTATE_LEFT, 0.5);
+            this.drivetrain.move(Controller.Direction.ROTATE_LEFT, 0.1);
         } else {
-            this.drivetrain.move(Controller.Direction.ROTATE_RIGHT, 0.5);
+            this.drivetrain.move(Controller.Direction.ROTATE_RIGHT, 0.1);
         }
         while (parentOpMode.opModeIsActive() && !headingCheckable.check()) {
             telemetryManager.cycle();
@@ -139,7 +139,7 @@ public class ClaimerParker {
 
         /*park*/
         telemetryItem.set("parking");
-        roboticArm.setPosition(1);
+//        roboticArm.setPosition(1);
 
         telemetryItem.set("done");
     }

@@ -56,25 +56,25 @@ public class BlueCrater extends AutonomousStandard {
 
     @Override
     protected void opModeLoop() {
-//        Start the mineral detector
-        mineralDetectorTask.start();
-        telemetryManager.add(mineralDetectorTask.getStatusTelemetryItem());
-        telemetryManager.add(mineralDetectorTask.getRunnableTelemetryItem());
-        if (!opModeIsActive()) {
-            return;
-        }
-
-//        deploy
-        liftDeploy.run();
-        if (!opModeIsActive()) {
-            return;
-        }
-
-//        sample
-        mineralSampler.run(MineralDetector.Position.NOT_DETECTED);
-        if (!opModeIsActive()) {
-            return;
-        }
+////        Start the mineral detector
+//        mineralDetectorTask.start();
+//        telemetryManager.add(mineralDetectorTask.getStatusTelemetryItem());
+//        telemetryManager.add(mineralDetectorTask.getRunnableTelemetryItem());
+//        if (!opModeIsActive()) {
+//            return;
+//        }
+//
+////        deploy
+//        liftDeploy.run();
+//        if (!opModeIsActive()) {
+//            return;
+//        }
+//
+////        sample
+//        mineralSampler.run(MineralDetector.Position.NOT_DETECTED);
+//        if (!opModeIsActive()) {
+//            return;
+//        }
 
 //        claim and park
         claimerParker.run();
