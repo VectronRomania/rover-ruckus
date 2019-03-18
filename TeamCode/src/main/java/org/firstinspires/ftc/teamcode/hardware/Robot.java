@@ -251,4 +251,8 @@ public class Robot {
     public static int convertGoldToTicks(double golds) {
         return Double.valueOf(Robot.ENCODER_TICKS_40_1 *  golds / (2 * Math.PI) ).intValue();
     }
+
+    public static int convertTilesToTicks(double tiles) {
+        return Double.valueOf(6 * convertGoldToTicks(tiles)).intValue();
+    }
 }

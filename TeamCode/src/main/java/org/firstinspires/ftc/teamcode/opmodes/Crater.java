@@ -39,7 +39,7 @@ public class Crater extends AutonomousStandard {
         mineralDetectorTask = mineralDetector.getDetector();
         mineralDetectorTask.runInitialize();
 
-        liftDeploy = new LiftDeploy(new Lift(), this.drivetrain, this, this.telemetryManager, this.mineralDetector);
+        liftDeploy = new LiftDeploy(new Lift(), this.drivetrain, this, this.telemetryManager);
 
         mineralSampler = new MineralSampler(this, this.telemetryManager, this.drivetrain);
 

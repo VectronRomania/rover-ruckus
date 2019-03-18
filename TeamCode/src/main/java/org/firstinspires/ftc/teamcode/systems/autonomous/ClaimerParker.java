@@ -13,6 +13,13 @@ import org.firstinspires.ftc.teamcode.systems.util.checkables.ImuAxisCheckable;
 
 public class ClaimerParker {
 
+    /*Pathing values*/
+    private static final double SAMPLING_TO_PERIMETER = 25.5;
+    private static final double SAMPLING_TO_PERIMETER_2 = 1;
+    private static final double PERIMETER_TO_DEPOT = 1.5;
+    private static final double DEPOT_TO_CRATER = 2.75;
+
+
     private final LinearOpMode parentOpMode;
 
     private final TelemetryManager telemetryManager;
@@ -57,8 +64,7 @@ public class ClaimerParker {
         this.drivetrain.stop();
     }
 
-    public void run() { // FIXME: 17/03/2019 red / blue and crater / depot have different paths along the perimeter
-        // FIXME: 17/03/2019 2 variables: tiles back(claiming), tiles forward(parking)
+    public void run() {
 
         TelemetryItem<String> telemetryItem = new TelemetryItem<String>("ClaimerParker") {
             @Override
@@ -82,10 +88,23 @@ public class ClaimerParker {
 
         /*
         * move forward until the robot reaches the middle of the
-        * second adjacent tile
+        * second adjacent tile - to the perimeter
         */
         telemetryItem.set("move to perimeter");
-        Checkable drivetrainCheckable = this.drivetrain.move(Controller.Direction.S, 1000, 0.75);
+        Checkable drivetrainCheckable;
+        if (facingDepot) {
+            drivetrainCheckable = this.drivetrain.move(
+                    Controller.Direction.S,
+                    Robot.convertTilesToTicks(SAMPLING_TO_PERIMETER),
+                    0.75
+            );
+        } else {
+            drivetrainCheckable = this.drivetrain.move(
+                    Controller.Direction.N,
+                    Robot.convertTilesToTicks(SAMPLING_TO_PERIMETER),
+                    0.75
+            );
+        }
         while (this.parentOpMode.opModeIsActive() && !drivetrainCheckable.check()) {
             this.telemetryManager.cycle();
             this.parentOpMode.idle();
@@ -93,16 +112,33 @@ public class ClaimerParker {
         if (!this.parentOpMode.opModeIsActive()) {
             return;
         }
+        /*if facing the depot, make another move*/
+        if (facingDepot) {
+            turn(-45);
+
+            drivetrainCheckable = drivetrain.move(Controller.Direction.N, Robot.convertTilesToTicks(SAMPLING_TO_PERIMETER_2), 0.5);
+            while (this.parentOpMode.opModeIsActive() && !drivetrainCheckable.check()) {
+                this.telemetryManager.cycle();
+                this.parentOpMode.idle();
+            }
+            if (!this.parentOpMode.opModeIsActive()) {
+                return;
+            }
+        }
 
         /*turn the robot parallel to the field perimeter*/
         telemetryItem.set("turning || perimeter");
-        turn(45);
+        if (facingDepot) {
+            turn(90);
+        } else {
+            turn(45);
+        }
 
         /*move to the depot*/
         telemetryItem.set("moving to the depot");
         drivetrainCheckable = this.drivetrain.move(
                 Controller.Direction.S,
-                Double.valueOf(Robot.ENCODER_TICKS_40_1 * 9 / Math.PI).intValue(),
+                Robot.convertTilesToTicks(PERIMETER_TO_DEPOT),
                 0.75
         );
         while (this.parentOpMode.opModeIsActive() && !drivetrainCheckable.check()) {
@@ -112,6 +148,7 @@ public class ClaimerParker {
         if (!this.parentOpMode.opModeIsActive()) {
             return;
         }
+
 
         /*claim the depot*/
         telemetryItem.set("claiming");
@@ -126,7 +163,7 @@ public class ClaimerParker {
         telemetryItem.set("moving to the crater");
         drivetrainCheckable = this.drivetrain.move(
                 Controller.Direction.N,
-                Double.valueOf(Robot.ENCODER_TICKS_40_1 * 13.5 / Math.PI).intValue(),
+                Robot.convertTilesToTicks(DEPOT_TO_CRATER),
                 0.75
         );
         while (this.parentOpMode.opModeIsActive() && !drivetrainCheckable.check()) {
@@ -139,7 +176,9 @@ public class ClaimerParker {
 
         /*park*/
         telemetryItem.set("parking");
-//        roboticArm.setPosition(1);
+        roboticArm.left.setPower(0.5);
+        roboticArm.right.setPower(0.5);
+        this.parentOpMode.sleep(500);
 
         telemetryItem.set("done");
     }

@@ -19,31 +19,27 @@ public class LiftDeploy implements Runnable {
 
     private final Lift                  lift;
 
-    private final AutonomousDrivetrain drivetrain;
+    private final AutonomousDrivetrain  drivetrain;
 
     private final LinearOpMode          parentOpMode;
 
     private final TelemetryManager      telemetryManager;
 
-    private final MineralDetector       mineralDetector;
     /**
      *
      * @param lift the lift hardware
      * @param drivetrain the drivetrain used for unlatching
      * @param parentOpMode the opmode used for checking if the system should stop
      * @param telemetryManager used for showing telemetry
-     * @param mineralDetector used for switching to deployed once the robot is deployed
      */
     public LiftDeploy(final Lift lift,
                       final AutonomousDrivetrain drivetrain,
                       final LinearOpMode parentOpMode,
-                      final TelemetryManager telemetryManager,
-                      final MineralDetector mineralDetector) {
+                      final TelemetryManager telemetryManager) {
         this.lift = lift;
         this.drivetrain = drivetrain;
         this.parentOpMode = parentOpMode;
         this.telemetryManager = telemetryManager;
-        this.mineralDetector = mineralDetector;
     }
 
     /**
@@ -87,7 +83,7 @@ public class LiftDeploy implements Runnable {
 
         /*elevate the lift a tiny bit to be able to unlatch*/
         telemetryItem.set("elevating the lift a tiny bit to be able to unlatch");
-        Checkable liftCheckable = this.lift.move(Lift.Direction.UP, Robot.ENCODER_TICKS_60_1 * 2, 1.0);
+        Checkable liftCheckable = this.lift.move(Lift.Direction.UP, Robot.ENCODER_TICKS_60_1 * 5 / 2, 1.0);
         while (!liftCheckable.check() && this.parentOpMode.opModeIsActive()) {
             this.telemetryManager.cycle();
             this.parentOpMode.idle();
