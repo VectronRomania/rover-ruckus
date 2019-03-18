@@ -42,11 +42,11 @@ public class Lift {
      */
     public void manual(@NonNull Gamepad gamepad) {
         if (gamepad.left_trigger > 0) {
-            Robot.Lift.setPower(gamepad.left_trigger);
+            Robot.Lift.setPower(-gamepad.left_trigger);
             return;
         }
         if (gamepad.right_trigger > 0) {
-            Robot.Lift.setPower(-gamepad.right_trigger);
+            Robot.Lift.setPower(gamepad.right_trigger);
             return;
         }
         Robot.Lift.setPower(0.0);
@@ -65,10 +65,10 @@ public class Lift {
 
         switch (direction) {
             case DOWN:
-                mTicks = Robot.Lift.motor.getCurrentPosition() + ticks;
+                mTicks = Robot.Lift.motor.getCurrentPosition() - ticks;
                 break;
             case UP:
-                mTicks = Robot.Lift.motor.getCurrentPosition() - ticks;
+                mTicks = Robot.Lift.motor.getCurrentPosition() + ticks;
                 break;
         }
         Robot.Lift.setTargetPosition(mTicks);
@@ -89,10 +89,10 @@ public class Lift {
         Robot.Lift.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
         switch (direction) {
             case DOWN:
-                Robot.Lift.setPower(power);
+                Robot.Lift.setPower(-power);
                 break;
             case UP:
-                Robot.Lift.setPower(-power);
+                Robot.Lift.setPower(power);
                 break;
         }
     }

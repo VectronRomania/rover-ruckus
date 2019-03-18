@@ -15,8 +15,8 @@ import org.firstinspires.ftc.teamcode.systems.drivetrain.WheelBase;
 import org.firstinspires.ftc.teamcode.systems.opmode.AutonomousStandard;
 import org.firstinspires.ftc.teamcode.systems.util.BackgroundTask;
 
-@Autonomous(name = "Blue crater", group = "autonomous")
-public class BlueCrater extends AutonomousStandard {
+@Autonomous(name = "Crater", group = "autonomous")
+public class Crater extends AutonomousStandard {
 
     private MineralDetector mineralDetector;
     private BackgroundTask<String> mineralDetectorTask;
@@ -56,25 +56,17 @@ public class BlueCrater extends AutonomousStandard {
 
     @Override
     protected void opModeLoop() {
-////        Start the mineral detector
-//        mineralDetectorTask.start();
-//        telemetryManager.add(mineralDetectorTask.getStatusTelemetryItem());
-//        telemetryManager.add(mineralDetectorTask.getRunnableTelemetryItem());
-//        if (!opModeIsActive()) {
-//            return;
-//        }
-//
-////        deploy
-//        liftDeploy.run();
-//        if (!opModeIsActive()) {
-//            return;
-//        }
-//
-////        sample
-//        mineralSampler.run(MineralDetector.Position.NOT_DETECTED);
-//        if (!opModeIsActive()) {
-//            return;
-//        }
+//        deploy
+        liftDeploy.run();
+        if (!opModeIsActive()) {
+            return;
+        }
+
+//        sample
+        mineralSampler.run(MineralDetector.Position.NOT_DETECTED);
+        if (!opModeIsActive()) {
+            return;
+        }
 
 //        claim and park
         claimerParker.run();

@@ -249,6 +249,6 @@ public class Robot {
     }
 
     public static int convertGoldToTicks(double golds) {
-        return Robot.ENCODER_TICKS_40_1 * Double.valueOf( golds / (4 * Math.PI) ).intValue();
+        return Double.valueOf(Robot.ENCODER_TICKS_40_1 *  golds / (2 * Math.PI) ).intValue();
     }
 }

@@ -89,6 +89,7 @@ public class MineralDetector {
     private final LinearOpMode opMode;
     private List<Recognition> updatedRecognitions = null;
 
+    private int detectCount = 0;
 
     /**
      * Flag that changes where the sample will write detection results to.
@@ -219,10 +220,8 @@ public class MineralDetector {
         }, "Detector", BackgroundTask.Type.LOOP, opMode);
     }
 
-    public synchronized void switchToDeployed() {
-        synchronized ((Object) this.deployed) {
-            this.deployed = true;
-        }
+    public  void switchToDeployed() {
+        this.deployed = true;
     }
 
     /**
@@ -255,6 +254,9 @@ public class MineralDetector {
             return;
         }
 
+        if (detectCount > 5)
+            return;
+
 //        Two minerals detected
         if (size == 2) {
             int k = 2;
@@ -275,6 +277,7 @@ public class MineralDetector {
                 }
                 k++;
             }
+            detectCount++;
         }
     }
 
