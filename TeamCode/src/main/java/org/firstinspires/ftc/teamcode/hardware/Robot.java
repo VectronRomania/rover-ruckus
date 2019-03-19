@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.teamcode.Constants;
 
@@ -217,6 +218,8 @@ public class Robot {
 
         public static volatile LynxI2cColorRangeSensor color_sensor;
 
+        public static volatile TouchSensor touch_sensor;
+
     }
 
 
@@ -246,6 +249,7 @@ public class Robot {
         Sensors.left_imu = REVImu.get(hw, "left_imu", Constants.LEFT_IMU_CONFIG_FILE_NAME);
         Sensors.right_imu = REVImu.get(hw, "right_imu", Constants.RIGHT_IMU_CONFIG_FILE_NAME);
         Sensors.color_sensor = hw.get(LynxI2cColorRangeSensor.class, "color_sensor");
+        Sensors.touch_sensor = hw.get(TouchSensor.class, "touch_sensor");
     }
 
     public static int convertGoldToTicks(double golds) {

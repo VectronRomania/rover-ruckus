@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.systems.util.Checkable;
 public class MineralSampler {
 
     /*Pathing values measured in gold minerals*/
-    private static final double LANDER_TO_SAMPLING_FIELD    = 9.5;
+    private static final double LANDER_TO_SAMPLING_FIELD    = 8.5;
     private static final double MINERAL_SPACING             = 7;
     private static final double LEFT_TO_END_1               = 6.5;
     private static final double CENTER_TO_END_1             = 0.5;
@@ -94,13 +94,17 @@ public class MineralSampler {
 
     /*check whether the color sensor detects the gold mineral or not*/
     private boolean isGoldColourDetected() {
-        return false;
-    } // FIXME: 18/03/2019 actual functionality
+        int r = Robot.Sensors.color_sensor.red();
+        int g = Robot.Sensors.color_sensor.green();
+        int b = Robot.Sensors.color_sensor.blue();
+        return 0.75 * (g + b) < r;
+    }
 
     /*sample the mineral then go to the final position*/
     private void finish(final TelemetryItem<String> telemetryItem, final MineralDetector.Position position) {
         telemetryItem.set("sampling");
         sample();
+        Robot.Sensors.color_sensor.enableLed(false);
         telemetryItem.set("moving to end position");
         goToEndPoint(position);
         telemetryItem.set("done");
@@ -140,6 +144,7 @@ public class MineralSampler {
             return;
         }
 
+        Robot.Sensors.color_sensor.enableLed(true);
         /*move to a mineral*/
         switch (goldPosition) {
             case LEFT:
@@ -198,11 +203,11 @@ public class MineralSampler {
 
             if (isGoldColourDetected()) {
                 finish(telemetryItem, currentPosition);
+                return;
             }
             if (!this.parentOpMode.opModeIsActive()) {
                 return;
             }
-            return;
         }
 
         /*go to the RIGHT position and sample it*/

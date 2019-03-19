@@ -59,7 +59,6 @@ public class LiftDeploy implements Runnable {
 //        this.drivetrain.stop();
 
 //        dropping down using distance sensors
-        telemetryItem.set("distance sensors phase");
         Checkable distanceCheckable = DistanceSensorCheckable.getGroup(
                 Robot.Lift.distance_left,
                 Robot.Lift.distance_right,
@@ -72,6 +71,10 @@ public class LiftDeploy implements Runnable {
             this.drivetrain.move(Controller.Direction.N, 0.05);
         }
         while (!distanceCheckable.check() && this.parentOpMode.opModeIsActive()) {
+            telemetryItem.set("distance sensor phase " +
+                    Robot.Lift.distance_left.getDistance(DistanceUnit.MM) +
+                    " " +
+                    Robot.Lift.distance_right.getDistance(DistanceUnit.MM));
             this.telemetryManager.cycle();
             this.parentOpMode.idle();
         }
@@ -83,7 +86,7 @@ public class LiftDeploy implements Runnable {
 
         /*elevate the lift a tiny bit to be able to unlatch*/
         telemetryItem.set("elevating the lift a tiny bit to be able to unlatch");
-        Checkable liftCheckable = this.lift.move(Lift.Direction.UP, Robot.ENCODER_TICKS_60_1 * 5 / 2, 1.0);
+        Checkable liftCheckable = this.lift.move(Lift.Direction.UP, Robot.ENCODER_TICKS_60_1 * 3, 1.0);
         while (!liftCheckable.check() && this.parentOpMode.opModeIsActive()) {
             this.telemetryManager.cycle();
             this.parentOpMode.idle();
