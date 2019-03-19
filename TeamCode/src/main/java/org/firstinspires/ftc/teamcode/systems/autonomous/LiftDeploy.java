@@ -105,6 +105,7 @@ public class LiftDeploy implements Runnable {
         }
         this.drivetrain.stop();
 
+
 //        finish
         telemetryItem.set("done");
     }

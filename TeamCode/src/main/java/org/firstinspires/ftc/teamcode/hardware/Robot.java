@@ -173,9 +173,9 @@ public class Robot {
             collector.setDirection(direction);
         }
 
-        public static volatile Servo servoLeft;
+        public static Servo servoLeft;
 
-        public static volatile Servo servoRight;
+        public static Servo servoRight;
 
         public static void setServoDirection(Servo.Direction direction) {
             servoLeft.setDirection(direction);

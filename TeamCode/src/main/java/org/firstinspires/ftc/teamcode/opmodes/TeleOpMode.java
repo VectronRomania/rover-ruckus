@@ -16,7 +16,7 @@ public class TeleOpMode extends TeleOpStandard {
 
     private Lift lift;
     private RoboticArm roboticArm;
-//    private Collector collector;
+    private Collector collector;
 
     @Override
     public void initialize() {
@@ -26,7 +26,7 @@ public class TeleOpMode extends TeleOpStandard {
                 true,
                 0.45
         );
-//        collector = new Collector();
+        collector = new Collector();
         Robot.RoboticArm.extender.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
     @Override
@@ -35,6 +35,6 @@ public class TeleOpMode extends TeleOpStandard {
         lift.manual(gamepad1);
         roboticArm.manual(gamepad2);
         Robot.RoboticArm.extender.setPower(-gamepad2.right_stick_y);
-//        collector.manual(gamepad2);
+        collector.manual(gamepad2);
     }
 }
