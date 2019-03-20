@@ -66,10 +66,10 @@ public class Depot extends AutonomousStandard {
         }
 
 //        deploy
-        liftDeploy.run();
-        if (!opModeIsActive()) {
-            return;
-        }
+//        liftDeploy.run();
+//        if (!opModeIsActive()) {
+//            return;
+//        }
 
         MineralDetector.Position samplingPosition = mineralDetector.getDeploymentGoldPosition2() != MineralDetector.Position.NOT_DETECTED ?
                 mineralDetector.getDeploymentGoldPosition2() :

@@ -142,7 +142,7 @@ public class MineralDetector {
                     tensorFlow.tfod.activate();
                 }
 
-                TelemetryGroup<String> preDeployment = new TelemetryGroup<String>("Pre-deployment") {}
+                super.telemetryItem = new TelemetryGroup<String>("Detection") {}
                         .add(new TelemetryItem<String>("Detected") {
                             @Override
                             public void update() {
@@ -160,37 +160,7 @@ public class MineralDetector {
                             public void update() {
                                 this.set(deploymentGoldPosition2.toString());
                             }
-                        })
-                        .add(new TelemetryItem<String>("3 detected") {
-                            @Override
-                            public void update() {
-                                this.set(deploymentGoldPosition3.toString());
-                            }
                         });
-
-                TelemetryGroup<String> postDeployment = new TelemetryGroup<String>("Post-deployment") {}
-                        .add(new TelemetryItem<String>("Detected") {
-                            @Override
-                            public void update() {
-                                this.set(String.valueOf(samplingGoldDetected));
-                            }
-                        })
-                        .add(new TelemetryItem<String>("1 detected") {
-                            @Override
-                            public void update() {
-                                this.set(samplingGoldPosition.toString());
-                            }
-                        })
-                        .add(new TelemetryItem<String>("2 detected") {
-                            @Override
-                            public void update() {
-                                this.set(samplingGoldPosition2.toString());
-                            }
-                        });
-
-                super.telemetryItem = new TelemetryGroup<String>("Detector readings") {}
-                        .add(preDeployment)
-                        .add(postDeployment);
             }
 
             @Override

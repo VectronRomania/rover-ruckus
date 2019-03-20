@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.systems.util.Checkable;
 public class MineralSampler {
 
     /*Pathing values measured in gold minerals*/
-    private static final double LANDER_TO_SAMPLING_FIELD    = 8.5;
+    private static final double LANDER_TO_SAMPLING_FIELD    = 9.5;
     private static final double MINERAL_SPACING             = 7;
     private static final double LEFT_TO_END_1               = 6.5;
     private static final double CENTER_TO_END_1             = 0.5;
@@ -150,22 +150,22 @@ public class MineralSampler {
             case LEFT:
                 telemetryItem.set("moving to LEFT");
                 currentPosition = goldPosition;
-                drivetrainCheckable = drivetrain.move(Controller.Direction.W, Robot.convertGoldToTicks(START_TO_LEFT), 0.5);
+                drivetrainCheckable = drivetrain.move(Controller.Direction.E, Robot.convertGoldToTicks(START_TO_LEFT), 0.5);
                 break;
             case NOT_DETECTED:
                 telemetryItem.set("moving to LEFT");
                 currentPosition = MineralDetector.Position.LEFT;
-                drivetrainCheckable = drivetrain.move(Controller.Direction.W, Robot.convertGoldToTicks(START_TO_CENTER), 0.5);
+                drivetrainCheckable = drivetrain.move(Controller.Direction.E, Robot.convertGoldToTicks(START_TO_LEFT), 0.5);
                 break;
             case RIGHT:
                 telemetryItem.set("moving to RIGHT");
                 currentPosition = goldPosition;
-                drivetrainCheckable = drivetrain.move(Controller.Direction.E, Robot.convertGoldToTicks(START_TO_RIGHT), 0.5);
+                drivetrainCheckable = drivetrain.move(Controller.Direction.W, Robot.convertGoldToTicks(START_TO_RIGHT), 0.5);
                 break;
             default: /*CENTER or DETECTED*/
                 currentPosition = MineralDetector.Position.CENTER;
                 telemetryItem.set("moving to CENTER");
-                drivetrainCheckable = drivetrain.move(Controller.Direction.E, Robot.convertGoldToTicks(3.5), 0.5);
+                drivetrainCheckable = drivetrain.move(Controller.Direction.W, Robot.convertGoldToTicks(START_TO_CENTER), 0.5);
         }
         while (this.parentOpMode.opModeIsActive() && !drivetrainCheckable.check()) {
             this.telemetryManager.cycle();
@@ -192,7 +192,7 @@ public class MineralSampler {
         if (currentPosition == MineralDetector.Position.LEFT) {
             currentPosition = MineralDetector.Position.CENTER;
             telemetryItem.set("checking " + currentPosition.toString());
-            drivetrainCheckable = drivetrain.move(Controller.Direction.E, Robot.convertGoldToTicks(MINERAL_SPACING), 0.5);
+            drivetrainCheckable = drivetrain.move(Controller.Direction.W, Robot.convertGoldToTicks(MINERAL_SPACING), 0.5);
             while (this.parentOpMode.opModeIsActive() && !drivetrainCheckable.check()) {
                 this.telemetryManager.cycle();
                 this.parentOpMode.idle();
@@ -213,7 +213,7 @@ public class MineralSampler {
         /*go to the RIGHT position and sample it*/
         currentPosition = MineralDetector.Position.RIGHT;
         telemetryItem.set("checking " + currentPosition.toString());
-        drivetrainCheckable = drivetrain.move(Controller.Direction.E, Robot.convertGoldToTicks(MINERAL_SPACING), 0.5);
+        drivetrainCheckable = drivetrain.move(Controller.Direction.W, Robot.convertGoldToTicks(MINERAL_SPACING), 0.5);
         while (this.parentOpMode.opModeIsActive() && !drivetrainCheckable.check()) {
             this.telemetryManager.cycle();
             this.parentOpMode.idle();
