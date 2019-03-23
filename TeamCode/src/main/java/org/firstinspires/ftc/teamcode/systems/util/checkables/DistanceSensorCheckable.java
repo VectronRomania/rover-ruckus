@@ -46,7 +46,7 @@ public final class DistanceSensorCheckable implements Checkable {
                                      final double distance,
                                      final double bias) {
         return new CheckableGroup()
-                .add(new DistanceSensorCheckable(sensor1, distanceUnit, distance, bias), CheckableGroup.Operation.AND)
-                .add(new DistanceSensorCheckable(sensor2, distanceUnit, distance, bias), CheckableGroup.Operation.AND);
+                .add(new DistanceSensorCheckable(sensor1, distanceUnit, distance, bias), CheckableGroup.Operation.OR)
+                .add(new DistanceSensorCheckable(sensor2, distanceUnit, distance, bias), CheckableGroup.Operation.OR);
     }
 }

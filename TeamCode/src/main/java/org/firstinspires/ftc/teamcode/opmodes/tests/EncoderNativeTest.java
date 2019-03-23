@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-@Disabled
-@Autonomous(name = "Encoder Native Test", group = "test")
+
+@Autonomous(name = "Drivetrain Encoder Native Test", group = "test")
 public class EncoderNativeTest extends LinearOpMode {
 
     private DcMotor a;

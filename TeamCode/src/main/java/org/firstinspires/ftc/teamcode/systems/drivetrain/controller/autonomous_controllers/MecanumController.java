@@ -46,10 +46,10 @@ public final class MecanumController extends Controller implements AutonomousCon
                 d = Robot.Drivetrain.left_back.getCurrentPosition();
                 break;
             case E:
-                a = Robot.Drivetrain.left_front.getCurrentPosition() + ticks;
-                b = Robot.Drivetrain.right_front.getCurrentPosition() + ticks;
-                c = Robot.Drivetrain.right_back.getCurrentPosition() - ticks;
-                d = Robot.Drivetrain.left_back.getCurrentPosition() - ticks;
+                a = Robot.Drivetrain.left_front.getCurrentPosition() - ticks;
+                b = Robot.Drivetrain.right_front.getCurrentPosition() - ticks;
+                c = Robot.Drivetrain.right_back.getCurrentPosition() + ticks;
+                d = Robot.Drivetrain.left_back.getCurrentPosition() + ticks;
                 break;
             case SE:
                 a = Robot.Drivetrain.left_front.getCurrentPosition();
@@ -70,10 +70,10 @@ public final class MecanumController extends Controller implements AutonomousCon
                 d = Robot.Drivetrain.left_back.getCurrentPosition();
                 break;
             case W:
-                a = Robot.Drivetrain.left_front.getCurrentPosition() - ticks;
-                b = Robot.Drivetrain.right_front.getCurrentPosition() - ticks;
-                c = Robot.Drivetrain.right_back.getCurrentPosition() + ticks;
-                d = Robot.Drivetrain.left_back.getCurrentPosition() + ticks;
+                a = Robot.Drivetrain.left_front.getCurrentPosition() + ticks;
+                b = Robot.Drivetrain.right_front.getCurrentPosition() + ticks;
+                c = Robot.Drivetrain.right_back.getCurrentPosition() - ticks;
+                d = Robot.Drivetrain.left_back.getCurrentPosition() - ticks;
                 break;
             case NW:
                 a = Robot.Drivetrain.left_front.getCurrentPosition() - ticks;

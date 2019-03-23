@@ -259,4 +259,8 @@ public class Robot {
     public static int convertTilesToTicks(double tiles) {
         return Double.valueOf(6 * convertGoldToTicks(tiles)).intValue();
     }
+
+    public static int convertDegreesToTicks(double degrees) {
+        return Double.valueOf(Robot.ENCODER_TICKS_40_1 * 1.0265 * degrees / 90).intValue();
+    }
 }

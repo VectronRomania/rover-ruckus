@@ -5,8 +5,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.systems.Lift;
-import org.firstinspires.ftc.teamcode.systems.RoboticArm;
-import org.firstinspires.ftc.teamcode.systems.autonomous.ClaimerParker;
 import org.firstinspires.ftc.teamcode.systems.autonomous.LiftDeploy;
 import org.firstinspires.ftc.teamcode.systems.autonomous.MineralDetector;
 import org.firstinspires.ftc.teamcode.systems.autonomous.MineralSampler;
@@ -15,18 +13,17 @@ import org.firstinspires.ftc.teamcode.systems.drivetrain.WheelBase;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.Controller;
 import org.firstinspires.ftc.teamcode.systems.opmode.AutonomousStandard;
 import org.firstinspires.ftc.teamcode.systems.util.BackgroundTask;
+import org.firstinspires.ftc.teamcode.systems.util.Checkable;
 
-@Autonomous(name = "Depot", group = "autonomous")
-public class Depot extends AutonomousStandard {
+@Autonomous(name = "Deploy sample depot", group = "autonomous")
+public class DeploySampleDepot extends AutonomousStandard {
 
     private MineralDetector mineralDetector;
     private BackgroundTask<String> mineralDetectorTask;
 
-    private MineralSampler mineralSampler;
-
     private LiftDeploy liftDeploy;
 
-    private ClaimerParker claimerParker;
+    private MineralSampler mineralSampler;
 
     @Override
     protected void initialize() {
@@ -42,9 +39,7 @@ public class Depot extends AutonomousStandard {
 
         liftDeploy = new LiftDeploy(new Lift(), this.drivetrain, this, this.telemetryManager);
 
-        mineralSampler = new MineralSampler(this, this.telemetryManager, this.drivetrain);
-
-        claimerParker = new ClaimerParker(this, this.telemetryManager, this.drivetrain, new RoboticArm(false, 0.3),true);
+        mineralSampler = new MineralSampler(this, this.telemetryManager, this.drivetrain, false);
 
         telemetry.addData("imu", "calibrating");
         telemetry.update();
@@ -57,7 +52,7 @@ public class Depot extends AutonomousStandard {
 
     @Override
     protected void opModeLoop() {
-//        Start the mineral detector
+        /*Start the mineral detector*/
         mineralDetectorTask.start();
         telemetryManager.add(mineralDetectorTask.getStatusTelemetryItem());
         telemetryManager.add(mineralDetectorTask.getRunnableTelemetryItem());
@@ -65,7 +60,7 @@ public class Depot extends AutonomousStandard {
             return;
         }
 
-//        deploy
+        /*deploy*/
         liftDeploy.run();
         if (!opModeIsActive()) {
             return;
@@ -75,13 +70,26 @@ public class Depot extends AutonomousStandard {
                 mineralDetector.getDeploymentGoldPosition2() :
                 mineralDetector.getDeploymentGoldPosition();
 
-//        sample
+        /*sample*/
         mineralSampler.run(samplingPosition);
-        if (!opModeIsActive()) {
-            return;
-        }
 
-//        claim and park
-        claimerParker.run();
+        /*claim the depot*/
+        Checkable drivetrainCheckable = super.drivetrain.move(Controller.Direction.ROTATE_LEFT, Robot.convertDegreesToTicks(180), 0.5);
+        while (opModeIsActive() && !drivetrainCheckable.check()) {
+            super.telemetryManager.cycle();
+            idle();
+        }
+        super.drivetrain.stop();
+
+        drivetrainCheckable = super.drivetrain.move(Controller.Direction.S, Robot.ENCODER_TICKS_40_1, 0.5);
+        while (opModeIsActive() && !drivetrainCheckable.check()) {
+            super.telemetryManager.cycle();
+            idle();
+        }
+        super.drivetrain.stop();
+
+        Robot.Servos.teamMarkerServo.setPosition(1);
+        sleep(500);
+        Robot.Servos.teamMarkerServo.setPosition(0);
     }
 }

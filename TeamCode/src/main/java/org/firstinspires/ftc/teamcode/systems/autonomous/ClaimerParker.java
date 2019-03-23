@@ -44,20 +44,33 @@ public class ClaimerParker {
 
     private void turn(double degrees) {
 
-        Checkable headingCheckable = ImuAxisCheckable.getGroup(
-                Robot.Sensors.left_imu,
-                Robot.Sensors.right_imu,
-                ImuAxisCheckable.Axis.Z,
-                degrees,
-                2
-        );
+//        Checkable headingCheckable = ImuAxisCheckable.getGroup(
+//                Robot.Sensors.left_imu,
+//                Robot.Sensors.right_imu,
+//                ImuAxisCheckable.Axis.Z,
+//                degrees,
+//                2
+//        );
+//
+//        if (degrees > 0) {
+//            this.drivetrain.move(Controller.Direction.ROTATE_LEFT, 310, 0.1);
+//        } else {
+//            this.drivetrain.move(Controller.Direction.ROTATE_RIGHT, 310, 0.1);
+//        }
+//        while (parentOpMode.opModeIsActive() && !headingCheckable.check()) {
+//            telemetryManager.cycle();
+//            parentOpMode.idle();
+//        }
+//        this.drivetrain.stop();
+
+        Checkable drivetrainCheckable;
 
         if (degrees > 0) {
-            this.drivetrain.move(Controller.Direction.ROTATE_LEFT, 310, 0.1);
+            drivetrainCheckable = this.drivetrain.move(Controller.Direction.ROTATE_LEFT, Robot.convertDegreesToTicks(degrees), 0.5);
         } else {
-            this.drivetrain.move(Controller.Direction.ROTATE_RIGHT, 310, 0.1);
+            drivetrainCheckable = this.drivetrain.move(Controller.Direction.ROTATE_RIGHT, Robot.convertDegreesToTicks(-degrees), 0.5);
         }
-        while (parentOpMode.opModeIsActive() && !headingCheckable.check()) {
+        while (parentOpMode.opModeIsActive() && !drivetrainCheckable.check()) {
             telemetryManager.cycle();
             parentOpMode.idle();
         }
@@ -78,9 +91,9 @@ public class ClaimerParker {
         /*turn the robot parallel to the lander*/
         telemetryItem.set("turning || lander");
         if (facingDepot) {
-            turn(45);
+            turn(90);
         } else {
-            turn(-45);
+            turn(-90);
         }
         if (!this.parentOpMode.opModeIsActive()) {
             return;

@@ -12,21 +12,16 @@ import org.firstinspires.ftc.teamcode.systems.autonomous.MineralDetector;
 import org.firstinspires.ftc.teamcode.systems.autonomous.MineralSampler;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.AutonomousDrivetrain;
 import org.firstinspires.ftc.teamcode.systems.drivetrain.WheelBase;
-import org.firstinspires.ftc.teamcode.systems.drivetrain.controller.Controller;
 import org.firstinspires.ftc.teamcode.systems.opmode.AutonomousStandard;
 import org.firstinspires.ftc.teamcode.systems.util.BackgroundTask;
 
-@Autonomous(name = "Depot", group = "autonomous")
-public class Depot extends AutonomousStandard {
+@Autonomous(name = "Deploy only", group = "autonomous")
+public class DeployOnly extends AutonomousStandard {
 
     private MineralDetector mineralDetector;
     private BackgroundTask<String> mineralDetectorTask;
 
-    private MineralSampler mineralSampler;
-
     private LiftDeploy liftDeploy;
-
-    private ClaimerParker claimerParker;
 
     @Override
     protected void initialize() {
@@ -41,10 +36,6 @@ public class Depot extends AutonomousStandard {
         mineralDetectorTask.runInitialize();
 
         liftDeploy = new LiftDeploy(new Lift(), this.drivetrain, this, this.telemetryManager);
-
-        mineralSampler = new MineralSampler(this, this.telemetryManager, this.drivetrain);
-
-        claimerParker = new ClaimerParker(this, this.telemetryManager, this.drivetrain, new RoboticArm(false, 0.3),true);
 
         telemetry.addData("imu", "calibrating");
         telemetry.update();
@@ -70,18 +61,5 @@ public class Depot extends AutonomousStandard {
         if (!opModeIsActive()) {
             return;
         }
-
-        MineralDetector.Position samplingPosition = mineralDetector.getDeploymentGoldPosition2() != MineralDetector.Position.NOT_DETECTED ?
-                mineralDetector.getDeploymentGoldPosition2() :
-                mineralDetector.getDeploymentGoldPosition();
-
-//        sample
-        mineralSampler.run(samplingPosition);
-        if (!opModeIsActive()) {
-            return;
-        }
-
-//        claim and park
-        claimerParker.run();
     }
 }

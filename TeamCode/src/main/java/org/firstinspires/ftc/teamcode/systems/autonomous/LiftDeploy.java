@@ -63,7 +63,7 @@ public class LiftDeploy implements Runnable {
                 Robot.Lift.distance_left,
                 Robot.Lift.distance_right,
                 DistanceUnit.MM,
-                87,
+                47,
                 3
         );
         if (!distanceCheckable.check()) {
