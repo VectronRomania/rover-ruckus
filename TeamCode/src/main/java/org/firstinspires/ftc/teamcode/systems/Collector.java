@@ -32,7 +32,9 @@ public class Collector {
     public void manual(Gamepad gamepad) {
 
         if (gamepad.left_bumper) {
-            Robot.Collector.setServoPosition(0.5, 0.25);
+//            Robot.Collector.setServoPosition(0.5, 0.25);
+            Robot.Collector.servoLeft.setPosition(0.5);
+            Robot.Collector.servoRight.setPosition(0.5);
         }
         if (gamepad.right_bumper) {
             Robot.Collector.servoLeft.setPosition(0.75);

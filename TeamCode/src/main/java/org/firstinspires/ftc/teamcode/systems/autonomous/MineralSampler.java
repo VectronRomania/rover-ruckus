@@ -20,15 +20,17 @@ public class MineralSampler {
 
     /*Pathing values measured in gold minerals*/
     private static final double LANDER_TO_SAMPLING_FIELD    = 9.5;
+    private static final double SAMPLE_DISTANCE             = 3;
+
     private static final double MINERAL_SPACING             = 10;
+    private static final double START_TO_LEFT               = 6.5;
+    private static final double START_TO_CENTER             = 3.5;
+    private static final double START_TO_RIGHT              = START_TO_CENTER + MINERAL_SPACING;
+
     private static final double LEFT_TO_END_1               = 9.5;
     private static final double CENTER_TO_END_1             = 0.5;
     private static final double RIGHT_TO_END_1              = 7.5;
-    private static final double SAMPLE_DISTANCE             = 3;
     private static final double MOVE_TO_END_2               = 3;
-    private static final double START_TO_LEFT               = 6.5;
-    private static final double START_TO_CENTER             = 3.5;
-    private static final double START_TO_RIGHT              = 11.5;
 
 
     private final LinearOpMode          parentOpMode;

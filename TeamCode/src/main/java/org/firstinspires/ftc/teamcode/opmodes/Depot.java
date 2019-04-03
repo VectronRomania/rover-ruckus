@@ -42,7 +42,7 @@ public class Depot extends AutonomousStandard {
 
         liftDeploy = new LiftDeploy(new Lift(), this.drivetrain, this, this.telemetryManager);
 
-        mineralSampler = new MineralSampler(this, this.telemetryManager, this.drivetrain);
+        mineralSampler = new MineralSampler(this, this.telemetryManager, this.drivetrain, true);
 
         claimerParker = new ClaimerParker(this, this.telemetryManager, this.drivetrain, new RoboticArm(false, 0.3),true);
 
@@ -77,11 +77,11 @@ public class Depot extends AutonomousStandard {
 
 //        sample
         mineralSampler.run(samplingPosition);
-        if (!opModeIsActive()) {
-            return;
-        }
+//        if (!opModeIsActive()) {
+//            return;
+//        }
 
 //        claim and park
-        claimerParker.run();
+//        claimerParker.run();
     }
 }

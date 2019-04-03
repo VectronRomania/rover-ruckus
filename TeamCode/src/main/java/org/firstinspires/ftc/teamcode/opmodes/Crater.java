@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.hardware.Robot;
@@ -15,6 +16,7 @@ import org.firstinspires.ftc.teamcode.systems.drivetrain.WheelBase;
 import org.firstinspires.ftc.teamcode.systems.opmode.AutonomousStandard;
 import org.firstinspires.ftc.teamcode.systems.util.BackgroundTask;
 
+@Disabled
 @Autonomous(name = "Crater", group = "autonomous")
 public class Crater extends AutonomousStandard {
 
@@ -41,7 +43,7 @@ public class Crater extends AutonomousStandard {
 
         liftDeploy = new LiftDeploy(new Lift(), this.drivetrain, this, this.telemetryManager);
 
-        mineralSampler = new MineralSampler(this, this.telemetryManager, this.drivetrain);
+        mineralSampler = new MineralSampler(this, this.telemetryManager, this.drivetrain, true);
 
         claimerParker = new ClaimerParker(this, this.telemetryManager, this.drivetrain, new RoboticArm(false, 0.3),true);
 

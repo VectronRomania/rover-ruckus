@@ -28,7 +28,7 @@ public class SampleOnly extends AutonomousStandard {
         Robot.Servos.teamMarkerServo.setDirection(Servo.Direction.FORWARD);
         Robot.Servos.teamMarkerServo.setPosition(0);
 
-        mineralSampler = new MineralSampler(this, this.telemetryManager, this.drivetrain);
+        mineralSampler = new MineralSampler(this, this.telemetryManager, this.drivetrain, true);
 
         telemetry.addData("imu", "calibrating");
         telemetry.update();
